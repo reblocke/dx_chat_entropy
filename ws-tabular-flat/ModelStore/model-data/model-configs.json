@@ -1,0 +1,66 @@
+{
+    "model_id": "MOSTLY_AI/Medium",
+    "model_units": {
+        "embedder@tgt:t0/c0__cat": 10,
+        "embedder@tgt:t1/c1__cat": 10,
+        "embedder@tgt:t2/c2__bin": 12,
+        "embedder@tgt:t3/c3__cat": 10,
+        "embedder@tgt:t4/c4__cat": 10,
+        "embedder@tgt:t5/c5__cat": 8,
+        "embedder@tgt:t6/c6__cat": 10,
+        "embedder@tgt:t7/c7__cat": 7,
+        "embedder@tgt:t8/c8__cat": 6,
+        "embedder@tgt:t9/c9__cat": 3,
+        "embedder@tgt:t10/c10__bin": 10,
+        "embedder@tgt:t11/c11__bin": 10,
+        "embedder@tgt:t12/c12__cat": 10,
+        "embedder@tgt:t13/c13__cat": 10,
+        "embedder@tgt:t14/c14__cat": 3,
+        "regressor@tgt:t0/c0__cat": [
+            64
+        ],
+        "regressor@tgt:t1/c1__cat": [
+            32
+        ],
+        "regressor@tgt:t2/c2__bin": [
+            80
+        ],
+        "regressor@tgt:t3/c3__cat": [
+            48
+        ],
+        "regressor@tgt:t4/c4__cat": [
+            48
+        ],
+        "regressor@tgt:t5/c5__cat": [
+            32
+        ],
+        "regressor@tgt:t6/c6__cat": [
+            48
+        ],
+        "regressor@tgt:t7/c7__cat": [
+            32
+        ],
+        "regressor@tgt:t8/c8__cat": [
+            32
+        ],
+        "regressor@tgt:t9/c9__cat": [
+            16
+        ],
+        "regressor@tgt:t10/c10__bin": [
+            64
+        ],
+        "regressor@tgt:t11/c11__bin": [
+            64
+        ],
+        "regressor@tgt:t12/c12__cat": [
+            64
+        ],
+        "regressor@tgt:t13/c13__cat": [
+            64
+        ],
+        "regressor@tgt:t14/c14__cat": [
+            16
+        ]
+    },
+    "enable_flexible_generation": true
+}

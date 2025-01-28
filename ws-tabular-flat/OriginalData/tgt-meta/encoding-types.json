@@ -1,0 +1,17 @@
+{
+    "age": "TABULAR_NUMERIC_AUTO",
+    "workclass": "TABULAR_CATEGORICAL",
+    "fnlwgt": "TABULAR_NUMERIC_AUTO",
+    "education": "TABULAR_CATEGORICAL",
+    "education_num": "TABULAR_NUMERIC_AUTO",
+    "marital_status": "TABULAR_CATEGORICAL",
+    "occupation": "TABULAR_CATEGORICAL",
+    "relationship": "TABULAR_CATEGORICAL",
+    "race": "TABULAR_CATEGORICAL",
+    "sex": "TABULAR_CATEGORICAL",
+    "capital_gain": "TABULAR_NUMERIC_AUTO",
+    "capital_loss": "TABULAR_NUMERIC_AUTO",
+    "hours_per_week": "TABULAR_NUMERIC_AUTO",
+    "native_country": "TABULAR_CATEGORICAL",
+    "income": "TABULAR_CATEGORICAL"
+}
