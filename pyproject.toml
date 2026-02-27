@@ -1,0 +1,48 @@
+[project]
+name = "dx-chat-entropy"
+version = "0.1.0"
+description = "Clinical reasoning entropy analysis with reproducible scientific Python workflows"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Brian Locke"},
+]
+dependencies = [
+  "numpy>=2.0",
+  "pandas>=2.2",
+  "pyyaml>=6.0",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.2",
+  "ruff>=0.15.1",
+  "pre-commit>=3.7",
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = ["-q"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["dx_chat_entropy"]
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

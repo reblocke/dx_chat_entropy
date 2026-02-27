@@ -1,0 +1,11 @@
+project:
+  name: dx_chat_entropy
+  seed: 1234
+
+paths:
+  transcript_dir: data/raw/chatbot_transcripts
+  assessment_templates_dir: data/raw/assessment_templates
+  assessments_output_dir: data/processed/assessments
+  nnt_lrs_dir: data/processed/nnt_lrs
+  feedback_artifacts_dir: artifacts/feedback_sheets
+  reports_dir: reports

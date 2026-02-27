@@ -1,13 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.egg-info/
 
+# Virtual envs
+.venv/
+venv/
+ENV/
+
+# uv
+.uv/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ruff
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+.vscode/
+
+# Local env files
 .env
-Chatbot Transcripts/.DS_Store
-.DS_Store
-Chatbot Transcripts/.DS_Store
-/Assessments/Individuals
-3b1b-wordle-solver/
-.DS_Store
-Chatbot Transcripts/.DS_Store
-.DS_Store
-Chatbot Transcripts/.DS_Store
-.DS_Store
-.DS_Store
+.env.*
+
+# Config (keep the example, ignore local real config)
+config/config.yaml
+
+# Generated outputs (future runs)
+/data/processed/*
+!/data/processed/.gitkeep
+!/data/processed/assessments/
+!/data/processed/assessments/**
+!/data/processed/nnt_lrs/
+!/data/processed/nnt_lrs/**
+
+/data/derived/*
+!/data/derived/.gitkeep
+
+/artifacts/*
+!/artifacts/.gitkeep
+
+/reports/*
+!/reports/.gitkeep
+!/reports/display_reasoning.html
+
+# Notebook checkpoint and local scratch
+*.nbconvert.ipynb
+
+# Local tool state
+/anaconda_projects/
+
+# Keep archive tracked intentionally
+# (no ignore rule for /archive)
