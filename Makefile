@@ -4,6 +4,7 @@
 help:
 	@echo "Targets:"
 	@echo "  uv-sync   Create/update local env"
+	@echo "  uv-sync-notebooks   Create/update env with notebook deps"
 	@echo "  fmt       Format code (ruff)"
 	@echo "  lint      Lint code (ruff)"
 	@echo "  test      Run unit tests (pytest)"
@@ -13,6 +14,10 @@ help:
 .PHONY: uv-sync
 uv-sync:
 	uv sync
+
+.PHONY: uv-sync-notebooks
+uv-sync-notebooks:
+	uv sync --group notebooks
 
 .PHONY: fmt
 fmt:
