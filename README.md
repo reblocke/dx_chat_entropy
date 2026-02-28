@@ -24,10 +24,55 @@ For notebooks (all tracked notebooks, full dependency set):
 uv sync --group notebooks
 ```
 
-Launch a notebook kernel with that group:
+Register and use a dedicated notebook kernel for this repo:
 
 ```bash
-uv run --group notebooks python -m ipykernel install --user --name dx-chat-entropy
+make notebook-kernel
+```
+
+In VS Code, select kernel `Python (dx-chat-entropy)` (top-right kernel picker).
+If VS Code keeps using another kernel (for example `llm_py311`), notebook imports may fail
+even when `uv sync --group notebooks` succeeded.
+
+## Notebook Execution (VS Code)
+Use this flow for notebooks such as `notebooks/estimate_lrs.ipynb`.
+
+1. Sync notebook dependencies:
+
+```bash
+make uv-sync-notebooks
+```
+
+2. Register the repo-specific kernel:
+
+```bash
+make notebook-kernel
+```
+
+3. Open the notebook in VS Code and select kernel `Python (dx-chat-entropy)`.
+4. Run this sanity check in a notebook cell:
+
+```python
+import sys
+from markitdown import MarkItDown
+
+print(sys.executable)
+print(MarkItDown)
+```
+
+Expected interpreter path includes:
+`.../dx_chat_entropy/.venv/bin/python3`
+
+5. For OpenAI-backed notebooks, ensure `.env` contains a valid `OPENAI_API_KEY`.
+
+### Troubleshooting
+- Symptom: `ModuleNotFoundError` after syncing dependencies.
+  Cause: notebook is attached to a different Python kernel/interpreter.
+- Fix: re-select `Python (dx-chat-entropy)`, then run `Restart Kernel` in VS Code.
+- CLI verification from repo root:
+
+```bash
+uv run --group notebooks python -c "from markitdown import MarkItDown; import llm; from openai import OpenAI; print('ok')"
 ```
 
 ## Repository Map

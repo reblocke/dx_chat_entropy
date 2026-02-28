@@ -66,3 +66,52 @@ Use this file to maintain continuity across coding sessions.
 **Open questions / risks:**
 - The notebook dependency group is intentionally large and includes heavyweight ML packages; environment creation is slower.
 - Some notebook cells importing `pystata` still require local Stata installation/licensing outside Python package management.
+
+### 2026-02-27 (kernel mismatch troubleshooting)
+
+**Objective:**
+- Resolve persistent `ModuleNotFoundError: markitdown` in VS Code after syncing notebook dependencies.
+
+**Plan:**
+- Verify whether `markitdown` is importable from repo `.venv`.
+- Inspect installed Jupyter kernels and their backing Python interpreters.
+- Register a dedicated kernel tied to repo `.venv` and point notebook metadata to it.
+
+**Work completed:**
+- Confirmed `markitdown` is installed in repo `.venv`, so dependency install was correct.
+- Identified active mismatch: `llm_py311` kernel interpreter lacks `markitdown`.
+- Installed kernelspec `dx-chat-entropy` backed by `.venv/bin/python3`.
+- Updated `notebooks/estimate_lrs.ipynb` kernelspec to `dx-chat-entropy`.
+- Added `make notebook-kernel` target and README guidance to select `Python (dx-chat-entropy)` in VS Code.
+
+**Verification:**
+- `uv run --group notebooks` core import smoke passed for `MarkItDown`, `llm`, `OpenAI`.
+- Notebook kernelspec now resolves to the repo-specific kernel.
+
+**Open questions / risks:**
+- VS Code may persist the previously selected kernel per user/workspace until manually switched once.
+
+### 2026-02-27 (README notebook runbook clarity)
+
+**Objective:**
+- Make notebook execution steps explicit so collaborators can run notebooks reliably in VS Code.
+
+**Plan:**
+- Expand README with a step-by-step notebook runbook and troubleshooting section.
+- Include kernel sanity check and API key setup note.
+
+**Work completed:**
+- Added `Notebook Execution (VS Code)` section to README with commands:
+  - `make uv-sync-notebooks`
+  - `make notebook-kernel`
+- Added notebook cell sanity check to confirm interpreter and `markitdown` import.
+- Added troubleshooting notes for kernel mismatch and a CLI import verification command.
+
+**Verification:**
+- `make fmt` passed.
+- `make lint` passed.
+- `make test` passed (`7` tests).
+- `make audit` passed.
+
+**Open questions / risks:**
+- None beyond existing kernel-selection caveat.
