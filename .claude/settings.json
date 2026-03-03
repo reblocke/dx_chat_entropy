@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make fmt)",
+      "Bash(make lint)",
+      "Bash(make test)",
+      "Bash(make audit)",
+      "Bash(make clean)",
+      "Bash(make uv-sync)",
+      "Bash(make uv-sync-notebooks)",
+      "Bash(make notebook-kernel)",
+      "Bash(uv sync*)",
+      "Bash(uv run*)"
+    ]
+  }
+}

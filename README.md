@@ -80,8 +80,7 @@ Core project files:
 - `pyproject.toml`: package metadata, dependencies, notebook dependency group, Ruff, and pytest config.
 - `uv.lock`: locked dependency set for reproducible environments.
 - `Makefile`: standard local commands (`fmt`, `lint`, `test`, `audit`, `uv-sync`, `clean`).
-- `AGENTS.md`: engineering and workflow rules for coding agents.
-- `CONTINUITY.md`: session ledger for ongoing continuity.
+- `CLAUDE.md`: engineering and workflow rules for Claude Code.
 - `CONTRIBUTING.md`: contribution and definition-of-done checklist.
 - `CITATION.cff`: software citation metadata.
 
@@ -96,7 +95,7 @@ Documentation and governance:
 - `docs/PRINCIPLES.md`: scientific programming principles.
 - `docs/DATA_MANAGEMENT.md`: data immutability and provenance rules.
 - `docs/AI_ASSISTED_CODING.md`: guardrails for AI-authored changes.
-- `docs/CODEX_WORKFLOW.md`: agent workflow loop.
+- `docs/CLAUDE_WORKFLOW.md`: agent workflow loop.
 - `docs/DECISIONS.md`: decision log.
 - `docs/references/`: non-code reference material (papers/protocol/team docs).
 

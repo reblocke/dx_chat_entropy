@@ -1,6 +1,7 @@
-# Continuity ledger
+# Continuity ledger (archived)
 
-Use this file to maintain continuity across coding sessions.
+> Historical session ledger from the Codex CLI workflow. Retained for reference.
+> This file is no longer actively maintained — see git log for session history.
 
 ## Current status
 - Goal: Ensure notebook dependencies are explicitly declared and reproducible via `uv`.

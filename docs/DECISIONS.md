@@ -34,3 +34,21 @@ Clear notebook outputs across migrated notebooks, remove key-printing behavior, 
 **Consequences:**
 - Current tree is cleaned and guardrails added
 - Historical commit remediation remains an operational follow-up task
+
+## 2026-03-03: Migrate from Codex CLI to Claude Code
+
+**Context:**
+The repository was initially set up with OpenAI Codex CLI conventions (AGENTS.md, CONTINUITY.md session ledger, docs/CODEX_WORKFLOW.md).
+
+**Decision:**
+Migrate to Anthropic Claude Code conventions (CLAUDE.md, .claude/settings.json) while preserving project rules and archiving historical session data.
+
+**Alternatives considered:**
+- Maintain both AGENTS.md and CLAUDE.md side-by-side
+- Start from scratch with a minimal CLAUDE.md
+
+**Consequences:**
+- Claude Code automatically reads CLAUDE.md for project context
+- Pre-approved make targets reduce permission prompts
+- Historical session log preserved in docs/CONTINUITY_ARCHIVE.md
+- AGENTS.md removed (no longer needed)
