@@ -52,3 +52,27 @@ Migrate to Anthropic Claude Code conventions (CLAUDE.md, .claude/settings.json) 
 - Pre-approved make targets reduce permission prompts
 - Historical session log preserved in docs/CONTINUITY_ARCHIVE.md
 - AGENTS.md removed (no longer needed)
+
+## 2026-03-02: Migrate visualization/reasoning notebooks to dedicated repository
+
+**Context:**
+Several notebooks focused on reasoning display, evaluation, and multi-class analysis were not core to the entropy/LR estimation pipeline. Keeping them here added dependency weight and blurred the repository's scope.
+
+**Decision:**
+Move five notebooks to a dedicated repository:
+- `notebooks/display_reasoning.ipynb`
+- `notebooks/multi_class_cont.ipynb`
+- `notebooks/reasoning_eval.ipynb`
+- `notebooks/extract_nnt_lrs.ipynb`
+- `notebooks/test_notebook.ipynb`
+
+Four notebooks remain in this repository:
+- `notebooks/estimate_lrs.ipynb` — LR estimation via OpenAI
+- `notebooks/extract_features.ipynb` — feature extraction from transcripts
+- `notebooks/feedback_generator.ipynb` — feedback sheet generation
+- `notebooks/lr_estimator_only.ipynb` — standalone LR estimator
+
+**Consequences:**
+- `reports/display_reasoning.html` removed (source notebook gone)
+- `pystata` dependency note removed from README (no remaining notebooks use it)
+- Leaner dependency surface for this repository

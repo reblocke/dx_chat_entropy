@@ -90,6 +90,7 @@ Code and checks:
 - `scripts/audit_repo.py`: policy scanner for absolute local paths, secret-like tokens, and retained notebook outputs.
 - `tests/test_paths.py`: path utility invariants.
 - `tests/test_repo_conventions.py`: policy tests for notebooks/docs.
+- `tests/test_notebook_dependencies.py`: checks that notebook imports resolve.
 
 Documentation and governance:
 - `docs/PRINCIPLES.md`: scientific programming principles.
@@ -105,8 +106,8 @@ Data and outputs:
 - `data/derived/`: final analysis-ready outputs (`.gitkeep` placeholder at present).
 - `data/external/`: external downloaded assets + sidecars (`.gitkeep` placeholder at present).
 - `artifacts/`: generated artifacts (`.gitkeep` placeholder at present).
-- `reports/display_reasoning.html`: committed report output example.
-- `notebooks/`: notebook-first analysis workflows (reasoning evaluation, feature extraction, LR estimation, feedback generation).
+- `reports/`: generated report outputs (`.gitkeep` placeholder at present).
+- `notebooks/`: notebook-first analysis workflows (feature extraction, LR estimation, feedback generation).
 
 Archived historical material:
 - `archive/legacy_runs/`: historical run outputs (predominantly feedback-sheet spreadsheets and LR-estimation exports).
@@ -125,4 +126,4 @@ Project scaffolding:
 - Keep paths repo-relative (use `src/dx_chat_entropy/paths.py` in Python code).
 - Do not commit secrets or absolute local machine paths.
 - Keep notebook outputs stripped unless intentionally required and documented.
-- Some notebooks import `pystata`; those cells still require local Stata installation/licensing.
+- Visualization and reasoning-evaluation notebooks have been migrated to a dedicated repository (see `docs/DECISIONS.md`).
