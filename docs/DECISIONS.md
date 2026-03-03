@@ -76,3 +76,26 @@ Four notebooks remain in this repository:
 - `reports/display_reasoning.html` removed (source notebook gone)
 - `pystata` dependency note removed from README (no remaining notebooks use it)
 - Leaner dependency surface for this repository
+
+## 2026-03-03: Split lr_estimator_only.ipynb into focused notebooks
+
+**Context:**
+`lr_estimator_only.ipynb` grew to 29 cells covering four independent tasks: matrix LR estimation (category and disease level), differential LR estimation, and model comparison visualization. The phases had no data flow between them, mixed two OpenAI API generations, and contained near-identical copy-pasted cells.
+
+**Decision:**
+Split into three self-contained notebooks, each independently runnable:
+- `notebooks/estimate_lrs_matrix.ipynb` — category-level and disease-level LR matrix filling (plain and plus-minus variants)
+- `notebooks/estimate_differential_lrs.ipynb` — pairwise differential LR estimation (Chat Completions and Responses API variants)
+- `notebooks/compare_lr_estimates.ipynb` — KDE overlays and Bland-Altman plots for model agreement
+
+The superseded single-disease estimator ("old version") was archived to `archive/lr_estimator_single_disease.py`.
+
+**Alternatives considered:**
+- Extract shared functions to `src/dx_chat_entropy/lr_estimation.py` — rejected in favor of keeping each notebook fully self-contained for researcher independence
+- Keep as one notebook with better section markers — rejected because the phases have distinct I/O contracts and no shared state
+
+**Consequences:**
+- Each notebook is independently runnable (no cross-notebook imports)
+- Shared functions (LRResponse, estimate_lr, fill_matrix, build_plusminus_df) are duplicated where needed — independence over DRY for interactive notebooks
+- Three copy-paste differential LR cells collapsed into one parameterized cell iterating a config list
+- `lr_estimator_only.ipynb` removed
