@@ -75,11 +75,33 @@ Expected interpreter path includes:
 uv run --group notebooks python -c "from markitdown import MarkItDown; import llm; from openai import OpenAI; print('ok')"
 ```
 
+## Notebook Inventory (Inputs/Outputs)
+Current tracked notebooks in `notebooks/` and their expected file I/O:
+
+- `extract_features.ipynb`
+  - Inputs: `data/raw/chatbot_transcripts/*.pdf`, `data/raw/assessment_templates/asssessment_template_new.xlsx`
+  - Outputs: `data/processed/assessments/answers_*.xlsx`
+- `estimate_lrs.ipynb`
+  - Inputs: `data/raw/assessment_templates/asssessment_template_new.xlsx` (+ processed assessment answer sheets)
+  - Outputs: `data/processed/assessments/completed_lrs.xlsx`
+- `estimate_lrs_matrix.ipynb`
+  - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*.xlsx`
+  - Outputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*_filled.xlsx`
+- `estimate_differential_lrs.ipynb`
+  - Inputs: differential LR workbooks in `archive/legacy_runs/lr_estimation_2025_07_21/`
+  - Outputs: corresponding `*_filled.xlsx` workbooks in the same directory
+- `compare_lr_estimates.ipynb`
+  - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/columns_to_plot.xlsx`
+  - Outputs: comparison plots/PDFs in `archive/legacy_runs/lr_estimation_2025_07_21/`
+- `feedback_generator.ipynb`
+  - Inputs: in-notebook diagnosis/category definitions and API responses
+  - Outputs: `artifacts/feedback_sheets/<date>_<model>_feedback_sheets/*.xlsx`
+
 ## Repository Map
 Core project files:
 - `pyproject.toml`: package metadata, dependencies, notebook dependency group, Ruff, and pytest config.
 - `uv.lock`: locked dependency set for reproducible environments.
-- `Makefile`: standard local commands (`fmt`, `lint`, `test`, `audit`, `uv-sync`, `clean`).
+- `Makefile`: standard local commands (`uv-sync`, `uv-sync-notebooks`, `notebook-kernel`, `fmt`, `lint`, `test`, `audit`, `clean`).
 - `CLAUDE.md`: engineering and workflow rules for Claude Code.
 - `CONTRIBUTING.md`: contribution and definition-of-done checklist.
 - `CITATION.cff`: software citation metadata.
@@ -126,4 +148,6 @@ Project scaffolding:
 - Keep paths repo-relative (use `src/dx_chat_entropy/paths.py` in Python code).
 - Do not commit secrets or absolute local machine paths.
 - Keep notebook outputs stripped unless intentionally required and documented.
+- Keep comments concise and technical: explain intent/constraints, not obvious syntax.
+- Prefer removing stale commented-out debug code before commit.
 - Visualization and reasoning-evaluation notebooks have been migrated to a dedicated repository (see `docs/DECISIONS.md`).
