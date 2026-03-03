@@ -1,4 +1,4 @@
-# AGENTS.md
+# CLAUDE.md
 
 ## Project overview
 - This repository is a Python-first scientific/clinical reasoning codebase for entropy- and likelihood-ratio-based analysis of chatbot-assisted diagnostic reasoning.
@@ -26,20 +26,9 @@
 - Define concrete verification criteria.
 - Verify behavior with tests/checks.
 
-## Continuity ledger
-Maintain `CONTINUITY.md` as the compaction-safe session ledger.
-
-Recommended sections:
-- Goal (incl. success criteria)
-- Constraints/Assumptions
-- Key decisions
-- State (Done/Now/Next)
-- Open questions
-- Working set
-
 ## Authority hierarchy
 1. Study protocol / domain requirements
-2. Repository docs (`README.md`, `docs/DECISIONS.md`, this `AGENTS.md`)
+2. Repository docs (`README.md`, `docs/DECISIONS.md`, this `CLAUDE.md`)
 3. Existing code/notebooks
 
 ## Non-negotiables
