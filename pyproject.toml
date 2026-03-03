@@ -19,6 +19,8 @@ dev = [
   "pytest>=8.2",
   "ruff>=0.15.1",
   "pre-commit>=3.7",
+  "nbconvert>=7.17.0",
+  "ipykernel>=7.2.0",
 ]
 notebooks = [
   "anthropic>=0.84",
