@@ -34,6 +34,13 @@ In VS Code, select kernel `Python (dx-chat-entropy)` (top-right kernel picker).
 If VS Code keeps using another kernel (for example `llm_py311`), notebook imports may fail
 even when `uv sync --group notebooks` succeeded.
 
+Build canonical differential-LR pair inputs (manifest + generated workbooks):
+
+```bash
+uv run --group notebooks python scripts/build_differential_inputs.py \
+  --config config/lr_differential_scenarios.yaml
+```
+
 ## Notebook Execution (VS Code)
 Use this flow for notebooks such as `notebooks/estimate_lrs.ipynb`.
 
@@ -75,6 +82,39 @@ Expected interpreter path includes:
 uv run --group notebooks python -c "from markitdown import MarkItDown; import llm; from openai import OpenAI; print('ok')"
 ```
 
+## Differential LR Pipeline (Canonical)
+Active LR-matrix inputs are canonicalized under `data/raw/lr_matrices/` and pairwise
+differential inputs are generated under `data/processed/lr_differential/`.
+`archive/*` remains historical-only provenance.
+
+1. Sync notebook dependencies and kernel:
+
+```bash
+make uv-sync-notebooks
+make notebook-kernel
+```
+
+2. Build pairwise differential-input workbooks + manifests:
+
+```bash
+uv run --group notebooks python scripts/build_differential_inputs.py \
+  --config config/lr_differential_scenarios.yaml
+```
+
+3. Open `notebooks/estimate_differential_lrs.ipynb`, select kernel `Python (dx-chat-entropy)`,
+   and run all cells.
+The notebook reads:
+- `data/processed/lr_differential/manifests/pairs_manifest.csv`
+
+The notebook writes:
+- `data/processed/lr_differential/outputs/<scenario_id>/*_filled.xlsx`
+
+4. Optional notebook controls in `estimate_differential_lrs.ipynb`:
+- `SCENARIO_FILTER`: run only selected scenario IDs from the manifest.
+- `MAX_PAIRS`: cap processed pairs for chunked/cost-controlled runs.
+- Resumable behavior: existing output workbooks are reused; rows with existing LR values
+  in the active result column are skipped.
+
 ## Notebook Inventory (Inputs/Outputs)
 Current tracked notebooks in `notebooks/` and their expected file I/O:
 
@@ -88,8 +128,11 @@ Current tracked notebooks in `notebooks/` and their expected file I/O:
   - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*.xlsx`
   - Outputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*_filled.xlsx`
 - `estimate_differential_lrs.ipynb`
-  - Inputs: differential LR workbooks in `archive/legacy_runs/lr_estimation_2025_07_21/`
-  - Outputs: corresponding `*_filled.xlsx` workbooks in the same directory
+  - Inputs: `data/processed/lr_differential/manifests/pairs_manifest.csv` and pair workbooks in `data/processed/lr_differential/inputs/<scenario_id>/`
+  - Outputs: corresponding `*_filled.xlsx` workbooks in `data/processed/lr_differential/outputs/<scenario_id>/`
+- `prepare_differential_inputs.ipynb`
+  - Inputs: `config/lr_differential_scenarios.yaml`, canonical raw LR matrices in `data/raw/lr_matrices/`, and optional generated manifests/workbooks
+  - Outputs: none (QA/inspection notebook only)
 - `compare_lr_estimates.ipynb`
   - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/columns_to_plot.xlsx`
   - Outputs: comparison plots/PDFs in `archive/legacy_runs/lr_estimation_2025_07_21/`
@@ -124,7 +167,11 @@ Documentation and governance:
 
 Data and outputs:
 - `data/raw/`: immutable source inputs (assessment PDFs/templates/transcripts).
+- `data/raw/lr_matrices/`: canonical active LR-matrix source workbooks by scenario.
 - `data/processed/`: intermediate generated outputs (assessment answers, NNT/LR sheets).
+- `data/processed/lr_differential/inputs/`: generated pairwise differential-LR input workbooks.
+- `data/processed/lr_differential/outputs/`: model-filled differential-LR outputs (`*_filled.xlsx`).
+- `data/processed/lr_differential/manifests/`: reproducibility manifests (`pairs_manifest.csv`, `run_manifest.json`).
 - `data/derived/`: final analysis-ready outputs (`.gitkeep` placeholder at present).
 - `data/external/`: external downloaded assets + sidecars (`.gitkeep` placeholder at present).
 - `artifacts/`: generated artifacts (`.gitkeep` placeholder at present).

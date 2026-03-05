@@ -1,0 +1,40 @@
+scenarios:
+  - scenario_id: chest_pain_carter_8
+    source_workbook: data/raw/lr_matrices/chest_pain/carter_8_categories_lr_matrix.xlsx
+    sheet_name: 8 possibilities
+    parser_profile: matrix_simple
+    key_feature_token: "^key feature"
+    pair_scope: all
+    expected_category_count: 8
+    exemplar_strategy: parse_parenthetical
+    max_exemplars_per_category: 4
+
+  - scenario_id: chest_pain_carter_18
+    source_workbook: data/raw/lr_matrices/chest_pain/carter_18_categories_lr_matrix.xlsx
+    sheet_name: 18 possibilities
+    parser_profile: matrix_simple
+    key_feature_token: "^key feature"
+    pair_scope: all
+    expected_category_count: 18
+    exemplar_strategy: parse_parenthetical
+    max_exemplars_per_category: 4
+
+  - scenario_id: metrorrhagia_sperle_tier3
+    source_workbook: data/raw/lr_matrices/metrorrhagia/sperle_12_categories_lr_matrix.xlsx
+    sheet_name: Tier 3 - 9 categories
+    parser_profile: matrix_simple
+    key_feature_token: "^key feature"
+    pair_scope: all
+    expected_category_count: 9
+    exemplar_strategy: parse_parenthetical
+    max_exemplars_per_category: 4
+
+  - scenario_id: erectile_dysfunction_torres_tier1
+    source_workbook: data/raw/lr_matrices/erectile_dysfunction/torres_7_categories_lr_matrix.xlsx
+    sheet_name: Tier 1
+    parser_profile: matrix_simple
+    key_feature_token: "^key feature"
+    pair_scope: all
+    expected_category_count: 7
+    exemplar_strategy: parse_parenthetical
+    max_exemplars_per_category: 4

@@ -45,6 +45,7 @@ IMPORT_TO_PACKAGE = {
     "tiktoken": "tiktoken",
     "torch": "torch",
     "transformers": "transformers",
+    "yaml": "pyyaml",
 }
 
 LOCAL_MODULES = {"dx_chat_entropy"}
