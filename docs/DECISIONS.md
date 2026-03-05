@@ -85,7 +85,7 @@ Four notebooks remain in this repository:
 **Decision:**
 Split into three self-contained notebooks, each independently runnable:
 - `notebooks/estimate_lrs_matrix.ipynb` — category-level and disease-level LR matrix filling (plain and plus-minus variants)
-- `notebooks/estimate_differential_lrs.ipynb` — pairwise differential LR estimation (Chat Completions and Responses API variants)
+- `notebooks/01_estimate_differential_lrs.ipynb` — pairwise differential LR estimation (Chat Completions and Responses API variants)
 - `notebooks/compare_lr_estimates.ipynb` — KDE overlays and Bland-Altman plots for model agreement
 
 The superseded single-disease estimator ("old version") was archived to `archive/lr_estimator_single_disease.py`.

@@ -41,6 +41,10 @@ uv run --group notebooks python scripts/build_differential_inputs.py \
   --config config/lr_differential_scenarios.yaml
 ```
 
+Or run the self-contained notebook:
+- `notebooks/build_differential_inputs.ipynb`
+- ordered alias: `notebooks/00_build_differential_inputs.ipynb`
+
 ## Notebook Execution (VS Code)
 Use this flow for notebooks such as `notebooks/estimate_lrs.ipynb`.
 
@@ -96,12 +100,13 @@ make notebook-kernel
 
 2. Build pairwise differential-input workbooks + manifests:
 
-```bash
-uv run --group notebooks python scripts/build_differential_inputs.py \
-  --config config/lr_differential_scenarios.yaml
-```
+Preferred (notebook-first, self-contained transformation code):
+- run `notebooks/00_build_differential_inputs.ipynb` (or `notebooks/build_differential_inputs.ipynb`)
 
-3. Open `notebooks/estimate_differential_lrs.ipynb`, select kernel `Python (dx-chat-entropy)`,
+CLI alternative:
+- `uv run --group notebooks python scripts/build_differential_inputs.py --config config/lr_differential_scenarios.yaml`
+
+3. Open `notebooks/01_estimate_differential_lrs.ipynb`, select kernel `Python (dx-chat-entropy)`,
    and run all cells.
 The notebook reads:
 - `data/processed/lr_differential/manifests/pairs_manifest.csv`
@@ -109,7 +114,7 @@ The notebook reads:
 The notebook writes:
 - `data/processed/lr_differential/outputs/<scenario_id>/*_filled.xlsx`
 
-4. Optional notebook controls in `estimate_differential_lrs.ipynb`:
+4. Optional notebook controls in `01_estimate_differential_lrs.ipynb`:
 - `SCENARIO_FILTER`: run only selected scenario IDs from the manifest.
 - `MAX_PAIRS`: cap processed pairs for chunked/cost-controlled runs.
 - Resumable behavior: existing output workbooks are reused; rows with existing LR values
@@ -127,7 +132,10 @@ Current tracked notebooks in `notebooks/` and their expected file I/O:
 - `estimate_lrs_matrix.ipynb`
   - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*.xlsx`
   - Outputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*_filled.xlsx`
-- `estimate_differential_lrs.ipynb`
+- `build_differential_inputs.ipynb` (alias: `00_build_differential_inputs.ipynb`)
+  - Inputs: `config/lr_differential_scenarios.yaml` + canonical LR matrices in `data/raw/lr_matrices/`
+  - Outputs: pair inputs in `data/processed/lr_differential/inputs/<scenario_id>/` and manifests in `data/processed/lr_differential/manifests/`
+- `01_estimate_differential_lrs.ipynb`
   - Inputs: `data/processed/lr_differential/manifests/pairs_manifest.csv` and pair workbooks in `data/processed/lr_differential/inputs/<scenario_id>/`
   - Outputs: corresponding `*_filled.xlsx` workbooks in `data/processed/lr_differential/outputs/<scenario_id>/`
 - `prepare_differential_inputs.ipynb`
@@ -146,6 +154,7 @@ Core project files:
 - `uv.lock`: locked dependency set for reproducible environments.
 - `Makefile`: standard local commands (`uv-sync`, `uv-sync-notebooks`, `notebook-kernel`, `fmt`, `lint`, `test`, `audit`, `clean`).
 - `CLAUDE.md`: engineering and workflow rules for Claude Code.
+- `AGENTS.md`: consolidated agent-facing guidance copied from `CLAUDE.md` + `docs/CLAUDE_WORKFLOW.md`.
 - `CONTRIBUTING.md`: contribution and definition-of-done checklist.
 - `CITATION.cff`: software citation metadata.
 
