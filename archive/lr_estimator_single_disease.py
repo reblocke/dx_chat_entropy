@@ -3,7 +3,8 @@
 #
 # This was the original "old version" from lr_estimator_only.ipynb cell 4.
 # It estimates LRs one disease at a time by iterating over sheets in a
-# multi-sheet workbook. The matrix-based approach in estimate_lrs_matrix.ipynb
+# multi-sheet workbook. The matrix-based approach in
+# 30_one_vs_rest_estimate_lrs.ipynb
 # is now preferred.
 # ─────────────────────────────────────────────────────────────────────────────
 

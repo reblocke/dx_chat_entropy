@@ -55,14 +55,14 @@
 - Updated README notebook setup instructions and caveat for `pystata`/local Stata.
 - Added `tests/test_notebook_dependencies.py` to enforce notebook import coverage and I/O engine dependencies.
 - Updated `uv.lock` to pin notebook dependency resolution.
-- Cleared retained error output from `notebooks/estimate_lrs.ipynb` to satisfy policy tests.
+- Cleared retained error output from `notebooks/11_assessment_estimate_lrs.ipynb` to satisfy policy tests.
 
 **Verification:**
 - `make fmt` passed.
 - `make lint` passed.
 - `make test` passed (`7` tests).
 - `make audit` passed.
-- `uv run --group notebooks` import smoke for `estimate_lrs.ipynb` core imports passed (`MarkItDown`, `llm`, `OpenAI`, `pandas`, `numpy`).
+- `uv run --group notebooks` import smoke for `11_assessment_estimate_lrs.ipynb` core imports passed (`MarkItDown`, `llm`, `OpenAI`, `pandas`, `numpy`).
 
 **Open questions / risks:**
 - The notebook dependency group is intentionally large and includes heavyweight ML packages; environment creation is slower.
@@ -82,7 +82,7 @@
 - Confirmed `markitdown` is installed in repo `.venv`, so dependency install was correct.
 - Identified active mismatch: `llm_py311` kernel interpreter lacks `markitdown`.
 - Installed kernelspec `dx-chat-entropy` backed by `.venv/bin/python3`.
-- Updated `notebooks/estimate_lrs.ipynb` kernelspec to `dx-chat-entropy`.
+- Updated `notebooks/11_assessment_estimate_lrs.ipynb` kernelspec to `dx-chat-entropy`.
 - Added `make notebook-kernel` target and README guidance to select `Python (dx-chat-entropy)` in VS Code.
 
 **Verification:**

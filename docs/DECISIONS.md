@@ -67,8 +67,8 @@ Move five notebooks to a dedicated repository:
 - `notebooks/test_notebook.ipynb`
 
 Four notebooks remain in this repository:
-- `notebooks/estimate_lrs.ipynb` — LR estimation via OpenAI
-- `notebooks/extract_features.ipynb` — feature extraction from transcripts
+- `notebooks/11_assessment_estimate_lrs.ipynb` — LR estimation via OpenAI
+- `notebooks/10_assessment_extract_features.ipynb` — feature extraction from transcripts
 - `notebooks/feedback_generator.ipynb` — feedback sheet generation
 - `notebooks/lr_estimator_only.ipynb` — standalone LR estimator
 
@@ -84,9 +84,9 @@ Four notebooks remain in this repository:
 
 **Decision:**
 Split into three self-contained notebooks, each independently runnable:
-- `notebooks/estimate_lrs_matrix.ipynb` — category-level and disease-level LR matrix filling (plain and plus-minus variants)
-- `notebooks/01_estimate_differential_lrs.ipynb` — pairwise differential LR estimation (Chat Completions and Responses API variants)
-- `notebooks/compare_lr_estimates.ipynb` — KDE overlays and Bland-Altman plots for model agreement
+- `notebooks/30_one_vs_rest_estimate_lrs.ipynb` — category-level and disease-level LR matrix filling (plain and plus-minus variants)
+- `notebooks/21_differential_estimate_lrs.ipynb` — pairwise differential LR estimation (Chat Completions and Responses API variants)
+- `notebooks/31_legacy_matrix_compare_lr_estimates.ipynb` — KDE overlays and Bland-Altman plots for model agreement
 
 The superseded single-disease estimator ("old version") was archived to `archive/lr_estimator_single_disease.py`.
 
@@ -99,3 +99,7 @@ The superseded single-disease estimator ("old version") was archived to `archive
 - Shared functions (LRResponse, estimate_lr, fill_matrix, build_plusminus_df) are duplicated where needed — independence over DRY for interactive notebooks
 - Three copy-paste differential LR cells collapsed into one parameterized cell iterating a config list
 - `lr_estimator_only.ipynb` removed
+- Pipeline relationship is explicit:
+  - Canonical active path: `20_differential_build_inputs.ipynb` -> `21_differential_estimate_lrs.ipynb`
+  - Legacy archive path: `30_one_vs_rest_estimate_lrs.ipynb` -> `31_legacy_matrix_compare_lr_estimates.ipynb`
+  - `31_legacy_matrix_compare_lr_estimates.ipynb` is for legacy model-agreement visualization and is not consumed by canonical differential-LR generation

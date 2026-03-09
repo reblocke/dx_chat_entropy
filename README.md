@@ -35,18 +35,10 @@ If VS Code keeps using another kernel (for example `llm_py311`), notebook import
 even when `uv sync --group notebooks` succeeded.
 
 Build canonical differential-LR pair inputs (manifest + generated workbooks):
-
-```bash
-uv run --group notebooks python scripts/build_differential_inputs.py \
-  --config config/lr_differential_scenarios.yaml
-```
-
-Or run the self-contained notebook:
-- `notebooks/build_differential_inputs.ipynb`
-- ordered alias: `notebooks/00_build_differential_inputs.ipynb`
+- run `notebooks/20_differential_build_inputs.ipynb` (self-contained canonical builder)
 
 ## Notebook Execution (VS Code)
-Use this flow for notebooks such as `notebooks/estimate_lrs.ipynb`.
+Use this flow for notebooks such as `notebooks/11_assessment_estimate_lrs.ipynb`.
 
 1. Sync notebook dependencies:
 
@@ -86,6 +78,18 @@ Expected interpreter path includes:
 uv run --group notebooks python -c "from markitdown import MarkItDown; import llm; from openai import OpenAI; print('ok')"
 ```
 
+## Assessment Feature + LR Label Pipeline
+This is a separate assessment workflow from the differential LR and legacy matrix
+pipelines.
+
+1. Run `notebooks/10_assessment_extract_features.ipynb` to extract transcript findings into assessment sheets:
+- Inputs: `data/raw/chatbot_transcripts/*.pdf`, `data/raw/assessment_templates/asssessment_template_new.xlsx`
+- Outputs: `data/processed/assessments/answers_*.xlsx`
+
+2. Run `notebooks/11_assessment_estimate_lrs.ipynb` to fill missing LR labels in assessment sheets:
+- Inputs: `data/raw/assessment_templates/asssessment_template_new.xlsx` (+ processed assessment answer sheets)
+- Outputs: `data/processed/assessments/completed_lrs.xlsx`
+
 ## Differential LR Pipeline (Canonical)
 Active LR-matrix inputs are canonicalized under `data/raw/lr_matrices/` and pairwise
 differential inputs are generated under `data/processed/lr_differential/`.
@@ -101,49 +105,85 @@ make notebook-kernel
 2. Build pairwise differential-input workbooks + manifests:
 
 Preferred (notebook-first, self-contained transformation code):
-- run `notebooks/00_build_differential_inputs.ipynb` (or `notebooks/build_differential_inputs.ipynb`)
+- run `notebooks/20_differential_build_inputs.ipynb`
 
-CLI alternative:
-- `uv run --group notebooks python scripts/build_differential_inputs.py --config config/lr_differential_scenarios.yaml`
-
-3. Open `notebooks/01_estimate_differential_lrs.ipynb`, select kernel `Python (dx-chat-entropy)`,
+3. Open `notebooks/21_differential_estimate_lrs.ipynb`, select kernel `Python (dx-chat-entropy)`,
    and run all cells.
 The notebook reads:
 - `data/processed/lr_differential/manifests/pairs_manifest.csv`
 
 The notebook writes:
-- `data/processed/lr_differential/outputs/<scenario_id>/*_filled.xlsx`
+- `data/processed/lr_differential/outputs_by_model/<MODEL_ID>/<scenario_id>/*_filled.xlsx`
 
-4. Optional notebook controls in `01_estimate_differential_lrs.ipynb`:
+4. Optional notebook controls in `21_differential_estimate_lrs.ipynb`:
 - `SCENARIO_FILTER`: run only selected scenario IDs from the manifest.
 - `MAX_PAIRS`: cap processed pairs for chunked/cost-controlled runs.
-- Resumable behavior: existing output workbooks are reused; rows with existing LR values
-  in the active result column are skipped.
+- `REPAIR_MODE=True`: patch only invalid rows listed in `invalid_rows.csv` for the active `MODEL_ID`.
+
+5. Run deterministic quality audit after estimation:
+
+```bash
+uv run --group notebooks python scripts/audit_differential_outputs.py \
+  --manifest data/processed/lr_differential/manifests/pairs_manifest.csv \
+  --outputs-root data/processed/lr_differential/outputs_by_model \
+  --summary-out data/processed/lr_differential/manifests/quality_summary.csv \
+  --invalid-out data/processed/lr_differential/manifests/invalid_rows.csv
+```
+
+Audit outputs:
+- `data/processed/lr_differential/manifests/quality_summary.csv`
+- `data/processed/lr_differential/manifests/invalid_rows.csv`
+
+Pass/fail criterion:
+- every workbook must satisfy `valid_positive_lrs == expected_findings` and `total_invalid_rows == 0`.
+
+6. If audit reports failures, run targeted repair:
+- set `REPAIR_MODE=True` in `notebooks/21_differential_estimate_lrs.ipynb`
+- keep `MODEL_ID` aligned with the failing model in `invalid_rows.csv`
+- optionally set `REPAIR_SCENARIO_FILTER` and `REPAIR_MAX_ROWS`
+- run the notebook, then re-run the audit command and require zero invalid/missing rows.
+
+## Legacy Matrix Agreement Pipeline (Archive)
+This is a separate, legacy workflow and is **not** part of the canonical differential LR
+pipeline above.
+
+1. Run `notebooks/30_one_vs_rest_estimate_lrs.ipynb` to fill archived matrix workbooks:
+- `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*_filled.xlsx`
+
+2. Prepare `archive/legacy_runs/lr_estimation_2025_07_21/columns_to_plot.xlsx`
+with the LR columns you want to compare across models.
+
+3. Run `notebooks/31_legacy_matrix_compare_lr_estimates.ipynb` to generate agreement visualizations:
+- KDE overlay PDF(s) in `archive/legacy_runs/lr_estimation_2025_07_21/`
+- Bland-Altman pairwise PDF(s) in `archive/legacy_runs/lr_estimation_2025_07_21/`
 
 ## Notebook Inventory (Inputs/Outputs)
 Current tracked notebooks in `notebooks/` and their expected file I/O:
 
-- `extract_features.ipynb`
+- `10_assessment_extract_features.ipynb`
   - Inputs: `data/raw/chatbot_transcripts/*.pdf`, `data/raw/assessment_templates/asssessment_template_new.xlsx`
   - Outputs: `data/processed/assessments/answers_*.xlsx`
-- `estimate_lrs.ipynb`
+- `11_assessment_estimate_lrs.ipynb`
   - Inputs: `data/raw/assessment_templates/asssessment_template_new.xlsx` (+ processed assessment answer sheets)
   - Outputs: `data/processed/assessments/completed_lrs.xlsx`
-- `estimate_lrs_matrix.ipynb`
+- `30_one_vs_rest_estimate_lrs.ipynb`
   - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*.xlsx`
   - Outputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*_filled.xlsx`
-- `build_differential_inputs.ipynb` (alias: `00_build_differential_inputs.ipynb`)
+  - Pipeline role: legacy matrix-estimation step (archive workflow), upstream of `31_legacy_matrix_compare_lr_estimates.ipynb`
+- `20_differential_build_inputs.ipynb`
   - Inputs: `config/lr_differential_scenarios.yaml` + canonical LR matrices in `data/raw/lr_matrices/`
   - Outputs: pair inputs in `data/processed/lr_differential/inputs/<scenario_id>/` and manifests in `data/processed/lr_differential/manifests/`
-- `01_estimate_differential_lrs.ipynb`
+- `21_differential_estimate_lrs.ipynb`
   - Inputs: `data/processed/lr_differential/manifests/pairs_manifest.csv` and pair workbooks in `data/processed/lr_differential/inputs/<scenario_id>/`
-  - Outputs: corresponding `*_filled.xlsx` workbooks in `data/processed/lr_differential/outputs/<scenario_id>/`
-- `prepare_differential_inputs.ipynb`
+  - Outputs: corresponding `*_filled.xlsx` workbooks in `data/processed/lr_differential/outputs_by_model/<MODEL_ID>/<scenario_id>/`
+  - Run modes: full recompute mode and targeted repair mode driven by `manifests/invalid_rows.csv`
+- `22_differential_prepare_inputs_qa.ipynb`
   - Inputs: `config/lr_differential_scenarios.yaml`, canonical raw LR matrices in `data/raw/lr_matrices/`, and optional generated manifests/workbooks
   - Outputs: none (QA/inspection notebook only)
-- `compare_lr_estimates.ipynb`
+- `31_legacy_matrix_compare_lr_estimates.ipynb`
   - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/columns_to_plot.xlsx`
   - Outputs: comparison plots/PDFs in `archive/legacy_runs/lr_estimation_2025_07_21/`
+  - Pipeline role: legacy model-agreement QA/visualization step, downstream of matrix outputs and not consumed by canonical differential LR generation
 - `feedback_generator.ipynb`
   - Inputs: in-notebook diagnosis/category definitions and API responses
   - Outputs: `artifacts/feedback_sheets/<date>_<model>_feedback_sheets/*.xlsx`
@@ -161,10 +201,13 @@ Core project files:
 Code and checks:
 - `src/dx_chat_entropy/__init__.py`: package exports.
 - `src/dx_chat_entropy/paths.py`: repository-root discovery and canonical path helpers.
+- `src/dx_chat_entropy/lr_differential_audit.py`: reusable audit logic for workbook-level and row-level LR quality checks.
 - `scripts/audit_repo.py`: policy scanner for absolute local paths, secret-like tokens, and retained notebook outputs.
+- `scripts/audit_differential_outputs.py`: differential-LR quality gate (compares expected findings vs valid positive LR outputs).
 - `tests/test_paths.py`: path utility invariants.
 - `tests/test_repo_conventions.py`: policy tests for notebooks/docs.
 - `tests/test_notebook_dependencies.py`: checks that notebook imports resolve.
+- `tests/test_lr_differential_audit.py`: differential-LR audit behavior tests (classification and invalid-row detection).
 
 Documentation and governance:
 - `docs/PRINCIPLES.md`: scientific programming principles.
@@ -172,6 +215,7 @@ Documentation and governance:
 - `docs/AI_ASSISTED_CODING.md`: guardrails for AI-authored changes.
 - `docs/CLAUDE_WORKFLOW.md`: agent workflow loop.
 - `docs/DECISIONS.md`: decision log.
+- `docs/TODO.md`: active backlog / pending workflow improvements.
 - `docs/references/`: non-code reference material (papers/protocol/team docs).
 
 Data and outputs:
@@ -179,8 +223,11 @@ Data and outputs:
 - `data/raw/lr_matrices/`: canonical active LR-matrix source workbooks by scenario.
 - `data/processed/`: intermediate generated outputs (assessment answers, NNT/LR sheets).
 - `data/processed/lr_differential/inputs/`: generated pairwise differential-LR input workbooks.
-- `data/processed/lr_differential/outputs/`: model-filled differential-LR outputs (`*_filled.xlsx`).
+- `data/processed/lr_differential/outputs/`: canonical output path references in manifest rows.
+- `data/processed/lr_differential/outputs_by_model/`: model-scoped differential-LR outputs (`<MODEL_ID>/<scenario_id>/*_filled.xlsx`).
 - `data/processed/lr_differential/manifests/`: reproducibility manifests (`pairs_manifest.csv`, `run_manifest.json`).
+- `data/processed/lr_differential/manifests/quality_summary.csv`: workbook-level validity audit output.
+- `data/processed/lr_differential/manifests/invalid_rows.csv`: row-level invalid/missing LR audit output (repair input).
 - `data/derived/`: final analysis-ready outputs (`.gitkeep` placeholder at present).
 - `data/external/`: external downloaded assets + sidecars (`.gitkeep` placeholder at present).
 - `artifacts/`: generated artifacts (`.gitkeep` placeholder at present).
