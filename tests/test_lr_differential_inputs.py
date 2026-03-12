@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 
 from dx_chat_entropy.lr_differential_inputs import (
     build_pair_sheet,
+    collapse_internal_whitespace,
     exemplars_for_category,
     find_category_row,
     iter_category_pairs,
+    normalize_cell,
     parse_matrix_sheet,
 )
 
@@ -78,7 +81,24 @@ def test_parse_matrix_with_preamble_profile_detects_deep_category_row() -> None:
     assert category_row_idx == 2
 
 
-def test_parse_matrix_emits_warning_for_category_mismatch() -> None:
+def test_parse_matrix_fails_for_category_mismatch_by_default() -> None:
+    df = pd.DataFrame(
+        [
+            [None, "Cat A", None, "Cat B", None, "Cat C"],
+            [None, 0.3, None, 0.3, None, 0.4],
+            ["Key feature", None, None, None, None, None],
+            ["Finding 1", None, None, None, None, None],
+        ]
+    )
+    with pytest.raises(ValueError, match="expected=2, observed=3"):
+        parse_matrix_sheet(
+            df,
+            parser_profile="matrix_simple",
+            expected_category_count=2,
+        )
+
+
+def test_parse_matrix_can_override_category_mismatch_failure() -> None:
     df = pd.DataFrame(
         [
             [None, "Cat A", None, "Cat B", None, "Cat C"],
@@ -91,9 +111,18 @@ def test_parse_matrix_emits_warning_for_category_mismatch() -> None:
         df,
         parser_profile="matrix_simple",
         expected_category_count=2,
+        allow_category_count_mismatch=True,
     )
     assert len(parsed.categories) == 3
     assert parsed.warnings
+
+
+def test_normalize_cell_and_whitespace_helpers() -> None:
+    assert normalize_cell(float("nan")) == ""
+    assert normalize_cell("  acute   coronary  syndrome  ", collapse_internal=True) == (
+        "acute coronary syndrome"
+    )
+    assert collapse_internal_whitespace("a \t  b\nc") == "a b c"
 
 
 def test_pair_sheet_schema_and_pair_count() -> None:

@@ -9,6 +9,7 @@
 ## Repo-specific rules
 - Follow `CLAUDE.md`.
 - Record non-obvious choices in `docs/DECISIONS.md`.
+- Keep `README.md` and `docs/PIPELINES.md` aligned with current pipeline purpose/input/output contracts.
 
 ## When stuck
 - Reduce scope.

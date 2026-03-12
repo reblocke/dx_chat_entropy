@@ -10,6 +10,7 @@ import pandas as pd
 DEFAULT_KEY_FEATURE_PATTERN = r"^key feature"
 PARENTHETICAL_RE = re.compile(r"\(([^)]*)\)")
 EG_PREFIX_RE = re.compile(r"^\s*(e\.?\s*g\.?|eg)\.?\s*:?\s*", re.IGNORECASE)
+INTERNAL_WS_RE = re.compile(r"\s+")
 
 
 @dataclass(frozen=True)
@@ -30,10 +31,19 @@ class ParsedMatrix:
     warnings: list[str]
 
 
-def normalize_cell(value: object) -> str:
+def collapse_internal_whitespace(text: str) -> str:
+    return INTERNAL_WS_RE.sub(" ", text).strip()
+
+
+def normalize_cell(value: object, *, collapse_internal: bool = False) -> str:
     if pd.isna(value):
         return ""
-    return str(value).strip()
+    text = str(value).strip()
+    if not text:
+        return ""
+    if collapse_internal:
+        return collapse_internal_whitespace(text)
+    return text
 
 
 def extract_parenthetical_exemplars(category_label: str) -> list[str]:
@@ -87,7 +97,7 @@ def _row_categories(df: pd.DataFrame, row_idx: int) -> list[str]:
     row = df.iloc[row_idx].ffill()
     labels: list[str] = []
     for col_idx in range(1, len(row)):
-        label = normalize_cell(row.iloc[col_idx])
+        label = normalize_cell(row.iloc[col_idx], collapse_internal=True)
         if label and label not in labels:
             labels.append(label)
     return labels
@@ -129,7 +139,7 @@ def extract_category_blocks(df: pd.DataFrame, *, category_row_idx: int) -> list[
     current_label: str | None = None
     start_col: int | None = None
     for col_idx in range(1, len(categories_row)):
-        label = normalize_cell(categories_row.iloc[col_idx])
+        label = normalize_cell(categories_row.iloc[col_idx], collapse_internal=True)
         if not label:
             continue
         if current_label is None:
@@ -162,6 +172,7 @@ def parse_matrix_sheet(
     parser_profile: str,
     key_feature_pattern: str = DEFAULT_KEY_FEATURE_PATTERN,
     expected_category_count: int | None = None,
+    allow_category_count_mismatch: bool = False,
 ) -> ParsedMatrix:
     key_feature_row_idx = find_key_feature_row(df, key_feature_pattern)
     category_row_idx = find_category_row(
@@ -180,10 +191,14 @@ def parse_matrix_sheet(
 
     warnings: list[str] = []
     if expected_category_count is not None and len(categories) != expected_category_count:
-        warnings.append(
+        message = (
             "Detected category count does not match expected count: "
             f"expected={expected_category_count}, observed={len(categories)}"
         )
+        if allow_category_count_mismatch:
+            warnings.append(message)
+        else:
+            raise ValueError(f"{message}. Set allow_category_count_mismatch=True to override.")
 
     return ParsedMatrix(
         category_row_idx=category_row_idx,

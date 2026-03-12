@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from .lr_differential_inputs import normalize_cell
+
 CANONICAL_OUTPUTS_ROOT = Path("data/processed/lr_differential/outputs")
 
 
@@ -16,9 +18,9 @@ class LrCellClassification:
 
 
 def normalize_text(value: object) -> str:
-    if pd.isna(value):
-        return ""
-    return str(value).strip()
+    # Keep a compatibility wrapper name while routing all normalization through
+    # the shared utility used by differential parsing/runtime code.
+    return normalize_cell(value)
 
 
 def finding_row_indexes(df_input: pd.DataFrame) -> list[int]:

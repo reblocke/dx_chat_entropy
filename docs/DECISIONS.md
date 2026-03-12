@@ -86,7 +86,7 @@ Four notebooks remain in this repository:
 Split into three self-contained notebooks, each independently runnable:
 - `notebooks/30_one_vs_rest_estimate_lrs.ipynb` — category-level and disease-level LR matrix filling (plain and plus-minus variants)
 - `notebooks/21_differential_estimate_lrs.ipynb` — pairwise differential LR estimation (Chat Completions and Responses API variants)
-- `notebooks/31_legacy_matrix_compare_lr_estimates.ipynb` — KDE overlays and Bland-Altman plots for model agreement
+- `notebooks/31_one_vs_rest_compare_lr_estimates.ipynb` — KDE overlays and Bland-Altman plots for model agreement
 
 The superseded single-disease estimator ("old version") was archived to `archive/lr_estimator_single_disease.py`.
 
@@ -101,5 +101,102 @@ The superseded single-disease estimator ("old version") was archived to `archive
 - `lr_estimator_only.ipynb` removed
 - Pipeline relationship is explicit:
   - Canonical active path: `20_differential_build_inputs.ipynb` -> `21_differential_estimate_lrs.ipynb`
-  - Legacy archive path: `30_one_vs_rest_estimate_lrs.ipynb` -> `31_legacy_matrix_compare_lr_estimates.ipynb`
-  - `31_legacy_matrix_compare_lr_estimates.ipynb` is for legacy model-agreement visualization and is not consumed by canonical differential-LR generation
+  - Archive path: `30_one_vs_rest_estimate_lrs.ipynb` -> `31_one_vs_rest_compare_lr_estimates.ipynb`
+  - `31_one_vs_rest_compare_lr_estimates.ipynb` is for one-vs-rest model-agreement visualization and is not consumed by canonical differential-LR generation
+
+## 2026-03-10: Canonical one-vs-rest pipeline with schema-row normalization
+
+**Context:**
+Raw LR matrices may contain multiple pre-key-feature header rows. One-vs-rest estimation should support each category-defining row as its own schema instead of assuming a single fixed header row.
+
+**Decision:**
+Add a script-first canonical one-vs-rest pipeline:
+- `scripts/build_one_vs_rest_inputs.py` normalizes raw scenario sheets into workbook-per-scenario schema sheets under `data/processed/lr_one_vs_rest/inputs/`.
+- Each qualifying category-defining row above key-feature becomes its own schema sheet.
+- Numeric-only header rows (e.g., priors) are excluded.
+- Duplicate category sequences are deduplicated.
+- `scripts/run_one_vs_rest_batch.py` runs model estimation across schema sheets.
+- `scripts/audit_one_vs_rest_outputs.py` enforces completeness and positive numeric LR values.
+
+**Consequences:**
+- One-vs-rest runs are reproducible and manifest-driven.
+- Multi-level header sheets are supported without manual workbook editing.
+- Chest pain 18-category mismatch remains warning-only (`expected=18`, `observed=19`).
+
+## 2026-03-10: Centralize pipeline purpose/input/output documentation
+
+**Context:**
+Pipeline details were documented in multiple places with partial overlap, which
+increased drift risk after notebook/script renames and pipeline refactors.
+
+**Decision:**
+Add `docs/PIPELINES.md` as the canonical inventory of current workflows,
+including purpose, primary inputs, primary outputs, and execution order.
+`README.md` keeps an at-a-glance summary and links to `docs/PIPELINES.md`.
+
+**Consequences:**
+- Pipeline contracts are easier to audit after changes.
+- Contributors have a single source to update when I/O or run order changes.
+
+## 2026-03-11: Differential runtime and bundle hardening
+
+**Context:**
+Recent review of a differential pipeline package identified runtime and packaging
+gaps: missing local imports in bundles, stale/contradictory manifest artifacts,
+repair path mismatches, and warning-only category-count mismatches in active
+scenario configs.
+
+**Decision:**
+- Make category-count mismatches fail closed by default in differential and
+  one-vs-rest input parsing (`ALLOW_CATEGORY_COUNT_MISMATCH=true` required for
+  intentional overrides).
+- Centralize differential execution in
+  `src/dx_chat_entropy/lr_differential_runner.py` and use it from both
+  `scripts/run_differential_batch.py` and
+  `notebooks/21_differential_estimate_lrs.ipynb`.
+- Add explicit `DX_RESUME_MODE` (`recompute|skip_passing|repair_invalid`) plus
+  dynamic repair CSV path resolution (`invalid_rows_<MODEL_ID>.csv` fallback to
+  `invalid_rows.csv`).
+- Add bundle structural validation in
+  `src/dx_chat_entropy/lr_differential_bundle.py` and
+  `scripts/check_differential_bundle.py`.
+- Harden review packaging to include required runtime files (`paths.py`,
+  `__init__.py`, `pyproject.toml`, `uv.lock`, config files), include run ledger
+  and logs, and block stale `pairs_manifest_missing*.csv` artifacts.
+- Route audit/runner normalization through shared cell normalization utilities to
+  avoid `"nan"` text drift from blank spreadsheet cells.
+
+**Consequences:**
+- Differential runs are resumable with explicit, testable semantics.
+- Repair runs work with model-scoped audit artifacts without manual path edits.
+- Package generation fails early on structural inconsistency instead of producing
+  misleading review bundles.
+- CI-level tests now cover runtime config resolution/resume semantics and bundle
+  completeness checks.
+
+## 2026-03-11: Add Bayes-coherent one-vs-rest projection stage
+
+**Context:**
+Raw one-vs-rest LRs are estimated independently per category and can be
+multiclass-incoherent for a finding row (independent posteriors do not sum to 1,
+and sign-impossible all->1/all-<1 rows can appear).
+
+**Decision:**
+- Add durable schema prior propagation to one-vs-rest normalization via
+  `data/processed/lr_one_vs_rest/manifests/schema_priors.csv`.
+- Add solver module `src/dx_chat_entropy/lr_one_vs_rest_coherence.py` implementing
+  multiclass coherent projection on log-LR scale with regularized score fitting.
+- Add script-first projection stage
+  `scripts/project_one_vs_rest_coherent_lrs.py` that writes coherent outputs to
+  `data/processed/lr_one_vs_rest/coherent_outputs_by_model/<MODEL_ID>/` and emits
+  projection diagnostics/failures manifests.
+- Add notebook wrapper `notebooks/32_one_vs_rest_project_coherent_lrs.ipynb`.
+- Extend `scripts/audit_one_vs_rest_outputs.py` with optional coherent mode for
+  posterior-sum and sign-impossible checks plus scenario-level before/after stats.
+
+**Consequences:**
+- Raw and coherent outputs are retained as separate artifacts for reviewer
+  traceability.
+- Existing raw model outputs can be projected without rerunning LLM estimation via
+  `--derive-priors-if-missing` in the projection script.
+- One-vs-rest pipeline now has an explicit post-estimation coherence stage.
