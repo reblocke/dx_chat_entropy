@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import sys
 import time
 from pathlib import Path
 
@@ -39,12 +40,25 @@ Return JSON only with this schema:
 """
 
 
-def find_repo_root(start: Path | None = None) -> Path:
-    current = (start or Path.cwd()).resolve()
-    for candidate in [current, *current.parents]:
-        if (candidate / "pyproject.toml").exists():
-            return candidate
-    raise FileNotFoundError("Could not locate repository root (missing pyproject.toml).")
+def _resolve_repo_root_and_paths(repo_root_arg: Path | None) -> tuple[Path, object]:
+    # Scripts are always rooted one directory under repo/bundle root.
+    script_root = Path(__file__).resolve().parents[1]
+    src_path = script_root / "src"
+    if str(src_path) not in sys.path:
+        sys.path.insert(0, str(src_path))
+
+    from dx_chat_entropy.paths import find_repo_root, require_bundle_capability
+
+    if repo_root_arg is not None:
+        repo_root = find_repo_root(repo_root_arg.resolve())
+    else:
+        repo_root = find_repo_root(Path.cwd())
+
+    resolved_src = repo_root / "src"
+    if str(resolved_src) not in sys.path:
+        sys.path.insert(0, str(resolved_src))
+
+    return repo_root, require_bundle_capability
 
 
 def parse_args() -> argparse.Namespace:
@@ -106,6 +120,12 @@ def parse_args() -> argparse.Namespace:
         default=120.0,
         help="Per-request OpenAI timeout in seconds.",
     )
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=100,
+        help="Emit a progress line every N cell estimates (default 100).",
+    )
     return parser.parse_args()
 
 
@@ -117,6 +137,7 @@ def estimate_lr(
     model_id: str,
     reasoning_effort: str,
     max_retries: int,
+    request_timeout_seconds: float,
 ) -> float | str:
     sys_msgs = [{"role": "system", "content": LR_PROMPT_TEMPLATE}]
     user_msg = {
@@ -135,6 +156,7 @@ def estimate_lr(
                 model=model_id,
                 messages=[*sys_msgs, user_msg],
                 response_format=LRResponse,
+                timeout=float(request_timeout_seconds),
                 **kwargs,
             )
             value = float(completion.choices[0].message.parsed.value)
@@ -159,6 +181,10 @@ def fill_matrix(
     model_id: str,
     reasoning_effort: str,
     max_retries: int,
+    request_timeout_seconds: float,
+    progress_every: int,
+    scenario_id: str,
+    sheet_name: str,
 ) -> pd.DataFrame:
     # Ensure cells are writable for mixed string/float assignments.
     out = df.copy().astype("object")
@@ -175,6 +201,10 @@ def fill_matrix(
         if finding:
             finding_rows.append((row, finding))
 
+    total_cells = len(finding_rows) * len(targets)
+    done_cells = 0
+    progress_step = max(1, int(progress_every))
+
     for row_idx, finding in finding_rows:
         for col_idx, condition in targets:
             out.iat[row_idx, col_idx] = estimate_lr(
@@ -184,14 +214,21 @@ def fill_matrix(
                 model_id=model_id,
                 reasoning_effort=reasoning_effort,
                 max_retries=max_retries,
+                request_timeout_seconds=request_timeout_seconds,
             )
+            done_cells += 1
+            if done_cells % progress_step == 0 or done_cells == total_cells:
+                print(
+                    f"progress scenario={scenario_id} sheet={sheet_name} {done_cells}/{total_cells}"
+                )
 
     return out
 
 
 def main() -> int:
     args = parse_args()
-    repo_root = args.repo_root.resolve() if args.repo_root else find_repo_root()
+    repo_root, require_bundle_capability = _resolve_repo_root_and_paths(args.repo_root)
+    require_bundle_capability(repo_root, "estimate_raw_outputs")
 
     load_dotenv(dotenv_path=repo_root / ".env")
     if not os.getenv("OPENAI_API_KEY"):
@@ -274,6 +311,10 @@ def main() -> int:
                     model_id=args.model_id,
                     reasoning_effort=args.reasoning_effort,
                     max_retries=args.max_retries,
+                    request_timeout_seconds=float(args.request_timeout_seconds),
+                    progress_every=int(args.progress_every),
+                    scenario_id=str(scenario_id),
+                    sheet_name=schema_sheet_name,
                 )
                 df_out.to_excel(writer, sheet_name=schema_sheet_name, index=False, header=False)
 

@@ -260,6 +260,30 @@ uv run --group notebooks python scripts/audit_one_vs_rest_outputs.py \
   - posterior sums to 1 within tolerance for coherent rows
   - no sign-impossible rows remain after projection.
 
+### One-vs-Rest Review Bundle Contract
+Use this profile when shipping artifacts for external runtime/code review without
+shipping full raw source inputs.
+
+Supported in review bundles:
+- inspect bundled raw and coherent outputs
+- run coherence projection on bundled raw outputs
+- run raw/coherent audits on bundled outputs
+- run bundle structural checker
+
+Unsupported in review bundles:
+- rebuilding normalized OVR inputs from raw LR matrices
+- rerunning raw one-vs-rest LLM estimation
+
+Review-bundle package command:
+
+```bash
+uv run --group notebooks python scripts/package_one_vs_rest_review_bundle.py \
+  --model-id gpt-5.3-chat-latest
+```
+
+The generated bundle includes `bundle_manifest.json` as the contract source of truth
+for supported/unsupported commands and included/omitted paths.
+
 ### Multi-level schema behavior
 - Candidate schema rows are rows above `Key feature`.
 - Any qualifying category-defining row becomes a separate schema sheet.
@@ -344,6 +368,7 @@ Code and checks:
 - `src/dx_chat_entropy/lr_one_vs_rest_inputs.py`: schema-row discovery and normalized one-vs-rest input sheet generation.
 - `src/dx_chat_entropy/lr_one_vs_rest_coherence.py`: Bayes-coherent one-vs-rest projection solver and coherence diagnostics helpers.
 - `src/dx_chat_entropy/lr_one_vs_rest_audit.py`: one-vs-rest output audit helpers for schema-sheet quality checks.
+- `src/dx_chat_entropy/lr_one_vs_rest_bundle.py`: structural validation logic for staged one-vs-rest review bundles.
 - `scripts/audit_repo.py`: policy scanner for absolute local paths, secret-like tokens, and retained notebook outputs.
 - `scripts/audit_differential_outputs.py`: differential-LR quality gate (compares expected findings vs valid positive LR outputs).
 - `scripts/run_differential_batch.py`: script-first differential runtime entrypoint (shared behavior with notebook 21).
@@ -354,6 +379,8 @@ Code and checks:
 - `scripts/run_one_vs_rest_batch.py`: batch one-vs-rest LR estimation over normalized schema-sheet manifest rows.
 - `scripts/project_one_vs_rest_coherent_lrs.py`: project raw one-vs-rest outputs to coherent one-vs-rest outputs.
 - `scripts/audit_one_vs_rest_outputs.py`: one-vs-rest quality gate (expected vs valid positive schema-sheet cells).
+- `scripts/check_one_vs_rest_bundle.py`: one-vs-rest review bundle structural/completeness checker.
+- `scripts/package_one_vs_rest_review_bundle.py`: one-vs-rest review bundle packager (writes bundle manifest + runs checker before zip).
 - `tests/test_paths.py`: path utility invariants.
 - `tests/test_repo_conventions.py`: policy tests for notebooks/docs.
 - `tests/test_notebook_dependencies.py`: checks that notebook imports resolve.
@@ -363,6 +390,8 @@ Code and checks:
 - `tests/test_lr_one_vs_rest_inputs.py`: one-vs-rest schema detection and prior extraction behavior tests.
 - `tests/test_lr_one_vs_rest_coherence.py`: coherent OVR projection solver tests and regression checks.
 - `tests/test_lr_one_vs_rest_audit.py`: one-vs-rest audit behavior tests.
+- `tests/test_project_one_vs_rest_coherent_lrs.py`: projection runtime safety tests (partial-write guard).
+- `tests/test_lr_one_vs_rest_bundle.py`: synthetic review-bundle integration tests (projection/audit/checker/build-capability behavior).
 
 Documentation and governance:
 - `docs/PRINCIPLES.md`: scientific programming principles.

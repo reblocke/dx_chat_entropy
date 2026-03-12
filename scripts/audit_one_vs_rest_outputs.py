@@ -2,18 +2,32 @@ from __future__ import annotations
 
 import argparse
 import math
+import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 
-def find_repo_root(start: Path | None = None) -> Path:
-    current = (start or Path.cwd()).resolve()
-    for candidate in [current, *current.parents]:
-        if (candidate / "pyproject.toml").exists():
-            return candidate
-    raise FileNotFoundError("Could not locate repository root (missing pyproject.toml).")
+def _resolve_repo_root_and_paths(repo_root_arg: Path | None) -> tuple[Path, object]:
+    # Scripts are always rooted one directory under repo/bundle root.
+    script_root = Path(__file__).resolve().parents[1]
+    src_path = script_root / "src"
+    if str(src_path) not in sys.path:
+        sys.path.insert(0, str(src_path))
+
+    from dx_chat_entropy.paths import find_repo_root, require_bundle_capability
+
+    if repo_root_arg is not None:
+        repo_root = find_repo_root(repo_root_arg.resolve())
+    else:
+        repo_root = find_repo_root(Path.cwd())
+
+    resolved_src = repo_root / "src"
+    if str(resolved_src) not in sys.path:
+        sys.path.insert(0, str(resolved_src))
+
+    return repo_root, require_bundle_capability
 
 
 def parse_args() -> argparse.Namespace:
@@ -31,7 +45,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--outputs-root",
         type=Path,
-        default=Path("data/processed/lr_one_vs_rest/outputs_by_model"),
+        default=None,
+        help=(
+            "Output root to audit. Defaults to raw outputs root, or coherent outputs root "
+            "when --coherence-mode is enabled."
+        ),
     )
     parser.add_argument(
         "--output-filename-suffix",
@@ -62,7 +80,7 @@ def parse_args() -> argparse.Namespace:
         "--repo-root",
         type=Path,
         default=None,
-        help="Optional explicit repo root. Defaults to auto-detection via pyproject.toml.",
+        help="Optional explicit repo/bundle root. Defaults to auto-detection.",
     )
     parser.add_argument(
         "--coherence-mode",
@@ -391,10 +409,18 @@ def _coherence_audit(
 
 def main() -> int:
     args = parse_args()
-    repo_root = args.repo_root.resolve() if args.repo_root else find_repo_root()
+    repo_root, require_bundle_capability = _resolve_repo_root_and_paths(args.repo_root)
+    require_bundle_capability(repo_root, "audit_outputs")
 
     manifest_path = _resolve_path(repo_root, args.manifest)
-    outputs_root = _resolve_path(repo_root, args.outputs_root)
+    outputs_root_arg = args.outputs_root
+    if outputs_root_arg is None:
+        outputs_root_arg = (
+            Path("data/processed/lr_one_vs_rest/coherent_outputs_by_model")
+            if args.coherence_mode
+            else Path("data/processed/lr_one_vs_rest/outputs_by_model")
+        )
+    outputs_root = _resolve_path(repo_root, outputs_root_arg)
     summary_out = _resolve_path(repo_root, args.summary_out)
     invalid_out = _resolve_path(repo_root, args.invalid_out)
     priors_manifest_path = _resolve_path(repo_root, args.priors_manifest)
@@ -409,12 +435,6 @@ def main() -> int:
         raise FileNotFoundError(f"Manifest does not exist: {manifest_path}")
 
     manifest_df = pd.read_csv(manifest_path)
-
-    import sys
-
-    src_path = repo_root / "src"
-    if str(src_path) not in sys.path:
-        sys.path.insert(0, str(src_path))
 
     from dx_chat_entropy.lr_one_vs_rest_audit import audit_outputs
 

@@ -2,17 +2,31 @@ from __future__ import annotations
 
 import argparse
 import math
+import sys
 from pathlib import Path
 
 import pandas as pd
 
 
-def find_repo_root(start: Path | None = None) -> Path:
-    current = (start or Path.cwd()).resolve()
-    for candidate in [current, *current.parents]:
-        if (candidate / "pyproject.toml").exists():
-            return candidate
-    raise FileNotFoundError("Could not locate repository root (missing pyproject.toml).")
+def _resolve_repo_root_and_paths(repo_root_arg: Path | None) -> tuple[Path, object]:
+    # Scripts are always rooted one directory under repo/bundle root.
+    script_root = Path(__file__).resolve().parents[1]
+    src_path = script_root / "src"
+    if str(src_path) not in sys.path:
+        sys.path.insert(0, str(src_path))
+
+    from dx_chat_entropy.paths import find_repo_root, require_bundle_capability
+
+    if repo_root_arg is not None:
+        repo_root = find_repo_root(repo_root_arg.resolve())
+    else:
+        repo_root = find_repo_root(Path.cwd())
+
+    resolved_src = repo_root / "src"
+    if str(resolved_src) not in sys.path:
+        sys.path.insert(0, str(resolved_src))
+
+    return repo_root, require_bundle_capability
 
 
 def parse_args() -> argparse.Namespace:
@@ -54,6 +68,14 @@ def parse_args() -> argparse.Namespace:
         help="If schema_priors.csv is missing, derive and write it from source sheets.",
     )
     parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument(
+        "--allow-partial-write",
+        action="store_true",
+        help=(
+            "Allow writing coherent workbooks when partial selectors "
+            "(`--max-schemas`/`--max-findings`) are used."
+        ),
+    )
     parser.add_argument("--write-posterior-debug", action="store_true")
     parser.add_argument("--repo-root", type=Path, default=None)
     return parser.parse_args()
@@ -142,7 +164,21 @@ def _ensure_priors_manifest(
 
 def main() -> int:
     args = parse_args()
-    repo_root = args.repo_root.resolve() if args.repo_root else find_repo_root()
+    repo_root, require_bundle_capability = _resolve_repo_root_and_paths(args.repo_root)
+    require_bundle_capability(repo_root, "project_coherent")
+
+    partial_requested = args.max_schemas is not None or args.max_findings is not None
+    if partial_requested and not args.allow_partial_write:
+        raise ValueError(
+            "Partial projection requested (`--max-schemas` and/or `--max-findings`). "
+            "Refusing canonical write by default. Re-run with --allow-partial-write "
+            "to explicitly opt in."
+        )
+    if partial_requested and args.allow_partial_write:
+        print(
+            "[partial-write-warning] Writing partial coherent outputs because "
+            "--allow-partial-write is enabled."
+        )
 
     manifest_path = _resolve_path(repo_root, args.manifest)
     priors_manifest_path = _resolve_path(repo_root, args.priors_manifest)
@@ -201,8 +237,6 @@ def main() -> int:
         selected = selected.head(int(args.max_schemas))
     if selected.empty:
         raise ValueError("No schema rows selected for projection.")
-
-    import sys
 
     src_path = repo_root / "src"
     if str(src_path) not in sys.path:

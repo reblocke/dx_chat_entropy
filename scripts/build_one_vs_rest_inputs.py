@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -11,12 +12,25 @@ import pandas as pd
 import yaml
 
 
-def find_repo_root(start: Path | None = None) -> Path:
-    current = (start or Path.cwd()).resolve()
-    for candidate in [current, *current.parents]:
-        if (candidate / "pyproject.toml").exists():
-            return candidate
-    raise FileNotFoundError("Could not locate repository root (missing pyproject.toml).")
+def _resolve_repo_root_and_paths(repo_root_arg: Path | None) -> tuple[Path, object, object]:
+    # Scripts are always rooted one directory under repo/bundle root.
+    script_root = Path(__file__).resolve().parents[1]
+    src_path = script_root / "src"
+    if str(src_path) not in sys.path:
+        sys.path.insert(0, str(src_path))
+
+    from dx_chat_entropy.paths import find_repo_root, is_review_bundle, require_bundle_capability
+
+    if repo_root_arg is not None:
+        repo_root = find_repo_root(repo_root_arg.resolve())
+    else:
+        repo_root = find_repo_root(Path.cwd())
+
+    resolved_src = repo_root / "src"
+    if str(resolved_src) not in sys.path:
+        sys.path.insert(0, str(resolved_src))
+
+    return repo_root, is_review_bundle, require_bundle_capability
 
 
 def parse_args() -> argparse.Namespace:
@@ -60,7 +74,19 @@ def _path_for_manifest(path: Path, *, repo_root: Path) -> str:
 
 def main() -> int:
     args = parse_args()
-    repo_root = args.repo_root.resolve() if args.repo_root else find_repo_root()
+    repo_root, is_review_bundle, require_bundle_capability = _resolve_repo_root_and_paths(
+        args.repo_root
+    )
+
+    if is_review_bundle(repo_root):
+        try:
+            require_bundle_capability(repo_root, "build_inputs")
+        except RuntimeError as exc:
+            raise RuntimeError(
+                "Raw LR source matrices are not packaged in this review bundle. "
+                "Re-run from a full repo snapshot or package with bundle capability "
+                "`build_inputs`."
+            ) from exc
 
     config_path = args.config
     if not config_path.is_absolute():
@@ -83,12 +109,6 @@ def main() -> int:
         "yes",
         "on",
     }
-
-    import sys
-
-    src_path = repo_root / "src"
-    if str(src_path) not in sys.path:
-        sys.path.insert(0, str(src_path))
 
     from dx_chat_entropy.lr_one_vs_rest_inputs import (
         build_one_vs_rest_sheet,
