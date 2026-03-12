@@ -133,6 +133,7 @@ increased drift risk after notebook/script renames and pipeline refactors.
 Add `docs/PIPELINES.md` as the canonical inventory of current workflows,
 including purpose, primary inputs, primary outputs, and execution order.
 `README.md` keeps an at-a-glance summary and links to `docs/PIPELINES.md`.
+This arrangement was later superseded by the 2026-03-12 documentation split.
 
 **Consequences:**
 - Pipeline contracts are easier to audit after changes.
@@ -200,3 +201,26 @@ and sign-impossible all->1/all-<1 rows can appear).
 - Existing raw model outputs can be projected without rerunning LLM estimation via
   `--derive-priors-if-missing` in the projection script.
 - One-vs-rest pipeline now has an explicit post-estimation coherence stage.
+
+## 2026-03-12: Split operator documentation from specification
+
+**Context:**
+The README had become a hybrid of onboarding guide, runbook, and specification.
+That made it harder for a human reader to understand what the repository does
+and where to start, while also increasing the risk of duplicate contract
+documentation drifting out of sync.
+
+**Decision:**
+- Keep `README.md` focused on human understanding, workflow selection, and
+  normal run procedures.
+- Make `docs/SPECIFICATION.md` the detailed source for pipeline contracts,
+  artifact locations, manifests, validation behavior, and review-bundle scope.
+- Keep `docs/PIPELINES.md` as a short navigation index rather than a second full
+  specification document.
+
+**Consequences:**
+- New users get a clearer operator-facing entry point.
+- Detailed workflow and artifact contracts still exist in one place.
+- Future pipeline changes should update `README.md` and
+  `docs/SPECIFICATION.md`, with `docs/PIPELINES.md` updated only when the
+  pipeline inventory changes.

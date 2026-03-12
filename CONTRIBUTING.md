@@ -5,7 +5,8 @@
 - Keep computational core logic in `src/`; keep orchestration in scripts/notebooks.
 - Update/add tests when behavior changes.
 - Record design/assumption changes in `docs/DECISIONS.md`.
-- If pipeline purpose, inputs, outputs, or run order changes, update `README.md` and `docs/PIPELINES.md`.
+- If pipeline purpose, inputs, outputs, run order, or artifact contracts change, update `README.md` and `docs/SPECIFICATION.md`.
+- Update `docs/PIPELINES.md` when the high-level workflow inventory or ordering changes.
 
 ## Definition of done
 A change is generally ready when:

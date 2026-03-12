@@ -46,7 +46,8 @@ mkdir -p \
   "${PKG_ROOT}/code/notebooks" \
   "${PKG_ROOT}/code/scripts" \
   "${PKG_ROOT}/code/src/dx_chat_entropy" \
-  "${PKG_ROOT}/code/config"
+  "${PKG_ROOT}/code/config" \
+  "${PKG_ROOT}/docs"
 
 cp "${REPO_ROOT}/notebooks/20_differential_build_inputs.ipynb" "${PKG_ROOT}/code/notebooks/"
 cp "${REPO_ROOT}/notebooks/21_differential_estimate_lrs.ipynb" "${PKG_ROOT}/code/notebooks/"
@@ -64,7 +65,8 @@ cp "${REPO_ROOT}/src/dx_chat_entropy/lr_differential_runner.py" "${PKG_ROOT}/cod
 cp "${REPO_ROOT}/src/dx_chat_entropy/lr_differential_bundle.py" "${PKG_ROOT}/code/src/dx_chat_entropy/"
 cp "${REPO_ROOT}/config/lr_differential_scenarios.yaml" "${PKG_ROOT}/code/config/"
 cp "${REPO_ROOT}/README.md" "${PKG_ROOT}/README.md"
-cp "${REPO_ROOT}/docs/PIPELINES.md" "${PKG_ROOT}/PIPELINES.md"
+cp "${REPO_ROOT}/docs/PIPELINES.md" "${PKG_ROOT}/docs/PIPELINES.md"
+cp "${REPO_ROOT}/docs/SPECIFICATION.md" "${PKG_ROOT}/docs/SPECIFICATION.md"
 cp "${REPO_ROOT}/pyproject.toml" "${PKG_ROOT}/pyproject.toml"
 cp "${REPO_ROOT}/uv.lock" "${PKG_ROOT}/uv.lock"
 
@@ -102,7 +104,7 @@ Model: ${MODEL_ID}
 Reasoning effort: ${REASONING_EFFORT}
 Includes:
 - differential pipeline notebooks + scripts + core src modules
-- scenario config and pipeline docs snapshot
+- scenario config and documentation snapshot
 - raw LR-matrix sources
 - generated differential inputs
 - model-scoped outputs for all scenarios

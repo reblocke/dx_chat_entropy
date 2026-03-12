@@ -1,151 +1,81 @@
 # dx_chat_entropy
-Clinical reasoning entropy and likelihood-ratio analysis with reproducible Python workflows.
 
-This repository combines active analysis code/notebooks with an in-repo archive of historical runs and source artifacts.
+`dx_chat_entropy` is a Python-first repository for estimating, auditing, and comparing
+likelihood ratios (LRs) for clinical reasoning tasks.
 
-## Quickstart
+In practice, the repo supports three main jobs:
+1. extract findings and populate assessment sheets,
+2. estimate pairwise differential LRs from scenario spreadsheets, and
+3. estimate one-vs-rest LRs and project them into Bayes-coherent multiclass outputs.
+
+The repository mixes active workflows with archived historical material. For current work,
+use `data/raw/`, `data/processed/`, `scripts/`, and the numbered notebooks. Treat `archive/`
+as provenance unless a workflow explicitly says otherwise.
+
+## Start Here
+
 Prerequisites:
 - Python 3.11+
 - `uv`
+- `OPENAI_API_KEY` in your environment or `.env` for model-backed runs
 
-From repository root:
+Initial setup:
 
 ```bash
-uv sync
+make uv-sync-notebooks
+make notebook-kernel
 make fmt
 make lint
 make test
 make audit
 ```
 
-For notebooks (all tracked notebooks, full dependency set):
+If you use VS Code notebooks, select the kernel `Python (dx-chat-entropy)`.
+Most notebook import problems in this repo are kernel-selection problems rather than missing packages.
 
-```bash
-uv sync --group notebooks
-```
+## Repository Shape
 
-Register and use a dedicated notebook kernel for this repo:
+- `data/raw/`: active source spreadsheets, transcripts, and templates
+- `data/processed/`: generated manifests, intermediate workbooks, and model outputs
+- `notebooks/`: interactive entry points, QA, and legacy analysis notebooks
+- `scripts/`: canonical batch runtimes and packaging tools
+- `src/dx_chat_entropy/`: shared parsing, runtime, audit, and bundle logic
+- `archive/`: historical inputs, runs, tickets, and legacy outputs
 
-```bash
-make notebook-kernel
-```
+## Choose a Workflow
 
-In VS Code, select kernel `Python (dx-chat-entropy)` (top-right kernel picker).
-If VS Code keeps using another kernel (for example `llm_py311`), notebook imports may fail
-even when `uv sync --group notebooks` succeeded.
+### 1. Assessment Feature + LR Labeling
 
-Build canonical differential-LR pair inputs (manifest + generated workbooks):
-- run `notebooks/20_differential_build_inputs.ipynb` (self-contained canonical builder)
+Use this when you want to extract findings from transcript PDFs and populate the assessment-style LR workbook.
 
-## Current Pipeline Map
-Use `docs/PIPELINES.md` as the canonical source for current pipeline purpose,
-inputs, outputs, and execution order.
+Run order:
+1. `notebooks/10_assessment_extract_features.ipynb`
+2. `notebooks/11_assessment_estimate_lrs.ipynb`
 
-At a glance:
-- Assessment feature + LR labeling (active): `10_assessment_extract_features.ipynb` -> `11_assessment_estimate_lrs.ipynb`
-- Differential LR (active, canonical runtime): `20_differential_build_inputs.ipynb` -> `scripts/run_differential_batch.py` (or notebook `21` wrapper) -> `scripts/audit_differential_outputs.py`
-- One-vs-rest LR (active, canonical script-first): `scripts/build_one_vs_rest_inputs.py` -> `scripts/run_one_vs_rest_batch.py` -> `scripts/project_one_vs_rest_coherent_lrs.py` -> `scripts/audit_one_vs_rest_outputs.py`
-- One-vs-rest agreement visualization (archive): `30_one_vs_rest_estimate_lrs.ipynb` -> `31_one_vs_rest_compare_lr_estimates.ipynb`
+Typical inputs:
+- `data/raw/chatbot_transcripts/*.pdf`
+- `data/raw/assessment_templates/asssessment_template_new.xlsx`
 
-## Notebook Execution (VS Code)
-Use this flow for notebooks such as `notebooks/11_assessment_estimate_lrs.ipynb`.
+Typical outputs:
+- `data/processed/assessments/answers_*.xlsx`
+- `data/processed/assessments/completed_lrs.xlsx`
 
-1. Sync notebook dependencies:
+### 2. Differential LR Pipeline
 
-```bash
-make uv-sync-notebooks
-```
+Use this when each scenario should be broken into all diagnosis-pair comparisons and each finding should receive a differential LR for that pair.
 
-2. Register the repo-specific kernel:
+Run order:
+1. `notebooks/20_differential_build_inputs.ipynb`
+2. `scripts/run_differential_batch.py` or `notebooks/21_differential_estimate_lrs.ipynb`
+3. `scripts/audit_differential_outputs.py`
 
-```bash
-make notebook-kernel
-```
-
-3. Open the notebook in VS Code and select kernel `Python (dx-chat-entropy)`.
-4. Run this sanity check in a notebook cell:
-
-```python
-import sys
-from markitdown import MarkItDown
-
-print(sys.executable)
-print(MarkItDown)
-```
-
-Expected interpreter path includes:
-`.../dx_chat_entropy/.venv/bin/python3`
-
-5. For OpenAI-backed notebooks, ensure `.env` contains a valid `OPENAI_API_KEY`.
-
-### Troubleshooting
-- Symptom: `ModuleNotFoundError` after syncing dependencies.
-  Cause: notebook is attached to a different Python kernel/interpreter.
-- Fix: re-select `Python (dx-chat-entropy)`, then run `Restart Kernel` in VS Code.
-- CLI verification from repo root:
-
-```bash
-uv run --group notebooks python -c "from markitdown import MarkItDown; import llm; from openai import OpenAI; print('ok')"
-```
-
-## Assessment Feature + LR Label Pipeline
-This is a separate assessment workflow from the differential LR and one-vs-rest
-pipelines.
-
-1. Run `notebooks/10_assessment_extract_features.ipynb` to extract transcript findings into assessment sheets:
-- Inputs: `data/raw/chatbot_transcripts/*.pdf`, `data/raw/assessment_templates/asssessment_template_new.xlsx`
-- Outputs: `data/processed/assessments/answers_*.xlsx`
-
-2. Run `notebooks/11_assessment_estimate_lrs.ipynb` to fill missing LR labels in assessment sheets:
-- Inputs: `data/raw/assessment_templates/asssessment_template_new.xlsx` (+ processed assessment answer sheets)
-- Outputs: `data/processed/assessments/completed_lrs.xlsx`
-
-## Differential LR Pipeline (Canonical)
-Active LR-matrix inputs are canonicalized under `data/raw/lr_matrices/` and pairwise
-differential inputs are generated under `data/processed/lr_differential/`.
-`archive/*` remains historical-only provenance.
-
-1. Sync notebook dependencies and kernel:
-
-```bash
-make uv-sync-notebooks
-make notebook-kernel
-```
-
-2. Build pairwise differential-input workbooks + manifests:
-
-Preferred (notebook-first, self-contained transformation code):
-- run `notebooks/20_differential_build_inputs.ipynb`
-- default is fail-closed on category-count mismatch; set `ALLOW_CATEGORY_COUNT_MISMATCH=true`
-  only for intentional overrides.
-
-3. Open `notebooks/21_differential_estimate_lrs.ipynb`, select kernel `Python (dx-chat-entropy)`,
-   and run all cells.
-The notebook reads:
-- `data/processed/lr_differential/manifests/pairs_manifest.csv`
-
-The notebook writes:
-- `data/processed/lr_differential/outputs_by_model/<MODEL_ID>/<scenario_id>/*_filled.xlsx`
-
-4. Preferred script-first execution (same runtime used by notebook):
+Typical run:
 
 ```bash
 DX_MODEL_ID=gpt-5.3-chat-latest \
 DX_RESUME_MODE=skip_passing \
 uv run --group notebooks python scripts/run_differential_batch.py
-```
 
-Supported runtime controls:
-- `DX_RESUME_MODE=recompute|skip_passing|repair_invalid`
-- `DX_SCENARIO_FILTER=scenario_a,scenario_b`
-- `DX_MAX_PAIRS=<int>`
-- `DX_MAX_FINDINGS=<int>`
-- `DX_INVALID_ROWS_PATH=<path>` (optional repair CSV override; defaults to model-scoped `invalid_rows_<MODEL_ID>.csv` if present, else `invalid_rows.csv`)
-- legacy compatibility: `DX_REPAIR_MODE=true` maps to `DX_RESUME_MODE=repair_invalid` when `DX_RESUME_MODE` is unset.
-
-5. Run deterministic quality audit after estimation:
-
-```bash
 uv run --group notebooks python scripts/audit_differential_outputs.py \
   --manifest data/processed/lr_differential/manifests/pairs_manifest.csv \
   --outputs-root data/processed/lr_differential/outputs_by_model \
@@ -153,298 +83,116 @@ uv run --group notebooks python scripts/audit_differential_outputs.py \
   --invalid-out data/processed/lr_differential/manifests/invalid_rows.csv
 ```
 
-Audit outputs:
-- `data/processed/lr_differential/manifests/quality_summary.csv`
-- `data/processed/lr_differential/manifests/invalid_rows.csv`
+What goes in:
+- canonical raw LR matrices under `data/raw/lr_matrices/`
+- scenario registry in `config/lr_differential_scenarios.yaml`
 
-Pass/fail criterion:
-- every workbook must satisfy `valid_positive_lrs == expected_findings` and `total_invalid_rows == 0`.
+What comes out:
+- pairwise input workbooks in `data/processed/lr_differential/inputs/`
+- model-scoped filled outputs in `data/processed/lr_differential/outputs_by_model/`
+- manifests, ledgers, logs, and audit CSVs in `data/processed/lr_differential/manifests/`
 
-6. If audit reports failures, run targeted repair:
-- set `DX_MODEL_ID` to the failing model
-- set `DX_RESUME_MODE=repair_invalid`
-- optional: `DX_REPAIR_SCENARIO_FILTER` and `DX_REPAIR_MAX_ROWS`
-- optional: set `DX_INVALID_ROWS_PATH` if using a non-default invalid-rows CSV
-- re-run estimation, then re-run the audit command and require zero invalid/missing rows.
+Notes:
+- `21_differential_estimate_lrs.ipynb` is the interactive wrapper around the same runtime logic used by the script.
+- `22_differential_prepare_inputs_qa.ipynb` is for inspection and QA, not the canonical transformation step.
 
-7. For resumable scenario-by-scenario runs with logs + ledger:
+### 3. One-vs-Rest LR + Coherence Pipeline
 
-```bash
-scripts/run_differential_notebook_ledger.sh gpt-5.3-chat-latest medium
-```
+Use this when you want a full LR table for each diagnosis versus all others in a scenario, followed by a coherence step that converts independently estimated one-vs-rest LRs into Bayes-coherent multiclass outputs.
 
-This writes:
-- `data/processed/lr_differential/manifests/run_ledger_differential_<MODEL_ID>.csv`
-- `data/processed/lr_differential/manifests/logs/<MODEL_ID>/*.log`
+Run order:
+1. `scripts/build_one_vs_rest_inputs.py`
+2. `scripts/run_one_vs_rest_batch.py`
+3. `scripts/project_one_vs_rest_coherent_lrs.py`
+4. `scripts/audit_one_vs_rest_outputs.py`
 
-8. To create a self-contained differential review bundle:
-
-```bash
-scripts/run_differential_and_package.sh gpt-5.3-chat-latest medium
-```
-
-Packaging includes a completeness check (`scripts/check_differential_bundle.py`) and fails if:
-- local imports used by bundled notebooks/scripts are missing
-- repair targets (`invalid_rows.csv` or model-scoped equivalent) are missing
-- stale `pairs_manifest_missing*.csv` artifacts are present
-- logs are present but a run ledger is missing
-
-Bundle scope note: this package is a differential-pipeline review bundle, not a
-full repository snapshot.
-
-## One-vs-Rest LR Pipeline (Canonical)
-This pipeline normalizes raw scenario LR matrices into one-vs-rest schema sheets
-and then estimates LR cells for each schema sheet. A final coherence stage projects
-raw one-vs-rest LR vectors to Bayes-coherent multiclass one-vs-rest LRs.
-
-1. Build normalized one-vs-rest inputs from raw scenario sheets:
+Typical run:
 
 ```bash
 uv run --group notebooks python scripts/build_one_vs_rest_inputs.py \
   --config config/lr_differential_scenarios.yaml
-```
 
-If an intentional category-count mismatch exists in source sheets, set:
-`ALLOW_CATEGORY_COUNT_MISMATCH=true` for this step.
-
-2. Run one-vs-rest batch estimation (standard mode) for a model:
-
-```bash
 uv run --group notebooks python scripts/run_one_vs_rest_batch.py \
   --manifest data/processed/lr_one_vs_rest/manifests/inputs_manifest.csv \
-  --model-id gpt-4o-mini
-```
+  --model-id gpt-5.3-chat-latest
 
-3. Project raw one-vs-rest outputs to coherent outputs (separate root, raw preserved):
-
-```bash
 uv run --group notebooks python scripts/project_one_vs_rest_coherent_lrs.py \
-  --model-id gpt-4o-mini
-```
+  --model-id gpt-5.3-chat-latest
 
-Writes:
-- `data/processed/lr_one_vs_rest/coherent_outputs_by_model/<MODEL_ID>/<scenario_id>_coherent.xlsx`
-- `data/processed/lr_one_vs_rest/manifests/coherence_projection_summary_<MODEL_ID>.csv`
-- `data/processed/lr_one_vs_rest/manifests/coherence_projection_top_rows_<MODEL_ID>.csv`
-- `data/processed/lr_one_vs_rest/manifests/coherence_projection_failures_<MODEL_ID>.csv`
-
-4. Audit raw outputs (shape/positivity quality gate):
-
-```bash
 uv run --group notebooks python scripts/audit_one_vs_rest_outputs.py \
   --manifest data/processed/lr_one_vs_rest/manifests/inputs_manifest.csv \
   --outputs-root data/processed/lr_one_vs_rest/outputs_by_model \
-  --summary-out data/processed/lr_one_vs_rest/manifests/quality_summary.csv \
-  --invalid-out data/processed/lr_one_vs_rest/manifests/invalid_cells.csv
-```
+  --summary-out data/processed/lr_one_vs_rest/manifests/quality_summary_gpt-5.3-chat-latest.csv \
+  --invalid-out data/processed/lr_one_vs_rest/manifests/invalid_cells_gpt-5.3-chat-latest.csv \
+  --model-id gpt-5.3-chat-latest
 
-5. Audit coherent outputs (positivity + posterior-sum + sign-impossible checks):
-
-```bash
 uv run --group notebooks python scripts/audit_one_vs_rest_outputs.py \
   --manifest data/processed/lr_one_vs_rest/manifests/inputs_manifest.csv \
-  --outputs-root data/processed/lr_one_vs_rest/coherent_outputs_by_model \
-  --summary-out data/processed/lr_one_vs_rest/manifests/coherent_quality_summary.csv \
-  --invalid-out data/processed/lr_one_vs_rest/manifests/coherent_invalid_cells.csv \
   --coherence-mode \
   --priors-manifest data/processed/lr_one_vs_rest/manifests/schema_priors.csv \
   --raw-outputs-root data/processed/lr_one_vs_rest/outputs_by_model \
-  --coherence-summary-out data/processed/lr_one_vs_rest/manifests/coherence_quality_summary.csv \
-  --coherence-invalid-out data/processed/lr_one_vs_rest/manifests/coherence_invalid_rows.csv
-```
-
-6. Pass/fail criterion:
-- every schema sheet must satisfy `valid_positive_cells == expected_cells_manifest`
-- and `total_invalid_cells == 0`.
-- coherent mode additionally requires:
-  - posterior sums to 1 within tolerance for coherent rows
-  - no sign-impossible rows remain after projection.
-
-### One-vs-Rest Review Bundle Contract
-Use this profile when shipping artifacts for external runtime/code review without
-shipping full raw source inputs.
-
-Supported in review bundles:
-- inspect bundled raw and coherent outputs
-- run coherence projection on bundled raw outputs
-- run raw/coherent audits on bundled outputs
-- run bundle structural checker
-
-Unsupported in review bundles:
-- rebuilding normalized OVR inputs from raw LR matrices
-- rerunning raw one-vs-rest LLM estimation
-
-Review-bundle package command:
-
-```bash
-uv run --group notebooks python scripts/package_one_vs_rest_review_bundle.py \
+  --outputs-root data/processed/lr_one_vs_rest/coherent_outputs_by_model \
+  --summary-out data/processed/lr_one_vs_rest/manifests/coherent_quality_summary_gpt-5.3-chat-latest.csv \
+  --invalid-out data/processed/lr_one_vs_rest/manifests/coherent_invalid_cells_gpt-5.3-chat-latest.csv \
+  --coherence-summary-out data/processed/lr_one_vs_rest/manifests/coherence_quality_summary_gpt-5.3-chat-latest.csv \
+  --coherence-invalid-out data/processed/lr_one_vs_rest/manifests/coherence_invalid_rows_gpt-5.3-chat-latest.csv \
   --model-id gpt-5.3-chat-latest
 ```
 
-The generated bundle includes `bundle_manifest.json` as the contract source of truth
-for supported/unsupported commands and included/omitted paths.
+What goes in:
+- raw LR matrices in `data/raw/lr_matrices/`
+- scenario registry in `config/lr_differential_scenarios.yaml`
 
-### Multi-level schema behavior
-- Candidate schema rows are rows above `Key feature`.
-- Any qualifying category-defining row becomes a separate schema sheet.
-- One-vs-rest estimation runs independently on each schema sheet.
+What comes out:
+- normalized one-vs-rest input workbooks in `data/processed/lr_one_vs_rest/inputs/`
+- raw model outputs in `data/processed/lr_one_vs_rest/outputs_by_model/`
+- coherent outputs in `data/processed/lr_one_vs_rest/coherent_outputs_by_model/`
+- manifests and quality summaries in `data/processed/lr_one_vs_rest/manifests/`
 
-### Existing-output projection (no LLM rerun)
-To project existing model outputs (for example current `gpt-5.3` files) without
-rerunning one-vs-rest estimation:
+Notes:
+- The coherence step is a separate local projection stage. It does not overwrite the raw one-vs-rest outputs.
+- `notebooks/32_one_vs_rest_project_coherent_lrs.ipynb` is a notebook wrapper for the coherence projection over existing raw outputs.
+- `notebooks/30_one_vs_rest_estimate_lrs.ipynb` and `notebooks/31_one_vs_rest_compare_lr_estimates.ipynb` are the older comparison workflow, not the canonical batch runtime.
 
-```bash
-uv run --group notebooks python scripts/project_one_vs_rest_coherent_lrs.py \
-  --model-id gpt-5.3-chat-latest \
-  --derive-priors-if-missing \
-  --overwrite
-```
+## Review Bundles
 
-This one-time compatibility mode derives `schema_priors.csv` from existing
-manifests/source sheets when needed, then projects existing raw outputs in place
-to the coherent output root.
+For external review or handoff:
+- Differential pipeline: `scripts/run_differential_and_package.sh`
+- One-vs-rest pipeline: `scripts/package_one_vs_rest_review_bundle.py`
 
-## One-vs-Rest Agreement Pipeline (Archive)
-This workflow is for historical one-vs-rest matrix comparison artifacts and is
-downstream of one-vs-rest matrix outputs.
+These packages are meant to ship the relevant code, manifests, and outputs for a workflow. They are not full-repository snapshots.
 
-1. Prepare `archive/legacy_runs/lr_estimation_2025_07_21/columns_to_plot.xlsx`
-with the LR columns you want to compare across models.
+## Where Data Should Live
 
-2. Run `notebooks/31_one_vs_rest_compare_lr_estimates.ipynb` to generate agreement visualizations:
-- KDE overlay PDF(s) in `archive/legacy_runs/lr_estimation_2025_07_21/`
-- Bland-Altman pairwise PDF(s) in `archive/legacy_runs/lr_estimation_2025_07_21/`
+- Put active source spreadsheets in `data/raw/`.
+- Put generated workbooks and manifests in `data/processed/`.
+- Keep final analysis artifacts in `data/derived/`, `reports/`, or `artifacts/` as appropriate.
+- Keep historical material in `archive/`.
 
-## Notebook Inventory (Inputs/Outputs)
-Current tracked notebooks in `notebooks/` and their expected file I/O:
+If a raw source has a defect, do not edit it in place. Preserve the raw file and correct the issue in code or in a generated output layer.
 
-- `10_assessment_extract_features.ipynb`
-  - Inputs: `data/raw/chatbot_transcripts/*.pdf`, `data/raw/assessment_templates/asssessment_template_new.xlsx`
-  - Outputs: `data/processed/assessments/answers_*.xlsx`
-- `11_assessment_estimate_lrs.ipynb`
-  - Inputs: `data/raw/assessment_templates/asssessment_template_new.xlsx` (+ processed assessment answer sheets)
-  - Outputs: `data/processed/assessments/completed_lrs.xlsx`
-- `30_one_vs_rest_estimate_lrs.ipynb`
-  - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*.xlsx`
-  - Outputs: `archive/legacy_runs/lr_estimation_2025_07_21/est_lrs_by_*_filled.xlsx`
-  - Pipeline role: notebook reference implementation for one-vs-rest LR filling
-- `20_differential_build_inputs.ipynb`
-  - Inputs: `config/lr_differential_scenarios.yaml` + canonical LR matrices in `data/raw/lr_matrices/`
-  - Outputs: pair inputs in `data/processed/lr_differential/inputs/<scenario_id>/` and manifests in `data/processed/lr_differential/manifests/`
-- `21_differential_estimate_lrs.ipynb`
-  - Inputs: `data/processed/lr_differential/manifests/pairs_manifest.csv` and pair workbooks in `data/processed/lr_differential/inputs/<scenario_id>/`
-  - Outputs: corresponding `*_filled.xlsx` workbooks in `data/processed/lr_differential/outputs_by_model/<MODEL_ID>/<scenario_id>/`
-  - Run modes: `DX_RESUME_MODE` (`recompute`, `skip_passing`, `repair_invalid`) with repair driven by model-scoped or generic invalid-rows manifests
-- `22_differential_prepare_inputs_qa.ipynb`
-  - Inputs: `config/lr_differential_scenarios.yaml`, canonical raw LR matrices in `data/raw/lr_matrices/`, and optional generated manifests/workbooks
-  - Outputs: none (QA/inspection notebook only)
-- `32_one_vs_rest_project_coherent_lrs.ipynb`
-  - Inputs: `data/processed/lr_one_vs_rest/outputs_by_model/<MODEL_ID>/<scenario_id>_filled.xlsx` and `data/processed/lr_one_vs_rest/manifests/schema_priors.csv`
-  - Outputs: coherent workbook projections in `data/processed/lr_one_vs_rest/coherent_outputs_by_model/<MODEL_ID>/` and coherence diagnostics under `data/processed/lr_one_vs_rest/manifests/`
-- `31_one_vs_rest_compare_lr_estimates.ipynb`
-  - Inputs: `archive/legacy_runs/lr_estimation_2025_07_21/columns_to_plot.xlsx`
-  - Outputs: comparison plots/PDFs in `archive/legacy_runs/lr_estimation_2025_07_21/`
-  - Pipeline role: one-vs-rest model-agreement QA/visualization step, downstream of matrix outputs and not consumed by canonical differential LR generation
-- `feedback_generator.ipynb`
-  - Inputs: in-notebook diagnosis/category definitions and API responses
-  - Outputs: `artifacts/feedback_sheets/<date>_<model>_feedback_sheets/*.xlsx`
+## Documentation Map
 
-## Repository Map
-Core project files:
-- `pyproject.toml`: package metadata, dependencies, notebook dependency group, Ruff, and pytest config.
-- `uv.lock`: locked dependency set for reproducible environments.
-- `Makefile`: standard local commands (`uv-sync`, `uv-sync-notebooks`, `notebook-kernel`, `fmt`, `lint`, `test`, `audit`, `clean`).
-- `CLAUDE.md`: engineering and workflow rules for Claude Code.
-- `AGENTS.md`: consolidated agent-facing guidance copied from `CLAUDE.md` + `docs/CLAUDE_WORKFLOW.md`.
-- `CONTRIBUTING.md`: contribution and definition-of-done checklist.
-- `CITATION.cff`: software citation metadata.
+Use the document that matches the question:
+- `README.md`: what this repo does, which workflow to choose, and how to run it
+- `docs/SPECIFICATION.md`: detailed pipeline contracts, artifact paths, manifests, and review-bundle scope
+- `docs/PIPELINES.md`: short index of current pipelines and notebook/script order
+- `docs/DATA_MANAGEMENT.md`: active-vs-archive data placement and provenance rules
+- `docs/DECISIONS.md`: non-obvious design and policy decisions
+- `AGENTS.md`: project-specific coding-agent instructions
 
-Code and checks:
-- `src/dx_chat_entropy/__init__.py`: package exports.
-- `src/dx_chat_entropy/paths.py`: repository-root discovery and canonical path helpers.
-- `src/dx_chat_entropy/lr_differential_runner.py`: script/notebook-shared differential LR runtime, retry policy, and resume/repair semantics.
-- `src/dx_chat_entropy/lr_differential_bundle.py`: structural validation of staged differential review bundles.
-- `src/dx_chat_entropy/lr_differential_audit.py`: reusable audit logic for workbook-level and row-level LR quality checks.
-- `src/dx_chat_entropy/lr_one_vs_rest_inputs.py`: schema-row discovery and normalized one-vs-rest input sheet generation.
-- `src/dx_chat_entropy/lr_one_vs_rest_coherence.py`: Bayes-coherent one-vs-rest projection solver and coherence diagnostics helpers.
-- `src/dx_chat_entropy/lr_one_vs_rest_audit.py`: one-vs-rest output audit helpers for schema-sheet quality checks.
-- `src/dx_chat_entropy/lr_one_vs_rest_bundle.py`: structural validation logic for staged one-vs-rest review bundles.
-- `scripts/audit_repo.py`: policy scanner for absolute local paths, secret-like tokens, and retained notebook outputs.
-- `scripts/audit_differential_outputs.py`: differential-LR quality gate (compares expected findings vs valid positive LR outputs).
-- `scripts/run_differential_batch.py`: script-first differential runtime entrypoint (shared behavior with notebook 21).
-- `scripts/run_differential_notebook_ledger.sh`: scenario-ledger differential runner (resumable by scenario).
-- `scripts/run_differential_and_package.sh`: end-to-end differential run + audit + review bundle packaging.
-- `scripts/check_differential_bundle.py`: bundle structural completeness checker.
-- `scripts/build_one_vs_rest_inputs.py`: normalize raw scenario LR matrices into one-vs-rest schema-sheet workbooks.
-- `scripts/run_one_vs_rest_batch.py`: batch one-vs-rest LR estimation over normalized schema-sheet manifest rows.
-- `scripts/project_one_vs_rest_coherent_lrs.py`: project raw one-vs-rest outputs to coherent one-vs-rest outputs.
-- `scripts/audit_one_vs_rest_outputs.py`: one-vs-rest quality gate (expected vs valid positive schema-sheet cells).
-- `scripts/check_one_vs_rest_bundle.py`: one-vs-rest review bundle structural/completeness checker.
-- `scripts/package_one_vs_rest_review_bundle.py`: one-vs-rest review bundle packager (writes bundle manifest + runs checker before zip).
-- `tests/test_paths.py`: path utility invariants.
-- `tests/test_repo_conventions.py`: policy tests for notebooks/docs.
-- `tests/test_notebook_dependencies.py`: checks that notebook imports resolve.
-- `tests/test_lr_differential_audit.py`: differential-LR audit behavior tests (classification and invalid-row detection).
-- `tests/test_lr_differential_runner.py`: runtime config/resume/repair path and skip-passing behavior tests.
-- `tests/test_lr_differential_bundle.py`: differential bundle completeness and consistency checks.
-- `tests/test_lr_one_vs_rest_inputs.py`: one-vs-rest schema detection and prior extraction behavior tests.
-- `tests/test_lr_one_vs_rest_coherence.py`: coherent OVR projection solver tests and regression checks.
-- `tests/test_lr_one_vs_rest_audit.py`: one-vs-rest audit behavior tests.
-- `tests/test_project_one_vs_rest_coherent_lrs.py`: projection runtime safety tests (partial-write guard).
-- `tests/test_lr_one_vs_rest_bundle.py`: synthetic review-bundle integration tests (projection/audit/checker/build-capability behavior).
+## Common Problems
 
-Documentation and governance:
-- `docs/PRINCIPLES.md`: scientific programming principles.
-- `docs/DATA_MANAGEMENT.md`: data immutability and provenance rules.
-- `docs/PIPELINES.md`: canonical pipeline purpose/input/output/run-order inventory.
-- `docs/AI_ASSISTED_CODING.md`: guardrails for AI-authored changes.
-- `docs/CLAUDE_WORKFLOW.md`: agent workflow loop.
-- `docs/DECISIONS.md`: decision log.
-- `docs/TODO.md`: active backlog / pending workflow improvements.
-- `docs/references/`: non-code reference material (papers/protocol/team docs).
+### Notebook imports fail even after syncing dependencies
 
-Data and outputs:
-- `data/raw/`: immutable source inputs (assessment PDFs/templates/transcripts).
-- `data/raw/lr_matrices/`: canonical active LR-matrix source workbooks by scenario.
-- `data/processed/`: intermediate generated outputs (assessment answers, NNT/LR sheets).
-- `data/processed/lr_differential/inputs/`: generated pairwise differential-LR input workbooks.
-- `data/processed/lr_differential/outputs/`: canonical output path references in manifest rows.
-- `data/processed/lr_differential/outputs_by_model/`: model-scoped differential-LR outputs (`<MODEL_ID>/<scenario_id>/*_filled.xlsx`).
-- `data/processed/lr_differential/manifests/`: reproducibility manifests (`pairs_manifest.csv`, `run_manifest.json`).
-- `data/processed/lr_differential/manifests/quality_summary.csv`: workbook-level validity audit output.
-- `data/processed/lr_differential/manifests/invalid_rows.csv`: row-level invalid/missing LR audit output (repair input).
-- `data/processed/lr_differential/manifests/invalid_rows_<MODEL_ID>.csv`: model-scoped audit output for targeted repair runs.
-- `data/processed/lr_differential/manifests/run_ledger_differential_<MODEL_ID>.csv`: scenario-level resumable run ledger.
-- `data/processed/lr_differential/manifests/logs/<MODEL_ID>/`: scenario-level run logs.
-- `data/processed/lr_one_vs_rest/inputs/`: normalized one-vs-rest schema-sheet workbooks (`<scenario_id>_inputs.xlsx`).
-- `data/processed/lr_one_vs_rest/manifests/schema_priors.csv`: per-schema long-form prior vectors (raw + normalized).
-- `data/processed/lr_one_vs_rest/outputs_by_model/`: model-scoped one-vs-rest outputs (`<MODEL_ID>/<scenario_id>_filled.xlsx`).
-- `data/processed/lr_one_vs_rest/coherent_outputs_by_model/`: model-scoped coherent one-vs-rest outputs (`<MODEL_ID>/<scenario_id>_coherent.xlsx`).
-- `data/processed/lr_one_vs_rest/manifests/`: one-vs-rest manifests (`inputs_manifest.csv`, `run_manifest.json`, `quality_summary.csv`, `invalid_cells.csv`).
-- `data/processed/lr_one_vs_rest/manifests/coherence_projection_*.csv`: projection summaries/top-row deltas/failures for coherent stage.
-- `data/derived/`: final analysis-ready outputs (`.gitkeep` placeholder at present).
-- `data/external/`: external downloaded assets + sidecars (`.gitkeep` placeholder at present).
-- `artifacts/`: generated artifacts (`.gitkeep` placeholder at present).
-- `reports/`: generated report outputs (`.gitkeep` placeholder at present).
-- `notebooks/`: notebook-first analysis workflows (feature extraction, LR estimation, feedback generation).
+Usually the notebook is attached to the wrong interpreter.
 
-Archived historical material:
-- `archive/legacy_runs/`: historical run outputs (predominantly feedback-sheet spreadsheets and LR-estimation exports).
-- `archive/legacy_external/`: older external/model artifacts retained for traceability.
-- `archive/legacy_root_data/`: root-level historical spreadsheets migrated into archive.
-- `archive/local_state/`: legacy local state retained intentionally.
+Fix:
+1. Run `make uv-sync-notebooks`
+2. Run `make notebook-kernel`
+3. In VS Code, switch to `Python (dx-chat-entropy)`
+4. Restart the kernel
 
-Project scaffolding:
-- `.github/workflows/ci.yml`: CI checks (`ruff format --check`, `ruff check`, `pytest`, `audit`).
-- `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`: collaboration templates.
-- `config/config.example.yaml`: example path/config wiring for scripts/notebooks.
-- `stata/`: optional non-interactive Stata template workflow.
+### A script or notebook is still reading from `archive/`
 
-## Working Rules
-- Keep raw inputs immutable; write new outputs to `data/processed/`, `data/derived/`, `artifacts/`, or `reports/`.
-- Keep paths repo-relative (use `src/dx_chat_entropy/paths.py` in Python code).
-- Do not commit secrets or absolute local machine paths.
-- Keep notebook outputs stripped unless intentionally required and documented.
-- Keep comments concise and technical: explain intent/constraints, not obvious syntax.
-- Prefer removing stale commented-out debug code before commit.
-- Visualization and reasoning-evaluation notebooks have been migrated to a dedicated repository (see `docs/DECISIONS.md`).
+Treat that as a migration or legacy-path issue. Active workflows should read from `data/raw/` and write to `data/processed/` unless the workflow is explicitly labeled archival.

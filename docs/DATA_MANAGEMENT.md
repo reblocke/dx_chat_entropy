@@ -9,6 +9,9 @@
 
 ## Pipeline I/O contracts
 For current pipeline purpose, inputs, outputs, and run order, see:
+- `docs/SPECIFICATION.md`
+
+For a shorter pipeline index, see:
 - `docs/PIPELINES.md`
 
 Key active generated paths:
