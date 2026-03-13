@@ -82,7 +82,7 @@ def parse_args() -> argparse.Namespace:
         type=str,
         default="low",
         choices=["minimal", "low", "medium", "high"],
-        help="Reasoning effort for o-series models.",
+        help="Reasoning effort for reasoning-capable models (o-series and GPT-5 chat aliases).",
     )
     parser.add_argument(
         "--outputs-root",
@@ -146,7 +146,8 @@ def estimate_lr(
     }
 
     kwargs: dict[str, object] = {}
-    if model_id.startswith("o"):
+    model_id_lower = model_id.lower()
+    if model_id_lower.startswith("o") or model_id_lower.startswith("gpt-5"):
         kwargs["reasoning_effort"] = reasoning_effort
 
     last_exc: Exception | None = None
