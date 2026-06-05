@@ -1,11 +1,25 @@
 cff-version: 1.2.0
-message: "If you use this code in your research, please cite it."
-title: "dx_chat_entropy"
+message: "If you use this repository, please cite the software version or commit you used."
+title: "dx_chat_entropy: Clinical reasoning entropy and likelihood-ratio workflows"
 type: software
 authors:
   - family-names: "Locke"
-    given-names: "Brian"
-version: 0.1.0
+    given-names: "Brian W."
+    orcid: "https://orcid.org/0000-0002-3588-5238"
+version: "0.1.0"
 date-released: "2026-02-24"
-license: MIT
-repository-code: "https://github.com/<org>/dx_chat_entropy"
+abstract: >-
+  Python research software for estimating, auditing, and comparing likelihood
+  ratios in clinical diagnostic-reasoning workflows, including transcript-based
+  assessment extraction, pairwise differential-diagnosis LR estimation, and
+  one-vs-rest LR estimation with Bayes-coherent projection.
+keywords:
+  - "clinical reasoning"
+  - "diagnostic reasoning"
+  - "likelihood ratios"
+  - "large language models"
+  - "medical education"
+  - "Bayesian reasoning"
+license: "MIT"
+repository-code: "https://github.com/reblocke/dx_chat_entropy"
+url: "https://github.com/reblocke/dx_chat_entropy"

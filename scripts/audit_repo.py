@@ -32,12 +32,58 @@ SECRET_PATTERNS = [
     re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}"),
 ]
 
+STALE_TEXT_PATTERNS = [
+    re.compile(r"github\.com/<org>/dx_chat_entropy"),
+    re.compile(r"LLM and Repository Readiness Notes"),
+    re.compile(r"No publication DOI is assigned to this repository"),
+    re.compile(r"Repository license status: MIT"),
+    re.compile(r"\b(accepted|published)\s+(in|by|at)\s+Scientific Reports\b", re.I),
+]
+
+FORBIDDEN_TRACKED_PARTS = [
+    ".DS_Store",
+    "src/dx_chat_entropy.egg-info/",
+    "archive/legacy_external/",
+    "archive/local_state/",
+    "notebooks/data/",
+    "notebooks/new-dataset.jsonl",
+    "docs/references/ChatBot Team Members & Roles.md",
+]
+
+FORBIDDEN_REFERENCE_SUFFIXES = {
+    ".pdf",
+    ".doc",
+    ".docx",
+    ".ppt",
+    ".pptx",
+}
+
 
 def git_tracked_files(root: Path) -> list[Path]:
     result = subprocess.run(
         ["git", "ls-files"], cwd=root, capture_output=True, text=True, check=True
     )
     return [root / line for line in result.stdout.splitlines() if line.strip()]
+
+
+def relpath(path: Path, root: Path) -> str:
+    return path.relative_to(root).as_posix()
+
+
+def scan_tracked_path(path: Path, root: Path) -> list[str]:
+    relative = relpath(path, root)
+    findings: list[str] = []
+    for forbidden in FORBIDDEN_TRACKED_PARTS:
+        if relative == forbidden.rstrip("/") or relative.startswith(forbidden):
+            findings.append(f"{relative}: forbidden tracked artifact `{forbidden}`")
+    if (
+        relative.startswith("docs/references/")
+        and path.suffix.lower() in FORBIDDEN_REFERENCE_SUFFIXES
+    ):
+        findings.append(
+            f"{relative}: binary/reference artifact should be cited or stored privately"
+        )
+    return findings
 
 
 def scan_text(content: str, path: Path) -> list[str]:
@@ -48,6 +94,9 @@ def scan_text(content: str, path: Path) -> list[str]:
     for pattern in SECRET_PATTERNS:
         if pattern.search(content):
             findings.append(f"{path}: secret-like pattern `{pattern.pattern}`")
+    for pattern in STALE_TEXT_PATTERNS:
+        if pattern.search(content):
+            findings.append(f"{path}: stale or premature-publication text `{pattern.pattern}`")
     return findings
 
 
@@ -88,6 +137,8 @@ def main() -> int:
     findings: list[str] = []
 
     for path in git_tracked_files(root):
+        findings.extend(scan_tracked_path(path, root))
+
         if not path.exists() or path.suffix.lower() not in TEXT_SUFFIXES:
             continue
 

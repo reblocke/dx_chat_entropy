@@ -1,0 +1,98 @@
+# dx_chat_entropy
+
+Repository: https://github.com/reblocke/dx_chat_entropy
+Maintainer: Brian W. Locke, ORCID https://orcid.org/0000-0002-3588-5238
+License: MIT for repository code.
+
+## Purpose
+
+This repository contains Python research software and workflow artifacts for evaluating
+clinical diagnostic-reasoning likelihood ratios generated from scenario matrices,
+chatbot-transcript assessments, pairwise differential-diagnosis prompts, and one-vs-rest
+diagnosis tables.
+
+## Publication Status
+
+The associated manuscript is under journal review. It is not accepted, not published, and
+has no public article DOI, PMID, PMCID, volume, issue, page number, or article number.
+Do not claim a Scientific Reports publication, acceptance, DOI, PMID, or PMCID until those
+metadata appear in a public record and are added in a later PR.
+
+The internal preprint/manuscript draft is private and is not included in this repository.
+Do not mirror manuscript text, reviewer materials, publisher files, or internal drafts here.
+
+Current citation target: cite this GitHub repository, release, or commit using
+`CITATION.cff`.
+
+## Main Workflows
+
+Assessment workflow:
+1. `notebooks/10_assessment_extract_features.ipynb`
+2. `notebooks/11_assessment_estimate_lrs.ipynb`
+
+Differential LR workflow:
+1. `notebooks/20_differential_build_inputs.ipynb`
+2. `scripts/run_differential_batch.py` or `notebooks/21_differential_estimate_lrs.ipynb`
+3. `scripts/audit_differential_outputs.py`
+
+One-vs-rest LR plus coherence workflow:
+1. `scripts/build_one_vs_rest_inputs.py`
+2. `scripts/run_one_vs_rest_batch.py`
+3. `scripts/project_one_vs_rest_coherent_lrs.py`
+4. `scripts/audit_one_vs_rest_outputs.py`
+
+Repository checks:
+
+```bash
+make uv-sync-notebooks
+make fmt
+make lint
+make test
+make audit
+```
+
+## Data And Artifact Boundaries
+
+Public active inputs:
+- `config/lr_differential_scenarios.yaml`
+- `data/raw/lr_matrices/**/*.xlsx`
+- `data/raw/chatbot_transcripts/**/*.pdf`
+- `data/raw/assessment_templates/*.xlsx`
+- selected generated review artifacts in `data/processed/`
+
+Generated outputs:
+- `data/processed/assessments/*.xlsx`
+- `data/processed/lr_differential/inputs/`
+- `data/processed/lr_differential/outputs_by_model/`
+- `data/processed/lr_differential/manifests/`
+- `data/processed/lr_one_vs_rest/inputs/`
+- `data/processed/lr_one_vs_rest/outputs_by_model/`
+- `data/processed/lr_one_vs_rest/coherent_outputs_by_model/`
+- `data/processed/lr_one_vs_rest/manifests/`
+
+Do not commit:
+- `.env` files, API keys, tokens, or credentials
+- private manuscript drafts, internal preprints, reviewer files, or local project notes
+- third-party publisher PDFs or binary reference libraries
+- local machine state, database caches, `.DS_Store`, package metadata, notebook scratch outputs
+- retained notebook outputs unless a notebook is explicitly designed as a checked artifact
+
+For variable and artifact documentation, read `data_dictionary.md` and `data_dictionary.csv`.
+
+## Important Files
+
+- `README.md`: human-facing overview and run commands
+- `CITATION.cff`: repository software citation
+- `AGENTS.md`: coding-agent rules and publication-status guardrails
+- `docs/SPECIFICATION.md`: detailed pipeline contracts
+- `docs/DATA_MANAGEMENT.md`: data placement and provenance rules
+- `scripts/audit_repo.py`: repository policy audit
+- `tests/test_repo_conventions.py`: policy regression tests
+
+## Agent Cautions
+
+Preserve the publication status. Do not infer acceptance from the manuscript-review state.
+Do not add DOI/PMID/PMCID placeholders. Keep source paths repo-relative. Keep API-backed
+outputs separated from secrets. If publication metadata changes, update `README.md`,
+`llms.txt`, `CITATION.cff`, GitHub description/homepage/topics, and any release notes in
+one coordinated PR.

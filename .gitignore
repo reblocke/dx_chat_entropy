@@ -23,6 +23,9 @@ htmlcov/
 
 # Jupyter
 .ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+notebooks/data/
+notebooks/*.jsonl
 
 # OS / editors
 .DS_Store
@@ -58,6 +61,22 @@ config/config.yaml
 
 # Local tool state
 /anaconda_projects/
+/archive/local_state/
 
-# Keep archive tracked intentionally
-# (no ignore rule for /archive)
+# Historical external/cache artifacts that should not be republished from the branch tip
+/archive/legacy_external/
+
+# Binary/private reference materials; document citations/links instead
+docs/references/*.pdf
+docs/references/*.doc
+docs/references/*.docx
+docs/references/*.ppt
+docs/references/*.pptx
+
+# Large or external model/data cache formats
+*.db
+*.hdf
+*.pt
+*.parquet
+*.RData
+*.rdata

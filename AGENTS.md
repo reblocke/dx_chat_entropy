@@ -1,93 +1,70 @@
 # AGENTS.md
 
-This file mirrors project guidance from `CLAUDE.md` and `docs/CLAUDE_WORKFLOW.md`.
+## Project Scope
 
-## Copied from `CLAUDE.md`
+This is a Python-first research repository for clinical diagnostic-reasoning LR workflows.
+The active public code lives under `src/`, `scripts/`, `tests/`, `notebooks/`, `config/`,
+`data/raw/`, and selected review artifacts in `data/processed/`.
 
-# CLAUDE.md
+The associated manuscript is under journal review, not accepted or published. Do not claim
+Scientific Reports acceptance/publication, a DOI, PMID, PMCID, or article metadata until a
+public record exists and the repository is updated deliberately.
 
-## Project overview
-- This repository is a Python-first scientific/clinical reasoning codebase for entropy- and likelihood-ratio-based analysis of chatbot-assisted diagnostic reasoning.
-- Primary language is Python.
-- Priorities:
-  1) Human time (clarity, maintainability)
-  2) Reproducibility
-  3) Performance (only when measured)
+## Authority Hierarchy
 
-## Behavioral guidelines
-### 1) Think before coding
-- State assumptions.
-- Surface ambiguity and tradeoffs.
-- Prefer explicit clarification over silent guessing.
+1. Public repository docs: `README.md`, `llms.txt`, `docs/SPECIFICATION.md`,
+   `docs/DATA_MANAGEMENT.md`, and `docs/DECISIONS.md`
+2. Existing scripts and tests
+3. Notebook wrappers and archived material
 
-### 2) Simplicity first
-- Implement the minimum change that satisfies the request.
-- Avoid speculative abstractions.
+When these disagree, keep the change narrow and document the correction.
 
-### 3) Surgical changes
-- Touch only files needed for the task.
-- Do not refactor unrelated areas without request.
+## Data And Publication Rules
 
-### 4) Goal-driven execution
-- Define concrete verification criteria.
-- Verify behavior with tests/checks.
+- Never commit API keys, `.env` files, credentials, or token-like strings.
+- Do not commit private manuscript drafts, internal preprints, reviewer files, meeting notes,
+  private protocols, or publisher/reference PDFs.
+- Do not add full manuscript Markdown until a public preprint or accepted-author version is
+  explicitly supplied for public release.
+- Keep local paths repo-relative; no absolute user-home paths or machine-specific cloud-sync paths.
+- Preserve raw input immutability. Correct source defects in code or generated layers.
+- Strip notebook outputs unless a notebook is explicitly intended to be a committed artifact.
+- Keep local machine state, package metadata, notebook scratch data, `.DS_Store`, binary model
+  state, and external cache artifacts out of the public branch.
 
-## Authority hierarchy
-1. Study protocol / domain requirements
-2. Repository docs (`README.md`, `docs/DECISIONS.md`, this `CLAUDE.md`)
-3. Existing code/notebooks
+## Workflow Conventions
 
-## Non-negotiables
-- Never commit secrets/credentials.
-- No hard-coded absolute local machine paths in committed notebook/code source.
-- Keep patient or sensitive data out of committed artifacts.
-- Preserve raw input immutability.
-
-## Environment
-- Python >= 3.11
-- Dependency management: `uv` + `pyproject.toml`
-- Lint/format: Ruff
-- Tests: pytest
-
-## Repository structure
-- `src/` importable core utilities
-- `scripts/` thin orchestration / tooling
-- `tests/` checks and policy tests
-- `notebooks/` exploratory/analysis notebooks
-- `reports/` deterministic report outputs
-
-## Data/I-O rules
-- Use `pathlib.Path` and repo-relative paths.
+- Use `uv` and `pyproject.toml` for dependency management.
+- Run commands from the repository root.
+- Prefer scripts as canonical batch entry points; notebooks may wrap or inspect those workflows.
+- Use `pathlib.Path` and explicit input/output paths.
 - Avoid `os.chdir` in committed code.
-- Validate boundary inputs where feasible.
+- Keep model IDs and run outputs visibly separated by model-scoped output directories.
 
-## Reproducibility
-- Keep examples runnable from fresh sessions.
-- Record assumptions in `docs/DECISIONS.md` when non-obvious.
+## Verification Before Handoff
 
-## Tests/checks
-Before handoff, run:
-- `make fmt`
-- `make lint`
-- `make test`
-- `make audit`
+Run the relevant subset for the change:
 
-## Copied from `docs/CLAUDE_WORKFLOW.md`
+```bash
+make fmt
+make lint
+make test
+make audit
+uvx --from cffconvert cffconvert --validate --infile CITATION.cff
+git diff --check
+```
 
-# Coding-agent workflow (Claude Code)
+For documentation-only changes, still run `make audit`, YAML/CFF validation when citation
+metadata changes, and `git diff --check`.
 
-## Default loop
-1. Frame goal, assumptions, constraints, and checks.
-2. Plan the smallest viable change set.
-3. Execute with minimal, reviewable diffs.
-4. Evaluate with `make fmt lint test audit`.
+## Publication Metadata Updates
 
-## Repo-specific rules
-- Follow `CLAUDE.md`.
-- Record non-obvious choices in `docs/DECISIONS.md`.
+When a public paper, preprint, or conference record appears, update these together:
 
-## When stuck
-- Reduce scope.
-- Add a failing test/check.
-- Add diagnostics behind a flag.
-- Document attempted approaches.
+- `README.md`
+- `llms.txt`
+- `CITATION.cff`
+- GitHub repository description, homepage, and topics
+- Any release notes or public package metadata that mention citation status
+
+Do not add placeholders for missing DOI/PMID/PMCID fields.

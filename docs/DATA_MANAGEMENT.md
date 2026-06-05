@@ -5,7 +5,12 @@
 - `data/external/`: downloaded artifacts with provenance sidecars.
 - `data/processed/`: intermediate generated outputs.
 - `data/derived/`: final analysis-ready outputs.
-- `archive/`: historical/legacy data retained in-repo.
+- `archive/`: historical/legacy source code and provenance notes retained in-repo when
+  appropriate.
+
+Do not use the public branch as a storage location for local tool state, external model
+checkpoints, downloaded binary datasets, private manuscript drafts, internal preprints,
+reviewer materials, publisher PDFs, or team/project administration files.
 
 ## Pipeline I/O contracts
 For current pipeline purpose, inputs, outputs, and run order, see:
@@ -18,6 +23,10 @@ Key active generated paths:
 - Differential LR: `data/processed/lr_differential/`
 - One-vs-rest LR: `data/processed/lr_one_vs_rest/`
 - Assessment pipeline: `data/processed/assessments/`
+
+Machine-readable artifact documentation:
+- `data_dictionary.md`
+- `data_dictionary.csv`
 
 Differential runtime artifacts:
 - `data/processed/lr_differential/manifests/invalid_rows_<MODEL_ID>.csv`
@@ -43,3 +52,8 @@ If raw input errors are discovered:
 - do not edit raw file in place
 - add correction in code/pipeline
 - write corrected output to `data/processed` or `data/derived`
+
+## Publication Boundary
+The associated manuscript is under journal review and is not yet a public scholarly record.
+Do not commit private drafts, internal preprints, or publication metadata placeholders. Add
+DOI/PMID/PMCID metadata only after a public record exists.

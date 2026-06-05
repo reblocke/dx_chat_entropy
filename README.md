@@ -1,16 +1,19 @@
 # dx_chat_entropy
 
-`dx_chat_entropy` is a Python-first repository for estimating, auditing, and comparing
-likelihood ratios (LRs) for clinical reasoning tasks from transcripts and scenario spreadsheets.
+[![CI](https://github.com/reblocke/dx_chat_entropy/actions/workflows/ci.yml/badge.svg)](https://github.com/reblocke/dx_chat_entropy/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CITATION.cff](https://img.shields.io/badge/citation-CFF%201.2-blue)](CITATION.cff)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue)](pyproject.toml)
 
-In practice, the repo supports three main jobs:
-1. extract findings and populate assessment sheets,
-2. estimate pairwise differential LRs from scenario spreadsheets, and
-3. estimate one-vs-rest LRs and project them into Bayes-coherent multiclass outputs.
+`dx_chat_entropy` is a Python-first research repository for estimating, auditing, and
+comparing likelihood ratios (LRs) in clinical diagnostic-reasoning tasks. It supports
+transcript-to-assessment workflows, pairwise differential LR estimation, and one-vs-rest LR
+estimation with a Bayes-coherent projection step.
 
-The repository mixes active workflows with archived historical material. For current work,
-use `data/raw/`, `data/processed/`, `scripts/`, and the numbered notebooks. Treat `archive/`
-as provenance unless a workflow explicitly says otherwise.
+The manuscript associated with this work is under journal review. It is not accepted or
+published, and there is no public article DOI, PMID, PMCID, volume, issue, or page/article
+number to cite yet. Until a public scholarly record exists, cite the repository software and
+the commit or release used.
 
 ## Start Here
 
@@ -33,24 +36,66 @@ make audit
 If you use VS Code notebooks, select the kernel `Python (dx-chat-entropy)`.
 Most notebook import problems in this repo are kernel-selection problems rather than missing packages.
 
+## Project Status
+
+This public repository contains research software, public workflow inputs, and generated
+aggregate/model-output artifacts needed to inspect the current analysis workflow. It does
+not contain an accepted manuscript, a public preprint, publisher text, private reviewer
+materials, API keys, or local machine state.
+
+The internal preprint/manuscript draft is intentionally not mirrored here. When a public
+preprint, accepted manuscript, or final article appears, update `README.md`, `llms.txt`,
+`CITATION.cff`, and GitHub metadata in the same pull request.
+
+## Authors, Affiliations, Funding, And COI
+
+Maintainer and corresponding repository contact:
+- Brian W. Locke, MD; ORCID: [0000-0002-3588-5238](https://orcid.org/0000-0002-3588-5238);
+  GitHub: [@reblocke](https://github.com/reblocke)
+
+Author order, affiliations, funding, acknowledgments, and conflicts of interest should be
+taken from the eventual public manuscript record when it exists. Do not infer or publish
+unverified publication metadata from private drafts.
+
 ## Repository Shape
 
-- `data/raw/`: active source spreadsheets, transcripts, and templates
-- `data/processed/`: generated manifests, intermediate workbooks, and model outputs
-- `notebooks/`: interactive entry points, QA, and legacy analysis notebooks
-- `scripts/`: canonical batch runtimes and packaging tools
+- `config/`: scenario registries and workflow configuration
+- `data/raw/`: active public source spreadsheets, transcript PDFs, and assessment templates
+- `data/processed/`: generated manifests, intermediate workbooks, and model outputs retained
+  for review of the current workflow
+- `notebooks/`: interactive entry points, QA notebooks, and older analysis notebooks
+- `scripts/`: canonical batch runtimes, audit tools, and packaging tools
 - `src/dx_chat_entropy/`: shared parsing, runtime, audit, and bundle logic
-- `archive/`: historical inputs, runs, tickets, and legacy outputs
+- `docs/`: specifications, design decisions, pipeline notes, and data-management policy
+- `archive/`: historical source code, run notes, and legacy provenance material that is not
+  part of the active workflow unless explicitly named by a script
 
 In general, the scripts are the canonical batch entry points. The notebooks are for
 interactive execution, QA, or older workflows that are still kept for reference.
 
-## Choose a Workflow
+## Data And Privacy Boundaries
+
+Committed active inputs are clinical-reasoning scenarios, LR matrices, assessment templates,
+and transcript artifacts used by the current workflow. Do not add private manuscript drafts,
+private reviewer materials, personal correspondence, API outputs containing secrets, local
+machine state, or third-party/publisher PDFs.
+
+For machine-readable variable and artifact documentation, see:
+- `data_dictionary.md`
+- `data_dictionary.csv`
+- `docs/SPECIFICATION.md`
+- `docs/DATA_MANAGEMENT.md`
+
+If a raw source has a defect, do not edit it in place. Preserve the raw file and correct the
+issue in code or in a generated output layer.
+
+## Choose A Workflow
 
 If you are not sure which path you need:
 - use the assessment workflow to turn transcripts into assessment workbooks,
 - use the differential workflow when each finding should compare two diagnoses at a time,
-- use the one-vs-rest workflow when you want a full diagnosis-by-finding LR table plus a coherent version of that table.
+- use the one-vs-rest workflow when you want a full diagnosis-by-finding LR table plus a
+  coherent version of that table.
 
 ### 1. Assessment Feature + LR Labeling
 
@@ -70,7 +115,8 @@ Outputs:
 
 ### 2. Differential LR Pipeline
 
-Use this when each scenario should be broken into all diagnosis-pair comparisons and each finding should receive a differential LR for that pair.
+Use this when each scenario should be broken into all diagnosis-pair comparisons and each
+finding should receive a differential LR for that pair.
 
 Run order:
 1. `notebooks/20_differential_build_inputs.ipynb`
@@ -102,12 +148,16 @@ Outputs:
 
 Notes:
 - The model ID in the example is illustrative; swap in the model you actually want to run.
-- `21_differential_estimate_lrs.ipynb` is the interactive wrapper around the same runtime logic used by the script.
-- `22_differential_prepare_inputs_qa.ipynb` is for inspection and QA, not the canonical transformation step.
+- `21_differential_estimate_lrs.ipynb` is the interactive wrapper around the same runtime
+  logic used by the script.
+- `22_differential_prepare_inputs_qa.ipynb` is for inspection and QA, not the canonical
+  transformation step.
 
 ### 3. One-vs-Rest LR + Coherence Pipeline
 
-Use this when you want a full LR table for each diagnosis versus all others in a scenario, followed by a coherence step that converts independently estimated one-vs-rest LRs into a Bayes-coherent multiclass version.
+Use this when you want a full LR table for each diagnosis versus all others in a scenario,
+followed by a coherence step that converts independently estimated one-vs-rest LRs into a
+Bayes-coherent multiclass version.
 
 Run order:
 1. `scripts/build_one_vs_rest_inputs.py`
@@ -162,9 +212,13 @@ Outputs:
 
 Notes:
 - The model ID in the example is illustrative; swap in the model you actually want to run.
-- The coherence step is a separate local projection stage. It does not overwrite the raw one-vs-rest outputs.
-- `notebooks/32_one_vs_rest_project_coherent_lrs.ipynb` is a notebook wrapper for the coherence projection over existing raw outputs.
-- `notebooks/30_one_vs_rest_estimate_lrs.ipynb` and `notebooks/31_one_vs_rest_compare_lr_estimates.ipynb` are the older comparison workflow, not the canonical batch runtime.
+- The coherence step is a separate local projection stage. It does not overwrite the raw
+  one-vs-rest outputs.
+- `notebooks/32_one_vs_rest_project_coherent_lrs.ipynb` is a notebook wrapper for the
+  coherence projection over existing raw outputs.
+- `notebooks/30_one_vs_rest_estimate_lrs.ipynb` and
+  `notebooks/31_one_vs_rest_compare_lr_estimates.ipynb` are the older comparison workflow,
+  not the canonical batch runtime.
 
 ## Review Bundles
 
@@ -172,26 +226,52 @@ For external review or handoff:
 - Differential pipeline: `scripts/run_differential_and_package.sh`
 - One-vs-rest pipeline: `scripts/package_one_vs_rest_review_bundle.py`
 
-These packages are meant to ship the relevant code, manifests, and outputs for a workflow. They are not full-repository snapshots.
+These packages are meant to ship the relevant code, manifests, and outputs for a workflow.
+They are not full-repository snapshots and should not include private manuscript drafts,
+API keys, or local system state.
 
-## Where Data Should Live
+## Dependencies
 
-- Put active source spreadsheets in `data/raw/`.
-- Put generated workbooks and manifests in `data/processed/`.
-- Keep final analysis artifacts in `data/derived/`, `reports/`, or `artifacts/` as appropriate.
-- Keep historical material in `archive/`.
+Core package dependencies are declared in `pyproject.toml`. Use the `notebooks` dependency
+group for model-backed notebook and batch runs.
 
-If a raw source has a defect, do not edit it in place. Preserve the raw file and correct the issue in code or in a generated output layer.
+| Use | Command | Notes |
+| --- | --- | --- |
+| Core development | `uv sync` | Installs package, tests, and lint tooling. |
+| Notebook/model workflows | `make uv-sync-notebooks` | Installs the `notebooks` dependency group. |
+| Notebook kernel | `make notebook-kernel` | Registers `Python (dx-chat-entropy)`. |
+| Repository checks | `make fmt && make lint && make test && make audit` | Run before PRs. |
 
 ## Documentation Map
 
 Use the document that matches the question:
+- `llms.txt`: compact machine-readable index for LLMs and search systems
 - `README.md`: what this repo does, which workflow to choose, and how to run it
+- `data_dictionary.md` and `data_dictionary.csv`: source, derived, and output artifact dictionary
 - `docs/SPECIFICATION.md`: detailed pipeline contracts, artifact paths, manifests, and review-bundle scope
 - `docs/PIPELINES.md`: short index of current pipelines and notebook/script order
 - `docs/DATA_MANAGEMENT.md`: active-vs-archive data placement and provenance rules
 - `docs/DECISIONS.md`: non-obvious design and policy decisions
 - `AGENTS.md`: project-specific coding-agent instructions
+
+## Citation
+
+Until a public paper, preprint, or conference record exists, cite the repository software:
+
+```text
+Locke BW. dx_chat_entropy: Clinical reasoning entropy and likelihood-ratio workflows.
+GitHub. https://github.com/reblocke/dx_chat_entropy. Commit or release used.
+```
+
+Machine-readable citation metadata are in `CITATION.cff`. Do not add a
+`preferred-citation` for the manuscript until the public scholarly record exists.
+
+## License
+
+Repository code is released under the MIT License. Third-party materials, clinical source
+documents, private drafts, publisher artifacts, and externally supplied data remain under
+their original terms and should not be copied into the public branch unless their public
+license and provenance are documented.
 
 ## Common Problems
 
@@ -207,52 +287,11 @@ Fix:
 
 ### A script or notebook is still reading from `archive/`
 
-Treat that as a migration or legacy-path issue. Active workflows should read from `data/raw/` and write to `data/processed/` unless the workflow is explicitly labeled archival.
+Treat that as a migration or legacy-path issue. Active workflows should read from
+`data/raw/` and write to `data/processed/` unless the workflow is explicitly labeled archival.
 
-## LLM and Repository Readiness Notes
+## Contact
 
-### Description
-Code to analyze clinical-reasoning efficiency via chatbot interactions
-
-### Instructions
-Start with this README, then inspect the files listed under Repository Layout. For computational workflows, run commands from the repository root and avoid committing generated outputs unless a release explicitly calls for them.
-
-### Authors, Funding, and Acknowledgments
-Maintainer: Brian W. Locke (`@reblocke`, ORCID 0000-0002-3588-5238). Preserve any project-specific author, funding, and acknowledgment details already listed elsewhere in the repository or accompanying publication.
-
-### Repository Layout
-- `.claude/settings.json`
-- `.editorconfig`
-- `.pre-commit-config.yaml`
-- `.python-version`
-- `AGENTS.md`
-- `CITATION.cff`
-- `CLAUDE.md`
-- `CONTRIBUTING.md`
-- `LICENSE`
-- `Makefile`
-- `README.md`
-- `archive/extract_nnt_lrs.ipynb`
-- `archive/lr_estimator_single_disease.py`
-- `artifacts/.gitkeep`
-
-### Data and Codebook
-Chat data may be sensitive; verify no private transcripts
-
-### Workflow / Script Order
-Run Python smoke checks
-
-### Dependencies / Environment
-Python dependency metadata
-
-### Citation
-No publication DOI is assigned to this repository. Cite the GitHub repository URL and the commit or release used.
-
-### License
-Repository license status: MIT. See the root license file when present. Third-party and publisher materials remain under their original terms.
-
-### Manuscript Status
-No manuscript version expected Code and derived analysis text owned by repo author
-
-### Contact
-Maintainer: Brian W. Locke (`@reblocke`). Use GitHub issues or pull requests for repository-specific questions when the repository is public.
+Use GitHub issues or pull requests for repository-specific questions. For publication or
+data-access questions, contact Brian W. Locke through the contact route listed on his
+public GitHub profile or CV.
