@@ -14,12 +14,14 @@ Public active inputs:
 - assessment templates under `data/raw/assessment_templates/`
 - chatbot transcript PDFs under `data/raw/chatbot_transcripts/`
 - scenario configuration in `config/lr_differential_scenarios.yaml`
+- feedback-generation specification in `config/feedback_generation.yaml`
 
 Public generated/review artifacts:
 - assessment workbooks under `data/processed/assessments/`
 - differential input/output workbooks and manifests under `data/processed/lr_differential/`
 - one-vs-rest input/output workbooks and manifests under `data/processed/lr_one_vs_rest/`
 - review bundles under `artifacts/packages/` when deliberately generated for handoff
+- deterministic synthetic feedback fixtures under `tests/fixtures/feedback/`
 
 Excluded from public branch:
 - private manuscript drafts or internal preprints
@@ -27,6 +29,7 @@ Excluded from public branch:
 - API keys and `.env` files
 - third-party publisher/reference PDFs
 - local cache databases, package metadata, `.DS_Store`, model checkpoint blobs, and notebook scratch data
+- real feedback manifests, ledgers, per-attempt records, responses, and workbooks
 
 ## Core Artifact Families
 
@@ -43,6 +46,10 @@ Excluded from public branch:
 | One-vs-rest prior manifest | `data/processed/lr_one_vs_rest/manifests/schema_priors.csv` | one diagnosis prior within a scenario schema | Source for coherence projection. |
 | One-vs-rest model output workbook | `data/processed/lr_one_vs_rest/outputs_by_model/<model_id>/*.xlsx` | one model-filled scenario workbook | Raw one-vs-rest LR estimates. |
 | Coherent one-vs-rest workbook | `data/processed/lr_one_vs_rest/coherent_outputs_by_model/<model_id>/*.xlsx` | one projected scenario workbook | Bayes-coherent projection of raw one-vs-rest LRs. |
+| Feedback specification | `config/feedback_generation.yaml` | one versioned feedback request inventory | Freezes diagnoses, categories, prompts, response schemas, and runtime defaults. |
+| Feedback request manifest | `artifacts/feedback_sheets/runs/<run_id>/manifest.csv` | one provider request | Local ignored deterministic request inventory created before provider execution. |
+| Feedback response record | `artifacts/feedback_sheets/runs/<run_id>/responses/<request_id>.json` | one validated provider response | Local ignored parsed payload plus identity hashes and safe metadata. |
+| Feedback workbook manifest | `artifacts/feedback_sheets/runs/<run_id>/workbook_manifest.json` | one materialized workbook | Records workbook hash, shape, source request IDs, and complete/partial status. |
 
 ## Key Manifest Fields
 
@@ -63,6 +70,12 @@ Excluded from public branch:
 | `model_id` | Model/run identifier used to scope outputs and quality summaries. |
 | `passes` | Boolean quality flag in audit summaries. |
 | `invalid_reason` | Audit explanation for a failed or unparseable LR cell. |
+| `run_id` | Content-addressed feedback run identifier; recomputations add an `_rNNN` suffix. |
+| `request_id` | Stable identifier derived from output-affecting request semantics, including the relative workbook destination and sheet; absolute output roots and runtime controls are excluded. |
+| `prompt_sha256` | SHA-256 of the complete ordered normalized message payload. |
+| `response_payload_sha256` | SHA-256 of the validated structured feedback payload. |
+| `status` | Mutable feedback ledger state: pending, running, success, invalid, transient_failure, permanent_failure, or skipped_existing. |
+| `partial` | Whether a feedback workbook was explicitly materialized with missing/invalid source requests. |
 
 ## Value Conventions
 

@@ -1,0 +1,209 @@
+{
+  "schema_version": "feedback-config-v1",
+  "prompt_schema_version": "feedback-prompts-v1",
+  "response_schema_version": "feedback-response-v1",
+  "correct_diagnosis": "CREST syndrome with Type 2 Achalasia",
+  "diagnoses": [
+    "CREST syndrome with Type 2 Achalasia",
+    "Scleroderma",
+    "Esophageal stricture",
+    "Food impaction",
+    "Mixed Connective Tissue Disease",
+    "Achalasia (type 1)",
+    "Eosinophilic esophagitis",
+    "Acute Coronary Syndrome",
+    "Stable Angina",
+    "Esophageal spasm a.k.a Jackhammer Esophagus",
+    "Esophageal adenocarcinoma",
+    "Esophageal squamous cell carcinoma",
+    "Musculoskeletal chest pain",
+    "GERD",
+    "Zenker's diverticulum",
+    "Polymyositis",
+    "Dermatomyositis",
+    "Chagas Disease",
+    "Anxiety",
+    "Arrhythmia",
+    "Aortic dissection",
+    "Pericarditis",
+    "Extrinsic compressing mass on esophagus",
+    "Rheumatoid Athritis",
+    "Sarcoidosis",
+    "Pill esophagitis",
+    "Myasthenia gravis",
+    "Gastroparesis"
+  ],
+  "categories": [
+    {
+      "key": "hpi",
+      "description": "History of Present Illness (the description from the onset of symptoms up to and including the patient's present experience)",
+      "details": [
+        {"finding": "Pain relieved with regurgitation", "status": "present"},
+        {"finding": "Raynauds phenomenon reported", "status": "present"},
+        {"finding": "Telangiectasias reported", "status": "present"},
+        {"finding": "Hand pain out of proportion to other joints", "status": "present"},
+        {"finding": "Current heartburn", "status": "present"},
+        {"finding": "Current reflux", "status": "present"},
+        {"finding": "Long-standing heartburn (duration of years)", "status": "present"},
+        {"finding": "Long-standing reflux (duration of years)", "status": "present"},
+        {"finding": "Pain previously better with antacids", "status": "absent"},
+        {"finding": "Antacids no longer providing relief", "status": "present"},
+        {"finding": "Difficulty swallowing liquids", "status": "present"},
+        {"finding": "Difficulty swallowing solids", "status": "present"},
+        {"finding": "Non-progressive dysphagia: liquids throughout difficulty swallowing", "status": "present"},
+        {"finding": "Weight loss reported", "status": "present"},
+        {"finding": "Hoarse voice reported", "status": "absent"},
+        {"finding": "Cough reported", "status": "absent"},
+        {"finding": "Globus sensation", "status": "absent"},
+        {"finding": "Epigastric pain or dyspepsia reported", "status": "absent"},
+        {"finding": "Shortness of breath", "status": "absent"},
+        {"finding": "Hand thickness reported", "status": "absent"},
+        {"finding": "Finger ulcers reported", "status": "absent"},
+        {"finding": "Weakness reported", "status": "absent"},
+        {"finding": "Intermittent temporal pattern (not constant) of symptoms", "status": "absent"},
+        {"finding": "Tightness (character of pain)", "status": "present"},
+        {"finding": "duration of 3 months of increased frequency of chest pain", "status": "absent"},
+        {"finding": "duration of 3 months of food getting stuck", "status": "present"},
+        {"finding": "Onset of chest pain associated with eating food", "status": "present"},
+        {"finding": "Exertion makes it worse (without clarifying within an hour of eating)", "status": "absent"},
+        {"finding": "Exertion makes it worse for more than an hour after eating", "status": "absent"},
+        {"finding": "Pain worse when lying down (positional)", "status": "present"},
+        {"finding": "Pain when swallowing (aka odynophagia)", "status": "present"},
+        {"finding": "Bloating with intermittent upper abdominal pain reported", "status": "present"},
+        {"finding": "Reports pain location is behind sternum, middle of chest", "status": "present"},
+        {"finding": "diaphoresis", "status": "absent"},
+        {"finding": "decreased exercise over the last 3 months", "status": "absent"},
+        {"finding": "onset of symptoms in the last 24 hours (not acute or hyperacute)", "status": "absent"},
+        {"finding": "Radiation of pain to the back", "status": "absent"},
+        {"finding": "Nausea and/or vomiting", "status": "absent"},
+        {"finding": "Early satiety", "status": "absent"},
+        {"finding": "Dry eye reported", "status": "absent"},
+        {"finding": "Red eye reported", "status": "absent"},
+        {"finding": "Neck masses or fullness reported", "status": "absent"},
+        {"finding": "Pleuritic character of the pain", "status": "absent"},
+        {"finding": "Sharp character of the pain", "status": "absent"},
+        {"finding": "Stabbing character of the pain", "status": "absent"},
+        {"finding": "Pain is reproducible with arm movements", "status": "absent"},
+        {"finding": "Spasmodic character of pain", "status": "absent"},
+        {"finding": "Palpitations", "status": "absent"},
+        {"finding": "Halitosis reported", "status": "absent"},
+        {"finding": "Recent injuries reported", "status": "absent"},
+        {"finding": "Vision changes reported", "status": "absent"},
+        {"finding": "Multiple symmetric joints hurt", "status": "present"},
+        {"finding": "Morning stiffness", "status": "absent"},
+        {"finding": "Joint swelling reported", "status": "absent"},
+        {"finding": "Enlargement of knuckles, finger deformities, or deviation of fingers reported", "status": "absent"}
+      ]
+    },
+    {
+      "key": "hist",
+      "description": "Past Medical History, current medications, and Past Surgical History (a description of previously established diagnoses, as well as there treatments like medications and therapeutic procedures)",
+      "details": [
+        {"finding": "Alcohol use disorder", "status": "absent"},
+        {"finding": "Nicotine dependence", "status": "absent"},
+        {"finding": "Prior treatment with radiation to the neck, arm, or jaw", "status": "absent"},
+        {"finding": "Previously diagnosed Coronary Artery Disease", "status": "absent"},
+        {"finding": "Prevopis;u doagmpsed Peripheral Artery Disease", "status": "absent"},
+        {"finding": "Previously diagnosed Hyperlipidemia", "status": "absent"},
+        {"finding": "prior myocardial infarction", "status": "absent"},
+        {"finding": "type 2 diabetes", "status": "absent"},
+        {"finding": "obesity", "status": "absent"},
+        {"finding": "prior stroke", "status": "absent"},
+        {"finding": "diagnosed hypertension", "status": "present"},
+        {"finding": "recent medication changes", "status": "absent"},
+        {"finding": "takes amlodipine", "status": "present"},
+        {"finding": "Female", "status": "present"},
+        {"finding": "middle age", "status": "present"},
+        {"finding": "Environmental allergies", "status": "absent"},
+        {"finding": "Asthma", "status": "absent"},
+        {"finding": "Eczema", "status": "absent"}
+      ]
+    },
+    {
+      "key": "soc",
+      "description": "Social History, Health Behaviors, and Family History (a description of the social - e.g. does the patient participate in activities that increase risk? - and genetic - e.g. does it run in the family? - context of disease",
+      "details": [
+        {"finding": "Family history of Rheumatoid Arthritis", "status": "absent"},
+        {"finding": "Alcohol use", "status": "absent"},
+        {"finding": "Current tobacco use", "status": "absent"},
+        {"finding": "Prior tobacco use", "status": "present"},
+        {"finding": "family history of myocardial infarction in father", "status": "present"},
+        {"finding": "Recent social stress", "status": "present"},
+        {"finding": "Recent Travel", "status": "absent"},
+        {"finding": "Family history of cancer", "status": "absent"},
+        {"finding": "Recent medical procedure", "status": "absent"},
+        {"finding": "Gestational complications with prior pregnancy", "status": "absent"}
+      ]
+    },
+    {
+      "key": "obj",
+      "description": "Vitals and Physical Exam (a description of the objective measurements and findings a doctor would expect to see with a thorough physical exam)",
+      "details": [
+        {"finding": "Raynauds phenomennon on exam", "status": "absent"},
+        {"finding": "Telangiectasias on exam", "status": "present"},
+        {"finding": "Weight loss on vitals", "status": "present"},
+        {"finding": "Hoarse voice observed", "status": "absent"},
+        {"finding": "Cough observed", "status": "absent"},
+        {"finding": "Epigastric pain on palpation", "status": "absent"},
+        {"finding": "Hand thickening observed", "status": "absent"},
+        {"finding": "Finger ulcers observed", "status": "absent"},
+        {"finding": "Weakness on exam", "status": "absent"},
+        {"finding": "obesity by vital signs", "status": "absent"},
+        {"finding": "high blood pressure when checked", "status": "absent"},
+        {"finding": "Red eye observed", "status": "absent"},
+        {"finding": "Neck masses or fullness observed", "status": "absent"},
+        {"finding": "Halitosis observed", "status": "absent"},
+        {"finding": "Joint swelling observed", "status": "absent"},
+        {"finding": "Enlargement of knuckles, finger deformities, or deviation of fingers", "status": "absent"},
+        {"finding": "Rheumatoid nodules", "status": "absent"}
+      ]
+    },
+    {
+      "key": "test",
+      "description": "Test Results (labs, imaging, procedures, etc.)",
+      "details": [
+        {"finding": "Hyperlipidemia on lab testing", "status": "present"},
+        {"finding": "ANA strong positive", "status": "absent"},
+        {"finding": "MBS shows aspiration", "status": "absent"},
+        {"finding": "CT shows ILD", "status": "absent"},
+        {"finding": "CXR shows widened mediastinum", "status": "absent"}
+      ]
+    },
+    {
+      "key": "subjective-and-historical",
+      "description": "Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    ",
+      "detail_sources": ["hpi", "hist", "soc"]
+    }
+  ],
+  "default_category_mode": "only_overall",
+  "enabled_surfaces": [
+    "overall/general",
+    "overall/specific",
+    "differential/general",
+    "differential/specific"
+  ],
+  "default_model_profile": "o3-mini",
+  "model_profiles": {
+    "o3-mini": {
+      "model_id": "o3-mini-2025-01-31",
+      "settings": {"reasoning_effort": "high"}
+    },
+    "4o": {
+      "model_id": "gpt-4o-2024-08-06",
+      "settings": {"temperature": 0}
+    },
+    "4o-mini": {
+      "model_id": "gpt-4o-mini-2024-07-18",
+      "settings": {"temperature": 0}
+    }
+  },
+  "output_root": "artifacts/feedback_sheets/runs",
+  "runtime_defaults": {
+    "max_workers": 4,
+    "request_timeout_seconds": 120.0,
+    "max_attempts": 3,
+    "retry_initial_delay_seconds": 1.0,
+    "retry_max_delay_seconds": 30.0,
+    "retry_jitter_fraction": 0.25
+  }
+}

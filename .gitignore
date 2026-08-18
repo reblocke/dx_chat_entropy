@@ -51,6 +51,9 @@ config/config.yaml
 
 /artifacts/*
 !/artifacts/.gitkeep
+# Feedback manifests, ledgers, attempts, responses, and workbooks are local model-run
+# artifacts. Commit only deterministic synthetic fixtures under tests/fixtures/feedback/.
+/artifacts/feedback_sheets/
 
 /reports/*
 !/reports/.gitkeep
