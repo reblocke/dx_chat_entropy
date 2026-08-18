@@ -2047,6 +2047,31 @@ def test_openai_adapter_uses_injected_client_and_structured_parse_only(
     assert result.provider_response_id == "chatcmpl-fake"
 
 
+def test_direct_cli_real_run_requires_explicit_paid_confirmation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    namespace = runpy.run_path(str(REPO_ROOT / "scripts" / "run_feedback_pipeline.py"))
+    main = namespace["main"]
+    monkeypatch.setenv("OPENAI_API_KEY", SECRET_SENTINEL)
+    monkeypatch.delenv("CONFIRM_PAID_RUN", raising=False)
+
+    exit_code = main(
+        [
+            "--repo-root",
+            str(REPO_ROOT),
+            "run",
+            "--runs-root",
+            str(tmp_path / "runs"),
+        ]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 2
+    assert "CONFIRM_PAID_RUN=1" in captured.err
+    assert SECRET_SENTINEL not in captured.err
+
+
 def test_smoke_command_proves_bounded_concurrency_resume_and_atomic_latest_pointer(
     tmp_path: Path,
     capsys: pytest.CaptureFixture[str],

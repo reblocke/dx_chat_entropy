@@ -740,6 +740,7 @@ dev = [
     { name = "ipykernel" },
     { name = "nbconvert" },
     { name = "pre-commit" },
+    { name = "pydantic" },
     { name = "pytest" },
     { name = "ruff" },
 ]
@@ -795,6 +796,7 @@ dev = [
     { name = "ipykernel", specifier = ">=7.2.0" },
     { name = "nbconvert", specifier = ">=7.17.0" },
     { name = "pre-commit", specifier = ">=3.7" },
+    { name = "pydantic", specifier = ">=2.12" },
     { name = "pytest", specifier = ">=8.2" },
     { name = "ruff", specifier = ">=0.15.1" },
 ]

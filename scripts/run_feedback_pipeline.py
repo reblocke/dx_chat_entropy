@@ -214,6 +214,10 @@ def _run_command(args: argparse.Namespace, repo_root: Path, modules: Mapping[str
     )
     adapter = None
     if not args.dry_run:
+        if os.environ.get("CONFIRM_PAID_RUN") != "1":
+            raise RuntimeError(
+                "Refusing paid run: set CONFIRM_PAID_RUN=1 after reviewing the request manifest"
+            )
         api_key = os.environ.get("OPENAI_API_KEY")
         if not api_key:
             raise RuntimeError("OPENAI_API_KEY must be set for a real feedback run")
