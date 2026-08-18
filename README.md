@@ -20,7 +20,7 @@ the commit or release used.
 Prerequisites:
 - Python 3.11+
 - `uv`
-- `OPENAI_API_KEY` in your environment or `.env` for model-backed runs
+- `OPENAI_API_KEY` exported in the process environment for real OpenAI-backed runs
 
 Initial setup:
 
@@ -219,6 +219,46 @@ Notes:
 - `notebooks/30_one_vs_rest_estimate_lrs.ipynb` and
   `notebooks/31_one_vs_rest_compare_lr_estimates.ipynb` are the older comparison workflow,
   not the canonical batch runtime.
+
+### 4. Restartable Feedback Generation
+
+Use this workflow to generate ranked information-gathering feedback across the frozen
+CREST/achalasia diagnosis inventory. The script builds every request before execution,
+checkpoints one validated response per request, resumes by request identity, and creates
+Excel workbooks only from stored validated records.
+
+Safe local validation makes no network or paid provider call:
+
+```bash
+make feedback-manifest
+make feedback-smoke
+make feedback-materialize
+make feedback-audit
+```
+
+The default manifest contains 110 requests over the combined subjective/historical
+category. The expanded six-category contract contains 660 requests. Runtime artifacts live
+under `artifacts/feedback_sheets/runs/<run_id>/` and are ignored by Git.
+
+A real provider run is deliberately cost-gated:
+
+```bash
+export OPENAI_API_KEY="..."
+CONFIRM_PAID_RUN=1 make feedback-run
+```
+
+The feedback CLI reads `OPENAI_API_KEY` from the process environment; it does not load
+`.env` automatically. If you keep the key in a local ignored `.env`, source that file into
+the shell before running the command. Manifest, smoke, materialization, and audit commands
+do not require an API key and make no provider call.
+
+Use `scripts/run_feedback_pipeline.py run --help` for request filters, worker limits, and
+`skip_passing`, `repair_invalid`, or `recompute` behavior. The default is four workers and
+`skip_passing`. `notebooks/feedback_generator.ipynb` only inspects local configuration and
+run summaries; it never calls a provider.
+
+Feedback rankings and explanations are model outputs for research review. They are not
+empirical clinical evidence, reference-standard labels, or patient-care recommendations.
 
 ## Review Bundles
 

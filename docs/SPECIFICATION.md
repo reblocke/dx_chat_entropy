@@ -193,7 +193,93 @@ uv run --group notebooks python scripts/project_one_vs_rest_coherent_lrs.py \
 
 This allows coherent projection over existing raw one-vs-rest outputs without rerunning LLM estimation.
 
-### 4. One-vs-Rest Agreement Visualization Pipeline (Archive)
+### 4. Restartable Feedback-Generation Pipeline
+
+Purpose:
+- Generate ranked overall and pairwise information-gathering feedback from a frozen,
+  versioned clinical prompt contract.
+- Separate deterministic request planning, provider execution, response validation,
+  workbook materialization, and artifact audit.
+
+Canonical order:
+1. `scripts/run_feedback_pipeline.py manifest`
+2. `scripts/run_feedback_pipeline.py run`
+3. `scripts/run_feedback_pipeline.py materialize`
+4. `scripts/run_feedback_pipeline.py audit`
+
+No-network end-to-end validation uses `scripts/run_feedback_pipeline.py smoke`.
+
+Primary tracked input:
+- `config/feedback_generation.yaml`
+
+Local ignored outputs:
+
+```text
+artifacts/feedback_sheets/runs/<run_id>/
+  manifest.csv
+  manifest_summary.json
+  run_metadata.json
+  run_ledger.csv
+  attempts/<request_id>/<attempt>.json
+  responses/<request_id>.json
+  invalid_requests.csv
+  quality_summary.json
+  workbooks/<legacy-surface-directory>/*.xlsx
+  workbook_manifest.json
+```
+
+Request inventory:
+- Four surfaces: overall/general, overall/specific, differential/general, and
+  differential/specific.
+- The default combined subjective/historical category creates `28 + 28 + 27 + 27 = 110`
+  requests.
+- Expanded mode preserves the six notebook categories and creates 660 requests.
+- Request and materialization order are independent of provider completion order.
+
+Identity contract:
+- `prompt_sha256` hashes canonical compact JSON for the complete ordered system/user
+  messages after CRLF/CR-to-LF normalization only.
+- `request_id` includes surface, ordered diagnosis/category semantics, prompt hash, schema
+  versions, response type, exact model profile/settings, and output-affecting relative
+  workbook destination and sheet name. It excludes absolute output roots, timestamps,
+  timeouts, retries, and worker counts.
+- `run_fingerprint` hashes the ordered request IDs and inventory/schema selection. The base
+  run ID is `fb_<first-24-fingerprint-characters>`.
+- Rebuilding an identical base manifest is idempotent. Identity disagreement fails closed.
+  `recompute` creates the next `_rNNN` run directory without changing request IDs.
+
+Runtime contract:
+- One provider client/adapter is created per process. The default OpenAI profile remains
+  `o3-mini-2025-01-31` with high reasoning effort; no model or parameter fallback is allowed.
+- Real OpenAI execution requires `OPENAI_API_KEY` in the process environment. The CLI does
+  not load `.env` automatically; manifest, smoke, materialization, and audit remain
+  credential-free and make no provider call.
+- Execution uses a sliding window capped by `--max-workers` (default 4; 1 is supported).
+- Only rate-limit, timeout, connection, and retryable HTTP failures receive bounded retries.
+  Provider retry guidance takes precedence over capped exponential backoff with jitter.
+- The immutable manifest starts at pending. Mutable ledger states are `pending`, `running`,
+  `success`, `invalid`, `transient_failure`, `permanent_failure`, and `skipped_existing`.
+- `skip_passing` revalidates every identity and payload hash before skipping.
+  `repair_invalid` selects only invalid/failed requests before deterministic filters/caps.
+- Writes use same-directory temporary files followed by atomic replacement. No raw provider
+  body, header, exception, key, or client object is serialized.
+
+Materialization and audit contract:
+- Full materialization preflights all required responses and writes nothing when any are
+  missing or invalid.
+- Complete workbooks preserve the legacy filenames, directories, sheet/column order, and
+  five data rows. Partial output requires `--allow-partial`, adds `_PARTIAL` to the filename,
+  and includes an `INCOMPLETE` sheet naming missing/invalid request IDs.
+- XLSX metadata and ZIP timestamps/order are canonicalized for byte-stable repeated output.
+- `workbook_manifest.json` records file hashes, dimensions, sheets, ordered request IDs,
+  model/run identity, and completeness.
+- Audit validates request/response identity, hashes, ledger consistency, temporary files,
+  workbook contracts, partial labels, and secret/header patterns without network access.
+
+The generated rankings are model outputs, not empirical clinical evidence. Real run
+artifacts remain ignored and must not be published without explicit review and approval.
+
+### 5. One-vs-Rest Agreement Visualization Pipeline (Archive)
 
 Purpose:
 - Compare archived one-vs-rest LR outputs across models using KDE and Bland-Altman diagnostics.
@@ -270,10 +356,10 @@ Outputs:
 ### `notebooks/feedback_generator.ipynb`
 
 Purpose:
-- Generate feedback sheets from in-notebook diagnosis/category definitions.
+- Inspect the canonical feedback configuration and existing local run summaries.
 
 Outputs:
-- `artifacts/feedback_sheets/<date>_<model>_feedback_sheets/*.xlsx`
+- none; provider execution and workbook generation are script-only
 
 ## Notebook Inventory
 
@@ -302,8 +388,8 @@ Outputs:
   - Inputs: raw one-vs-rest outputs plus `schema_priors.csv`
   - Outputs: coherent one-vs-rest outputs plus projection diagnostics
 - `notebooks/feedback_generator.ipynb`
-  - Inputs: in-notebook definitions and API responses
-  - Outputs: feedback spreadsheets under `artifacts/feedback_sheets/`
+  - Inputs: `config/feedback_generation.yaml` and optional local run summaries
+  - Outputs: none
 
 ## Repository and Data Map
 
@@ -327,6 +413,8 @@ Data:
 - `data/processed/lr_differential/`: differential inputs, outputs, manifests, logs
 - `data/processed/lr_one_vs_rest/`: normalized inputs, raw outputs, coherent outputs, manifests
 - `data/processed/assessments/`: assessment pipeline outputs
+- `artifacts/feedback_sheets/runs/`: ignored feedback manifests, response records, ledgers,
+  workbooks, and audits
 - `archive/`: historical-only runs, spreadsheets, and legacy data
 
 Generated artifact contracts:
@@ -335,6 +423,8 @@ Generated artifact contracts:
 - One-vs-rest coherent outputs live under `data/processed/lr_one_vs_rest/coherent_outputs_by_model/<MODEL_ID>/`
 - Differential audit targets live under `data/processed/lr_differential/manifests/`
 - One-vs-rest audit and coherence diagnostics live under `data/processed/lr_one_vs_rest/manifests/`
+- Feedback run artifacts live under `artifacts/feedback_sheets/runs/<run_id>/` and are not
+  public branch artifacts
 
 ## Usage Rules
 

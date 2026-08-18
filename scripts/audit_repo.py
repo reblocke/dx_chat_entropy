@@ -48,6 +48,7 @@ FORBIDDEN_TRACKED_PARTS = [
     "notebooks/data/",
     "notebooks/new-dataset.jsonl",
     "docs/references/ChatBot Team Members & Roles.md",
+    "artifacts/feedback_sheets/",
 ]
 
 FORBIDDEN_REFERENCE_SUFFIXES = {

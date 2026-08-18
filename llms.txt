@@ -41,6 +41,15 @@ One-vs-rest LR plus coherence workflow:
 3. `scripts/project_one_vs_rest_coherent_lrs.py`
 4. `scripts/audit_one_vs_rest_outputs.py`
 
+Restartable feedback-generation workflow:
+1. `scripts/run_feedback_pipeline.py manifest`
+2. `scripts/run_feedback_pipeline.py run`
+3. `scripts/run_feedback_pipeline.py materialize`
+4. `scripts/run_feedback_pipeline.py audit`
+
+Use `scripts/run_feedback_pipeline.py smoke` for a deterministic no-network end-to-end run.
+`notebooks/feedback_generator.ipynb` is inspection-only.
+
 Repository checks:
 
 ```bash
@@ -69,6 +78,7 @@ Generated outputs:
 - `data/processed/lr_one_vs_rest/outputs_by_model/`
 - `data/processed/lr_one_vs_rest/coherent_outputs_by_model/`
 - `data/processed/lr_one_vs_rest/manifests/`
+- local ignored feedback artifacts under `artifacts/feedback_sheets/runs/`
 
 Do not commit:
 - `.env` files, API keys, tokens, or credentials
@@ -76,6 +86,11 @@ Do not commit:
 - third-party publisher PDFs or binary reference libraries
 - local machine state, database caches, `.DS_Store`, package metadata, notebook scratch outputs
 - retained notebook outputs unless a notebook is explicitly designed as a checked artifact
+- real feedback manifests, response records, attempt metadata, or workbooks
+
+Real OpenAI feedback runs require `OPENAI_API_KEY` in the process environment; the feedback
+CLI does not load `.env` automatically. Feedback rankings and explanations are model outputs,
+not empirical clinical evidence, reference-standard labels, or patient-care recommendations.
 
 For variable and artifact documentation, read `data_dictionary.md` and `data_dictionary.csv`.
 

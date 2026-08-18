@@ -23,6 +23,7 @@ Key active generated paths:
 - Differential LR: `data/processed/lr_differential/`
 - One-vs-rest LR: `data/processed/lr_one_vs_rest/`
 - Assessment pipeline: `data/processed/assessments/`
+- Feedback generation: `artifacts/feedback_sheets/runs/` (local and ignored)
 
 Machine-readable artifact documentation:
 - `data_dictionary.md`
@@ -37,6 +38,18 @@ One-vs-rest coherence artifacts:
 - `data/processed/lr_one_vs_rest/manifests/schema_priors.csv`
 - `data/processed/lr_one_vs_rest/coherent_outputs_by_model/<MODEL_ID>/`
 - `data/processed/lr_one_vs_rest/manifests/coherence_projection_*.csv`
+
+Feedback-generation artifacts:
+- The versioned specification in `config/feedback_generation.yaml` and deterministic
+  synthetic fixtures in `tests/fixtures/feedback/` are tracked.
+- Real manifests, ledgers, per-attempt records, validated responses, workbooks, and audit reports
+  under `artifacts/feedback_sheets/` are ignored and must not be force-added.
+- Persist only validated parsed payloads plus allowlisted provider/run metadata. Never retain
+  API keys, authorization headers, full provider objects, raw exception text, or unvalidated
+  raw response bodies.
+- Do not add patient-derived or restricted clinical text to this pipeline. Do not publish a
+  response artifact without explicit sensitivity and scientific review.
+- Feedback rankings are model outputs rather than empirical clinical evidence.
 
 ## Provenance sidecars
 For external file `data/external/foo.ext`, include `foo.ext.source.json` with:

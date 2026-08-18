@@ -1,0 +1,1129 @@
+{
+  "fixture_schema_version": "feedback-notebook-contract-v1",
+  "source": "notebooks/feedback_generator.ipynb at repository HEAD before extraction",
+  "correct_diagnosis": "CREST syndrome with Type 2 Achalasia",
+  "diagnoses": [
+    "CREST syndrome with Type 2 Achalasia",
+    "Scleroderma",
+    "Esophageal stricture",
+    "Food impaction",
+    "Mixed Connective Tissue Disease",
+    "Achalasia (type 1)",
+    "Eosinophilic esophagitis",
+    "Acute Coronary Syndrome",
+    "Stable Angina",
+    "Esophageal spasm a.k.a Jackhammer Esophagus",
+    "Esophageal adenocarcinoma",
+    "Esophageal squamous cell carcinoma",
+    "Musculoskeletal chest pain",
+    "GERD",
+    "Zenker's diverticulum",
+    "Polymyositis",
+    "Dermatomyositis",
+    "Chagas Disease",
+    "Anxiety",
+    "Arrhythmia",
+    "Aortic dissection",
+    "Pericarditis",
+    "Extrinsic compressing mass on esophagus",
+    "Rheumatoid Athritis",
+    "Sarcoidosis",
+    "Pill esophagitis",
+    "Myasthenia gravis",
+    "Gastroparesis"
+  ],
+  "categories": [
+    {
+      "key": "hpi",
+      "order": 1,
+      "detail_count": 55,
+      "description_sha256": "e44b5e37e45ddf99bfe3ba5de5996f9ce4c54831a238702e5a88c9266728e5bc",
+      "details_sha256": "b4d3f6bf2aec60c9193a9b6df3476d6c82aaacd13d7185bc879c6fff07595877",
+      "details": [
+        {
+          "finding": "Pain relieved with regurgitation",
+          "status": "present"
+        },
+        {
+          "finding": "Raynauds phenomenon reported",
+          "status": "present"
+        },
+        {
+          "finding": "Telangiectasias reported",
+          "status": "present"
+        },
+        {
+          "finding": "Hand pain out of proportion to other joints",
+          "status": "present"
+        },
+        {
+          "finding": "Current heartburn",
+          "status": "present"
+        },
+        {
+          "finding": "Current reflux",
+          "status": "present"
+        },
+        {
+          "finding": "Long-standing heartburn (duration of years)",
+          "status": "present"
+        },
+        {
+          "finding": "Long-standing reflux (duration of years)",
+          "status": "present"
+        },
+        {
+          "finding": "Pain previously better with antacids",
+          "status": "absent"
+        },
+        {
+          "finding": "Antacids no longer providing relief",
+          "status": "present"
+        },
+        {
+          "finding": "Difficulty swallowing liquids",
+          "status": "present"
+        },
+        {
+          "finding": "Difficulty swallowing solids",
+          "status": "present"
+        },
+        {
+          "finding": "Non-progressive dysphagia: liquids throughout difficulty swallowing",
+          "status": "present"
+        },
+        {
+          "finding": "Weight loss reported",
+          "status": "present"
+        },
+        {
+          "finding": "Hoarse voice reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Cough reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Globus sensation",
+          "status": "absent"
+        },
+        {
+          "finding": "Epigastric pain or dyspepsia reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Shortness of breath",
+          "status": "absent"
+        },
+        {
+          "finding": "Hand thickness reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Finger ulcers reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Weakness reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Intermittent temporal pattern (not constant) of symptoms",
+          "status": "absent"
+        },
+        {
+          "finding": "Tightness (character of pain)",
+          "status": "present"
+        },
+        {
+          "finding": "duration of 3 months of increased frequency of chest pain",
+          "status": "absent"
+        },
+        {
+          "finding": "duration of 3 months of food getting stuck",
+          "status": "present"
+        },
+        {
+          "finding": "Onset of chest pain associated with eating food",
+          "status": "present"
+        },
+        {
+          "finding": "Exertion makes it worse (without clarifying within an hour of eating)",
+          "status": "absent"
+        },
+        {
+          "finding": "Exertion makes it worse for more than an hour after eating",
+          "status": "absent"
+        },
+        {
+          "finding": "Pain worse when lying down (positional)",
+          "status": "present"
+        },
+        {
+          "finding": "Pain when swallowing (aka odynophagia)",
+          "status": "present"
+        },
+        {
+          "finding": "Bloating with intermittent upper abdominal pain reported",
+          "status": "present"
+        },
+        {
+          "finding": "Reports pain location is behind sternum, middle of chest",
+          "status": "present"
+        },
+        {
+          "finding": "diaphoresis",
+          "status": "absent"
+        },
+        {
+          "finding": "decreased exercise over the last 3 months",
+          "status": "absent"
+        },
+        {
+          "finding": "onset of symptoms in the last 24 hours (not acute or hyperacute)",
+          "status": "absent"
+        },
+        {
+          "finding": "Radiation of pain to the back",
+          "status": "absent"
+        },
+        {
+          "finding": "Nausea and/or vomiting",
+          "status": "absent"
+        },
+        {
+          "finding": "Early satiety",
+          "status": "absent"
+        },
+        {
+          "finding": "Dry eye reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Red eye reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Neck masses or fullness reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Pleuritic character of the pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Sharp character of the pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Stabbing character of the pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Pain is reproducible with arm movements",
+          "status": "absent"
+        },
+        {
+          "finding": "Spasmodic character of pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Palpitations",
+          "status": "absent"
+        },
+        {
+          "finding": "Halitosis reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Recent injuries reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Vision changes reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Multiple symmetric joints hurt",
+          "status": "present"
+        },
+        {
+          "finding": "Morning stiffness",
+          "status": "absent"
+        },
+        {
+          "finding": "Joint swelling reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Enlargement of knuckles, finger deformities, or deviation of fingers reported",
+          "status": "absent"
+        }
+      ]
+    },
+    {
+      "key": "hist",
+      "order": 2,
+      "detail_count": 18,
+      "description_sha256": "6bb57b6f60853e489dc290feaeb8a6111f0d62ef2777cc06f64189e5d61058ec",
+      "details_sha256": "21ae45be401a4f41ed350010c375a10ebe3ae219a5800838271d35ea0122ba15",
+      "details": [
+        {
+          "finding": "Alcohol use disorder",
+          "status": "absent"
+        },
+        {
+          "finding": "Nicotine dependence",
+          "status": "absent"
+        },
+        {
+          "finding": "Prior treatment with radiation to the neck, arm, or jaw",
+          "status": "absent"
+        },
+        {
+          "finding": "Previously diagnosed Coronary Artery Disease",
+          "status": "absent"
+        },
+        {
+          "finding": "Prevopis;u doagmpsed Peripheral Artery Disease",
+          "status": "absent"
+        },
+        {
+          "finding": "Previously diagnosed Hyperlipidemia",
+          "status": "absent"
+        },
+        {
+          "finding": "prior myocardial infarction",
+          "status": "absent"
+        },
+        {
+          "finding": "type 2 diabetes",
+          "status": "absent"
+        },
+        {
+          "finding": "obesity",
+          "status": "absent"
+        },
+        {
+          "finding": "prior stroke",
+          "status": "absent"
+        },
+        {
+          "finding": "diagnosed hypertension",
+          "status": "present"
+        },
+        {
+          "finding": "recent medication changes",
+          "status": "absent"
+        },
+        {
+          "finding": "takes amlodipine",
+          "status": "present"
+        },
+        {
+          "finding": "Female",
+          "status": "present"
+        },
+        {
+          "finding": "middle age",
+          "status": "present"
+        },
+        {
+          "finding": "Environmental allergies",
+          "status": "absent"
+        },
+        {
+          "finding": "Asthma",
+          "status": "absent"
+        },
+        {
+          "finding": "Eczema",
+          "status": "absent"
+        }
+      ]
+    },
+    {
+      "key": "soc",
+      "order": 3,
+      "detail_count": 10,
+      "description_sha256": "de7a9a5aa61f817f7092d08e3e630ec4558487c17dd6fc0ad29a2f04b2ae7090",
+      "details_sha256": "2c05caaeb4a17600d4e6bb72c041c18a73dc4d2b4d8ba218541e22a325b0d18c",
+      "details": [
+        {
+          "finding": "Family history of Rheumatoid Arthritis",
+          "status": "absent"
+        },
+        {
+          "finding": "Alcohol use",
+          "status": "absent"
+        },
+        {
+          "finding": "Current tobacco use",
+          "status": "absent"
+        },
+        {
+          "finding": "Prior tobacco use",
+          "status": "present"
+        },
+        {
+          "finding": "family history of myocardial infarction in father",
+          "status": "present"
+        },
+        {
+          "finding": "Recent social stress",
+          "status": "present"
+        },
+        {
+          "finding": "Recent Travel",
+          "status": "absent"
+        },
+        {
+          "finding": "Family history of cancer",
+          "status": "absent"
+        },
+        {
+          "finding": "Recent medical procedure",
+          "status": "absent"
+        },
+        {
+          "finding": "Gestational complications with prior pregnancy",
+          "status": "absent"
+        }
+      ]
+    },
+    {
+      "key": "obj",
+      "order": 4,
+      "detail_count": 17,
+      "description_sha256": "dd2261af2d6858a2bda40b6d884461bb7a39f8f9a3b3e7fa36b0ffe9049c4771",
+      "details_sha256": "f70b1d4d6066bfc0ed297e36850e38d7e15091bbf92d23693f797cd9cad2bb8e",
+      "details": [
+        {
+          "finding": "Raynauds phenomennon on exam",
+          "status": "absent"
+        },
+        {
+          "finding": "Telangiectasias on exam",
+          "status": "present"
+        },
+        {
+          "finding": "Weight loss on vitals",
+          "status": "present"
+        },
+        {
+          "finding": "Hoarse voice observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Cough observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Epigastric pain on palpation",
+          "status": "absent"
+        },
+        {
+          "finding": "Hand thickening observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Finger ulcers observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Weakness on exam",
+          "status": "absent"
+        },
+        {
+          "finding": "obesity by vital signs",
+          "status": "absent"
+        },
+        {
+          "finding": "high blood pressure when checked",
+          "status": "absent"
+        },
+        {
+          "finding": "Red eye observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Neck masses or fullness observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Halitosis observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Joint swelling observed",
+          "status": "absent"
+        },
+        {
+          "finding": "Enlargement of knuckles, finger deformities, or deviation of fingers",
+          "status": "absent"
+        },
+        {
+          "finding": "Rheumatoid nodules",
+          "status": "absent"
+        }
+      ]
+    },
+    {
+      "key": "test",
+      "order": 5,
+      "detail_count": 5,
+      "description_sha256": "77a4bb5ff1d32394d91fb3eab173b1acdf7daed4df77498e18e1e43acb1ed328",
+      "details_sha256": "7fc8825d0f115073e95e516ead0c83d8c40c03f0f43401193083853f6e82aee8",
+      "details": [
+        {
+          "finding": "Hyperlipidemia on lab testing",
+          "status": "present"
+        },
+        {
+          "finding": "ANA strong positive",
+          "status": "absent"
+        },
+        {
+          "finding": "MBS shows aspiration",
+          "status": "absent"
+        },
+        {
+          "finding": "CT shows ILD",
+          "status": "absent"
+        },
+        {
+          "finding": "CXR shows widened mediastinum",
+          "status": "absent"
+        }
+      ]
+    },
+    {
+      "key": "subjective-and-historical",
+      "order": 6,
+      "detail_count": 83,
+      "detail_sources": [
+        "hpi",
+        "hist",
+        "soc"
+      ],
+      "description_sha256": "068b87dca7adc71e380cd3a93fbecc464d68fcd2d77dcfa440a2fb5f2c592c07",
+      "details_sha256": "25d3f406b45e75ca04236775b543a67ec20dc371555c11a23fcd2b66afa29d95",
+      "details": [
+        {
+          "finding": "Pain relieved with regurgitation",
+          "status": "present"
+        },
+        {
+          "finding": "Raynauds phenomenon reported",
+          "status": "present"
+        },
+        {
+          "finding": "Telangiectasias reported",
+          "status": "present"
+        },
+        {
+          "finding": "Hand pain out of proportion to other joints",
+          "status": "present"
+        },
+        {
+          "finding": "Current heartburn",
+          "status": "present"
+        },
+        {
+          "finding": "Current reflux",
+          "status": "present"
+        },
+        {
+          "finding": "Long-standing heartburn (duration of years)",
+          "status": "present"
+        },
+        {
+          "finding": "Long-standing reflux (duration of years)",
+          "status": "present"
+        },
+        {
+          "finding": "Pain previously better with antacids",
+          "status": "absent"
+        },
+        {
+          "finding": "Antacids no longer providing relief",
+          "status": "present"
+        },
+        {
+          "finding": "Difficulty swallowing liquids",
+          "status": "present"
+        },
+        {
+          "finding": "Difficulty swallowing solids",
+          "status": "present"
+        },
+        {
+          "finding": "Non-progressive dysphagia: liquids throughout difficulty swallowing",
+          "status": "present"
+        },
+        {
+          "finding": "Weight loss reported",
+          "status": "present"
+        },
+        {
+          "finding": "Hoarse voice reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Cough reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Globus sensation",
+          "status": "absent"
+        },
+        {
+          "finding": "Epigastric pain or dyspepsia reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Shortness of breath",
+          "status": "absent"
+        },
+        {
+          "finding": "Hand thickness reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Finger ulcers reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Weakness reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Intermittent temporal pattern (not constant) of symptoms",
+          "status": "absent"
+        },
+        {
+          "finding": "Tightness (character of pain)",
+          "status": "present"
+        },
+        {
+          "finding": "duration of 3 months of increased frequency of chest pain",
+          "status": "absent"
+        },
+        {
+          "finding": "duration of 3 months of food getting stuck",
+          "status": "present"
+        },
+        {
+          "finding": "Onset of chest pain associated with eating food",
+          "status": "present"
+        },
+        {
+          "finding": "Exertion makes it worse (without clarifying within an hour of eating)",
+          "status": "absent"
+        },
+        {
+          "finding": "Exertion makes it worse for more than an hour after eating",
+          "status": "absent"
+        },
+        {
+          "finding": "Pain worse when lying down (positional)",
+          "status": "present"
+        },
+        {
+          "finding": "Pain when swallowing (aka odynophagia)",
+          "status": "present"
+        },
+        {
+          "finding": "Bloating with intermittent upper abdominal pain reported",
+          "status": "present"
+        },
+        {
+          "finding": "Reports pain location is behind sternum, middle of chest",
+          "status": "present"
+        },
+        {
+          "finding": "diaphoresis",
+          "status": "absent"
+        },
+        {
+          "finding": "decreased exercise over the last 3 months",
+          "status": "absent"
+        },
+        {
+          "finding": "onset of symptoms in the last 24 hours (not acute or hyperacute)",
+          "status": "absent"
+        },
+        {
+          "finding": "Radiation of pain to the back",
+          "status": "absent"
+        },
+        {
+          "finding": "Nausea and/or vomiting",
+          "status": "absent"
+        },
+        {
+          "finding": "Early satiety",
+          "status": "absent"
+        },
+        {
+          "finding": "Dry eye reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Red eye reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Neck masses or fullness reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Pleuritic character of the pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Sharp character of the pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Stabbing character of the pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Pain is reproducible with arm movements",
+          "status": "absent"
+        },
+        {
+          "finding": "Spasmodic character of pain",
+          "status": "absent"
+        },
+        {
+          "finding": "Palpitations",
+          "status": "absent"
+        },
+        {
+          "finding": "Halitosis reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Recent injuries reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Vision changes reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Multiple symmetric joints hurt",
+          "status": "present"
+        },
+        {
+          "finding": "Morning stiffness",
+          "status": "absent"
+        },
+        {
+          "finding": "Joint swelling reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Enlargement of knuckles, finger deformities, or deviation of fingers reported",
+          "status": "absent"
+        },
+        {
+          "finding": "Alcohol use disorder",
+          "status": "absent"
+        },
+        {
+          "finding": "Nicotine dependence",
+          "status": "absent"
+        },
+        {
+          "finding": "Prior treatment with radiation to the neck, arm, or jaw",
+          "status": "absent"
+        },
+        {
+          "finding": "Previously diagnosed Coronary Artery Disease",
+          "status": "absent"
+        },
+        {
+          "finding": "Prevopis;u doagmpsed Peripheral Artery Disease",
+          "status": "absent"
+        },
+        {
+          "finding": "Previously diagnosed Hyperlipidemia",
+          "status": "absent"
+        },
+        {
+          "finding": "prior myocardial infarction",
+          "status": "absent"
+        },
+        {
+          "finding": "type 2 diabetes",
+          "status": "absent"
+        },
+        {
+          "finding": "obesity",
+          "status": "absent"
+        },
+        {
+          "finding": "prior stroke",
+          "status": "absent"
+        },
+        {
+          "finding": "diagnosed hypertension",
+          "status": "present"
+        },
+        {
+          "finding": "recent medication changes",
+          "status": "absent"
+        },
+        {
+          "finding": "takes amlodipine",
+          "status": "present"
+        },
+        {
+          "finding": "Female",
+          "status": "present"
+        },
+        {
+          "finding": "middle age",
+          "status": "present"
+        },
+        {
+          "finding": "Environmental allergies",
+          "status": "absent"
+        },
+        {
+          "finding": "Asthma",
+          "status": "absent"
+        },
+        {
+          "finding": "Eczema",
+          "status": "absent"
+        },
+        {
+          "finding": "Family history of Rheumatoid Arthritis",
+          "status": "absent"
+        },
+        {
+          "finding": "Alcohol use",
+          "status": "absent"
+        },
+        {
+          "finding": "Current tobacco use",
+          "status": "absent"
+        },
+        {
+          "finding": "Prior tobacco use",
+          "status": "present"
+        },
+        {
+          "finding": "family history of myocardial infarction in father",
+          "status": "present"
+        },
+        {
+          "finding": "Recent social stress",
+          "status": "present"
+        },
+        {
+          "finding": "Recent Travel",
+          "status": "absent"
+        },
+        {
+          "finding": "Family history of cancer",
+          "status": "absent"
+        },
+        {
+          "finding": "Recent medical procedure",
+          "status": "absent"
+        },
+        {
+          "finding": "Gestational complications with prior pregnancy",
+          "status": "absent"
+        }
+      ]
+    }
+  ],
+  "default_category_mode": "only_overall",
+  "surface_order": [
+    "overall/general",
+    "overall/specific",
+    "differential/general",
+    "differential/specific"
+  ],
+  "request_inventory": {
+    "only_overall": {
+      "total": 110,
+      "by_surface": {
+        "overall/general": 28,
+        "overall/specific": 28,
+        "differential/general": 27,
+        "differential/specific": 27
+      },
+      "base_run_id": "fb_d2b4404d83c70f3c5d83abe6",
+      "first_request_id": "fr_7dbc1e6b62fa798aaadacddd3d2b8574",
+      "last_request_id": "fr_157e6973b2389514b15fe9c1beedcc95",
+      "ordered_messages_sha256": "4ef83ed921294f40a64a7bebda50691b87f6d6a2cb546d8c5ec36248750da912"
+    },
+    "all": {
+      "total": 660,
+      "by_surface": {
+        "overall/general": 168,
+        "overall/specific": 168,
+        "differential/general": 162,
+        "differential/specific": 162
+      },
+      "base_run_id": "fb_a200753a32926b417fc57650",
+      "first_request_id": "fr_079fc9bb33f09cd1de7b5b7fb9beac56",
+      "last_request_id": "fr_157e6973b2389514b15fe9c1beedcc95",
+      "ordered_messages_sha256": "94d73a06cb4ec9e187e28cd82dbafc0e6877225d3e45c808106ebf0d8aa40ef5"
+    }
+  },
+  "prompt_fingerprints": {
+    "system": {
+      "characters": 416,
+      "sha256": "987ae849fe9e05e8c7e30d8ffc145e9f72aa7ef32a21d779458c1a1f996e8384",
+      "text": "You are a knowledgeable medical reasoning AI- an expert diagnostician.                 You must follow these rules:                 1. You identify the strongest clinical findings for or against a given diagnosis.                 2. Focus on only one category of evidence at a time.                 3. Provide output in valid JSON with no extra commentary.                 4. Comply with the user instructions below."
+    },
+    "example_inputs": {
+      "category": "subjective-and-historical",
+      "diagnosis": "CREST syndrome with Type 2 Achalasia",
+      "comparison": "Scleroderma"
+    },
+    "overall/general": {
+      "characters": 5634,
+      "user_prompt_sha256": "e93cf3a966b92d45bc66f4b1be3826c8c890a16c1cf7ed7839798a332317900c",
+      "user_prompt": "You are given:\n- CREST syndrome with Type 2 Achalasia: the diagnosis in question.\n- subjective-and-historical: the single category of information to consider. \n  Valid categories: [hpi, hist, soc, obj, test, all-but-obj].\n\nDefinition of subjective-and-historical:\nAny subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    \n\n#### Task\n1. List the top 5 pieces of information from subjective-and-historical that most strongly support having CREST syndrome with Type 2 Achalasia.\n2. List the top 5 pieces of information from subjective-and-historical that most strongly support not having CREST syndrome with Type 2 Achalasia.\n\n#### Constraints\n- Base your reasoning on the likelihood ratio (the likelihood of the finding in patients with CREST syndrome with Type 2 Achalasia divided by the likelihood of the finding in patients without CREST syndrome with Type 2 Achalasia): \n  - Pieces of evidence with higher likelihood ratios (occur with greater frequency in patients with CREST syndrome with Type 2 Achalasia than in patients without CREST syndrome with Type 2 Achalasia) are stronger evidence in favor of CREST syndrome with Type 2 Achalasia than pieces of evidence with lower likelihood ratios.\n  - Pieces of evidence with -in particular- a higher specificity have higher likelihood ratios. A higher sensitivity also helps, but less so than specificity. \n  - Pieces of evidence with lower likelihood ratios (meaning, they much more often occur in patients without CREST syndrome with Type 2 Achalasia than with CREST syndrome with Type 2 Achalasia) are stronger evidence against CREST syndrome with Type 2 Achalasia being present. \n  - In particular, a negative result for a test with a higher sensitivity will translate to a lower likelihood ratio, and stronger evidence against CREST syndrome with Type 2 Achalasia\n- Reason using all available sources of information (epidemiology, physiology, trials, etc.) to give your best guess. \n- Provide no numeric LRs, only a relative ranking.\n- Return only JSON in the following structure:\n    {\n      \"for_diagnosis_strongest_evidence\": [\n        {\n          \"finding\": \"A finding relevant to CREST syndrome with Type 2 Achalasia from Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    \",\n          \"explanation\": \"Why this finding favors CREST syndrome with Type 2 Achalasia\",\n          \"abbreviation_expansion\": {\n            \"abbreviation\": \"Expanded term if an abbreviation is used\"\n          }\n        },\n        \"... (4 more items) ...\"\n      ],\n      \"against_diagnosis_strongest_evidence\": [\n        {\n          \"finding\": \"A finding relevant to not having CREST syndrome with Type 2 Achalasia from Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    \",\n          \"explanation\": \"Why this finding favors that CREST syndrome with Type 2 Achalasia is not present\",\n          \"abbreviation_expansion\": {}\n        },\n        \"... (4 more items) ...\"\n      ],\n      \"summary\": \"A short paragraph describing the overall rationale and key differences.\"\n    }\n- Exactly 5 items under each list, no more, no fewer.\n- Define abbreviations in 'abbreviation_expansion' if used; otherwise leave it empty.\n- Do not add text outside the JSON. \n- Output must be syntactically valid JSON, with no trailing commas.\n"
+    },
+    "overall/specific": {
+      "characters": 9816,
+      "user_prompt_sha256": "97f92866678e02df6c02d15614759ccfde2f82ac953ec5d8445706df7544a0e8",
+      "user_prompt": "You are given:\n- CREST syndrome with Type 2 Achalasia: the diagnosis in question.\n- and a list of the key clinical findings from the subjective-and-historical (Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    ) and whether they were present or not \n\n#### Task\n1. List the top 5 pieces of information from the this particular case that most strongly support having CREST syndrome with Type 2 Achalasia.\n2. List the top 5 pieces of information from the this particular case that most strongly support not having CREST syndrome with Type 2 Achalasia.\n\n#### Clinical Context\nHere is the clinical context: \nHere are the particular findings of the subjective-and-historical in this case:\n1. Pain relieved with regurgitation is present.\n2. Raynauds phenomenon reported is present.\n3. Telangiectasias reported is present.\n4. Hand pain out of proportion to other joints is present.\n5. Current heartburn is present.\n6. Current reflux is present.\n7. Long-standing heartburn (duration of years) is present.\n8. Long-standing reflux (duration of years) is present.\n9. Pain previously better with antacids is absent.\n10. Antacids no longer providing relief is present.\n11. Difficulty swallowing liquids is present.\n12. Difficulty swallowing solids is present.\n13. Non-progressive dysphagia: liquids throughout difficulty swallowing is present.\n14. Weight loss reported is present.\n15. Hoarse voice reported is absent.\n16. Cough reported is absent.\n17. Globus sensation is absent.\n18. Epigastric pain or dyspepsia reported is absent.\n19. Shortness of breath is absent.\n20. Hand thickness reported is absent.\n21. Finger ulcers reported is absent.\n22. Weakness reported is absent.\n23. Intermittent temporal pattern (not constant) of symptoms is absent.\n24. Tightness (character of pain) is present.\n25. duration of 3 months of increased frequency of chest pain is absent.\n26. duration of 3 months of food getting stuck is present.\n27. Onset of chest pain associated with eating food is present.\n28. Exertion makes it worse (without clarifying within an hour of eating) is absent.\n29. Exertion makes it worse for more than an hour after eating is absent.\n30. Pain worse when lying down (positional) is present.\n31. Pain when swallowing (aka odynophagia) is present.\n32. Bloating with intermittent upper abdominal pain reported is present.\n33. Reports pain location is behind sternum, middle of chest is present.\n34. diaphoresis is absent.\n35. decreased exercise over the last 3 months is absent.\n36. onset of symptoms in the last 24 hours (not acute or hyperacute) is absent.\n37. Radiation of pain to the back is absent.\n38. Nausea and/or vomiting is absent.\n39. Early satiety is absent.\n40. Dry eye reported is absent.\n41. Red eye reported is absent.\n42. Neck masses or fullness reported is absent.\n43. Pleuritic character of the pain is absent.\n44. Sharp character of the pain is absent.\n45. Stabbing character of the pain is absent.\n46. Pain is reproducible with arm movements is absent.\n47. Spasmodic character of pain is absent.\n48. Palpitations is absent.\n49. Halitosis reported is absent.\n50. Recent injuries reported is absent.\n51. Vision changes reported is absent.\n52. Multiple symmetric joints hurt is present.\n53. Morning stiffness is absent.\n54. Joint swelling reported is absent.\n55. Enlargement of knuckles, finger deformities, or deviation of fingers reported is absent.\n56. Alcohol use disorder is absent.\n57. Nicotine dependence is absent.\n58. Prior treatment with radiation to the neck, arm, or jaw is absent.\n59. Previously diagnosed Coronary Artery Disease is absent.\n60. Prevopis;u doagmpsed Peripheral Artery Disease is absent.\n61. Previously diagnosed Hyperlipidemia is absent.\n62. prior myocardial infarction is absent.\n63. type 2 diabetes is absent.\n64. obesity is absent.\n65. prior stroke is absent.\n66. diagnosed hypertension is present.\n67. recent medication changes is absent.\n68. takes amlodipine is present.\n69. Female is present.\n70. middle age is present.\n71. Environmental allergies is absent.\n72. Asthma is absent.\n73. Eczema is absent.\n74. Family history of Rheumatoid Arthritis is absent.\n75. Alcohol use is absent.\n76. Current tobacco use is absent.\n77. Prior tobacco use is present.\n78. family history of myocardial infarction in father is present.\n79. Recent social stress is present.\n80. Recent Travel is absent.\n81. Family history of cancer is absent.\n82. Recent medical procedure is absent.\n83. Gestational complications with prior pregnancy is absent.\n\n#### Constraints\n- Only consider the findings mentioned in the clinical context. Assume all other pieces of information are unknown (and thus do not change the likelihood of disease)\n- Base your reasoning on the likelihood ratio (the likelihood of the finding in patients with CREST syndrome with Type 2 Achalasia divided by the likelihood of the finding in patients without CREST syndrome with Type 2 Achalasia): \n  - Pieces of evidence with higher likelihood ratios (occur with greater frequency in patients with CREST syndrome with Type 2 Achalasia than in patients without CREST syndrome with Type 2 Achalasia) are stronger evidence in favor of CREST syndrome with Type 2 Achalasia than pieces of evidence with lower likelihood ratios.\n  - Pieces of evidence with -in particular- a higher specificity have higher likelihood ratios. A higher sensitivity also helps, but less so than specificity. \n  - Pieces of evidence with lower likelihood ratios (meaning, they much more often occur in patients without CREST syndrome with Type 2 Achalasia than with CREST syndrome with Type 2 Achalasia) are stronger evidence against CREST syndrome with Type 2 Achalasia being present. \n  - In particular, a negative result for a test with a higher sensitivity will translate to a lower likelihood ratio, and stronger evidence against CREST syndrome with Type 2 Achalasia\n- Reason using all available sources of information (epidemiology, physiology, trials, etc.) to give your best guess. \n- Provide no numeric LRs, only a relative ranking. Give the strongest piece of evidence (highest LR) first\n\n- Return only JSON in the following structure:\n    {\n      \"for_diagnosis_strongest_evidence\": [\n        {\n          \"finding\": \"A finding relevant to CREST syndrome with Type 2 Achalasia from Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    \",\n          \"explanation\": \"Why this finding favors CREST syndrome with Type 2 Achalasia\",\n          \"abbreviation_expansion\": {\n            \"abbreviation\": \"Expanded term if an abbreviation is used\"\n          }\n        },\n        \"... (4 more items) ...\"\n      ],\n      \"against_diagnosis_strongest_evidence\": [\n        {\n          \"finding\": \"A finding relevant to not having CREST syndrome with Type 2 Achalasia from Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    \",\n          \"explanation\": \"Why this finding favors that CREST syndrome with Type 2 Achalasia is not present\",\n          \"abbreviation_expansion\": {}\n        },\n        \"... (4 more items) ...\"\n      ],\n      \"summary\": \"A short paragraph describing the overall rationale and key differences.\"\n    }\n\n- Exactly 5 items under each list, no more, no fewer.\n- If a finding is not mentioned in the clinical context, it should not be given as an answer. \n- Define abbreviations in 'abbreviation_expansion' if used; otherwise leave it empty.\n- Do not add text outside the JSON. \n- Output must be syntactically valid JSON, with no trailing commas.\n"
+    },
+    "differential/general": {
+      "characters": 4700,
+      "user_prompt_sha256": "b0713be2cd4c5d275b59742d837b4688a726bb5e6693dabc59a6746db7f71222",
+      "user_prompt": "You are asked to identify the clinical findings that most strongly discriminate between cases of the following two diagnoses:\nCREST syndrome with Type 2 Achalasia and Scleroderma.\n\nsubjective-and-historical: the single category of information to consider. \nValid categories: [hpi, hist, soc, obj, test].\n\nDefinition of subjective-and-historical:\nAny subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    \n\nYour responses must be:\n- Accurate and valid for research-level work.\n- Relevant to each diagnosis's typical presentation, focusing on the **differential** likelihood ratio\n  (i.e., how well a finding discriminates CREST syndrome with Type 2 Achalasia from Scleroderma).\n  - Pieces of evidence with higher differential likelihood ratio (occur with greater frequency in patients with CREST syndrome with Type 2 Achalasia than in patients with Scleroderma) are stronger evidence in favor of CREST syndrome with Type 2 Achalasia than pieces of evidence with lower differential likelihood ratios.\n  - Pieces of evidence with lower likelihood ratios (meaning, they much more often occur in patients without Scleroderma than with CREST syndrome with Type 2 Achalasia) are stronger evidence against CREST syndrome with Type 2 Achalasia being present. \n- Strictly formatted in JSON to facilitate downstream parsing.\n- Explicit about any abbreviations (with definitions), if used.\n\n### Context and Focus:\n- Only consider clinical information from Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    .\n- Emphasize which pieces of information best distinguish CREST syndrome with Type 2 Achalasia from Scleroderma.\n- You do not need numeric likelihood ratios. Just rank the findings in order of their discriminative power.\n\n### Task:\n1. List the top 5 pieces of information (within subjective-and-historical) that most strongly support CREST syndrome with Type 2 Achalasia over Scleroderma.\n2. List the top 5 pieces of information (within subjective-and-historical) that most strongly support Scleroderma over CREST syndrome with Type 2 Achalasia.\n\n### Output Format (Strict JSON):\n{\n  \"diagnosisA_strongest_evidence\": [\n    {\n      \"finding\": \"Relevant finding favoring CREST syndrome with Type 2 Achalasia\",\n      \"explanation\": \"Short reason this finding favors CREST syndrome with Type 2 Achalasia\",\n      \"abbreviation_expansion\": {\n        \"abbreviation\": \"Expanded term if abbreviation is used\"\n      }\n    },\n    \"... (total of 5 items) ...\"\n  ],\n  \"diagnosisB_strongest_evidence\": [\n    {\n      \"finding\": \"Relevant finding favoring Scleroderma\",\n      \"explanation\": \"Short reason this finding favors Scleroderma\",\n      \"abbreviation_expansion\": {}\n    },\n    \"... (total of 5 items) ...\"\n  ],\n  \"summary\": \"Short paragraph describing overall rationale.\"\n}\n\n### Additional Constraints:\n- Each list (diagnosisA_strongest_evidence, diagnosisB_strongest_evidence) must contain exactly 5 items.\n- If abbreviations are used (e.g., ACS, GERD), define them in 'abbreviation_expansion'. Otherwise, use an empty object.\n- Provide no extra commentary outside of the JSON.\n- Return **only** the JSON in your final answer."
+    },
+    "differential/specific": {
+      "characters": 8084,
+      "user_prompt_sha256": "649fa8ff79cfc129a5534ee16c04809e995c22ae97d426a78627d07262e07dc4",
+      "user_prompt": "You are asked to identify the clinical findings from a particular case that most strongly discriminate between cases of the following two diagnoses:\nCREST syndrome with Type 2 Achalasia and Scleroderma.\n\nYou are given:\n- the two diagnoses under consideration: CREST syndrome with Type 2 Achalasia and Scleroderma\n- and a list of the key clinical findings from the subjective-and-historical (Any subjective or historical information about the patient’s condition, including:\n\t1.\tHistory of Present Illness (HPI): The narrative describing the onset of symptoms, their progression, and the patient’s current experience.\n\t2.\tPast Medical History (PMH): Previously diagnosed conditions and treatments (including medications).\n\t3.\tCurrent Medications: All medications the patient is currently taking.\n\t4.\tPast Surgical History (PSH): Previous surgical interventions and therapeutic procedures.\n\t5.\tSocial History & Health Behaviors: Lifestyle factors, social context, and risk-related activities.\n\t6.\tFamily History: Genetic predispositions and conditions that run in the family.\n\tDo not consider objective clinical data such as vital signs, physical exam findings, and test results (e.g., lab values, imaging reports, procedure outcomes).\n    ) and whether they were present or not \n- only findings given in the clinical context are under consideration\n\n#### Task\nYour task is to identify the pieces of evidence from the clinical context that argue most strongly for one of the two diagnoses: \n1. List the top 5 pieces of information (from the clinical context) that most strongly support CREST syndrome with Type 2 Achalasia over Scleroderma.\n2. List the top 5 pieces of information (from the clinical context) that most strongly support Scleroderma over CREST syndrome with Type 2 Achalasia.\n\n#### Clinical Context\nHere is the clinical context: \nHere are the particular findings of the subjective-and-historical in this case:\n1. Pain relieved with regurgitation is present.\n2. Raynauds phenomenon reported is present.\n3. Telangiectasias reported is present.\n4. Hand pain out of proportion to other joints is present.\n5. Current heartburn is present.\n6. Current reflux is present.\n7. Long-standing heartburn (duration of years) is present.\n8. Long-standing reflux (duration of years) is present.\n9. Pain previously better with antacids is absent.\n10. Antacids no longer providing relief is present.\n11. Difficulty swallowing liquids is present.\n12. Difficulty swallowing solids is present.\n13. Non-progressive dysphagia: liquids throughout difficulty swallowing is present.\n14. Weight loss reported is present.\n15. Hoarse voice reported is absent.\n16. Cough reported is absent.\n17. Globus sensation is absent.\n18. Epigastric pain or dyspepsia reported is absent.\n19. Shortness of breath is absent.\n20. Hand thickness reported is absent.\n21. Finger ulcers reported is absent.\n22. Weakness reported is absent.\n23. Intermittent temporal pattern (not constant) of symptoms is absent.\n24. Tightness (character of pain) is present.\n25. duration of 3 months of increased frequency of chest pain is absent.\n26. duration of 3 months of food getting stuck is present.\n27. Onset of chest pain associated with eating food is present.\n28. Exertion makes it worse (without clarifying within an hour of eating) is absent.\n29. Exertion makes it worse for more than an hour after eating is absent.\n30. Pain worse when lying down (positional) is present.\n31. Pain when swallowing (aka odynophagia) is present.\n32. Bloating with intermittent upper abdominal pain reported is present.\n33. Reports pain location is behind sternum, middle of chest is present.\n34. diaphoresis is absent.\n35. decreased exercise over the last 3 months is absent.\n36. onset of symptoms in the last 24 hours (not acute or hyperacute) is absent.\n37. Radiation of pain to the back is absent.\n38. Nausea and/or vomiting is absent.\n39. Early satiety is absent.\n40. Dry eye reported is absent.\n41. Red eye reported is absent.\n42. Neck masses or fullness reported is absent.\n43. Pleuritic character of the pain is absent.\n44. Sharp character of the pain is absent.\n45. Stabbing character of the pain is absent.\n46. Pain is reproducible with arm movements is absent.\n47. Spasmodic character of pain is absent.\n48. Palpitations is absent.\n49. Halitosis reported is absent.\n50. Recent injuries reported is absent.\n51. Vision changes reported is absent.\n52. Multiple symmetric joints hurt is present.\n53. Morning stiffness is absent.\n54. Joint swelling reported is absent.\n55. Enlargement of knuckles, finger deformities, or deviation of fingers reported is absent.\n56. Alcohol use disorder is absent.\n57. Nicotine dependence is absent.\n58. Prior treatment with radiation to the neck, arm, or jaw is absent.\n59. Previously diagnosed Coronary Artery Disease is absent.\n60. Prevopis;u doagmpsed Peripheral Artery Disease is absent.\n61. Previously diagnosed Hyperlipidemia is absent.\n62. prior myocardial infarction is absent.\n63. type 2 diabetes is absent.\n64. obesity is absent.\n65. prior stroke is absent.\n66. diagnosed hypertension is present.\n67. recent medication changes is absent.\n68. takes amlodipine is present.\n69. Female is present.\n70. middle age is present.\n71. Environmental allergies is absent.\n72. Asthma is absent.\n73. Eczema is absent.\n74. Family history of Rheumatoid Arthritis is absent.\n75. Alcohol use is absent.\n76. Current tobacco use is absent.\n77. Prior tobacco use is present.\n78. family history of myocardial infarction in father is present.\n79. Recent social stress is present.\n80. Recent Travel is absent.\n81. Family history of cancer is absent.\n82. Recent medical procedure is absent.\n83. Gestational complications with prior pregnancy is absent.\n\n#### Constraints\n- Only consider the findings mentioned in the clinical context. Assume all other pieces of information are unknown (and thus do not change the likelihood of disease)\n- Base your reasoning on each diagnosis' usual presentation, focusing on the **differential** likelihood ratio\n  (i.e., how well a finding discriminates CREST syndrome with Type 2 Achalasia from Scleroderma).\n  - Pieces of evidence with higher differential likelihood ratio (occur with greater frequency in patients with CREST syndrome with Type 2 Achalasia than in patients with Scleroderma) are stronger evidence in favor of CREST syndrome with Type 2 Achalasia than pieces of evidence with lower differential likelihood ratios.\n  - Pieces of evidence with lower likelihood ratios (meaning, they much more often occur in patients without Scleroderma than with CREST syndrome with Type 2 Achalasia) are stronger evidence against CREST syndrome with Type 2 Achalasia being present. \n- Reason using all available sources of information (epidemiology, physiology, trials, etc.) to give your best guess. \n- Provide no numeric LRs, only a relative ranking. Give the strongest piece of evidence (highest LR) first\n- Emphasize which pieces of information best distinguish CREST syndrome with Type 2 Achalasia from Scleroderma.\n\n### Output Format (Strict JSON):\n{\n  \"diagnosisA_strongest_evidence\": [\n    {\n      \"finding\": \"Relevant finding favoring CREST syndrome with Type 2 Achalasia\",\n      \"explanation\": \"Short reason this finding favors CREST syndrome with Type 2 Achalasia\",\n      \"abbreviation_expansion\": {\n        \"abbreviation\": \"Expanded term if abbreviation is used\"\n      }\n    },\n    \"... (total of 5 items) ...\"\n  ],\n  \"diagnosisB_strongest_evidence\": [\n    {\n      \"finding\": \"Relevant finding favoring Scleroderma\",\n      \"explanation\": \"Short reason this finding favors Scleroderma\",\n      \"abbreviation_expansion\": {}\n    },\n    \"... (total of 5 items) ...\"\n  ],\n  \"summary\": \"Short paragraph describing overall rationale.\"\n}\n\n- Exactly 5 items under each list, no more, no fewer.\n- If a finding is not mentioned in the clinical context, it should not be given as an answer. \n- Define abbreviations in 'abbreviation_expansion' if used; otherwise leave it empty.\n- Do not add text outside the JSON. \n- Output must be syntactically valid JSON, with no trailing commas."
+    }
+  },
+  "model_profiles": {
+    "o3-mini": {
+      "model_id": "o3-mini-2025-01-31",
+      "settings": {
+        "reasoning_effort": "high"
+      },
+      "default_base_run_id": "fb_d2b4404d83c70f3c5d83abe6"
+    },
+    "4o": {
+      "model_id": "gpt-4o-2024-08-06",
+      "settings": {
+        "temperature": 0
+      },
+      "default_base_run_id": "fb_de3bb5d63e04dcce2a307262"
+    },
+    "4o-mini": {
+      "model_id": "gpt-4o-mini-2024-07-18",
+      "settings": {
+        "temperature": 0
+      },
+      "default_base_run_id": "fb_a4bf0e54e2e052da4370b4a6"
+    }
+  },
+  "legacy_workbook_contract": {
+    "root": "artifacts/feedback_sheets/{YYYY-MM-DD}_{model_profile}_feedback_sheets",
+    "sheet_order_all": [
+      "hpi",
+      "hist",
+      "soc",
+      "obj",
+      "test",
+      "subjective-and-historical"
+    ],
+    "rows_per_sheet": 5,
+    "overall": {
+      "general": "overall_gen/{diagnosis}_gen_overall.xlsx",
+      "specific": "overall_spec/{diagnosis}_spec_overall.xlsx",
+      "columns": [
+        "Supports {diagnosis}",
+        "Rationale for {diagnosis}",
+        "Against {diagnosis}",
+        "Rationale Against {diagnosis}"
+      ]
+    },
+    "differential": {
+      "general": "diff_gen/{correct_diagnosis}_vs_{comparison_diagnosis}.xlsx",
+      "specific": "diff_spec/{correct_diagnosis}_vs_{comparison_diagnosis}.xlsx",
+      "columns": [
+        "Supports {correct_diagnosis}",
+        "Rationale {correct_diagnosis}",
+        "Supports {comparison_diagnosis}",
+        "Rationale {comparison_diagnosis}"
+      ]
+    },
+    "sheet_order_only_overall": [
+      "subjective-and-historical"
+    ],
+    "sheet_name_rule": "category key truncated to 31 characters",
+    "row_order": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "filename_order_by_surface": {
+      "overall/general": [
+        "overall_gen/CREST syndrome with Type 2 Achalasia_gen_overall.xlsx",
+        "overall_gen/Scleroderma_gen_overall.xlsx",
+        "overall_gen/Esophageal stricture_gen_overall.xlsx",
+        "overall_gen/Food impaction_gen_overall.xlsx",
+        "overall_gen/Mixed Connective Tissue Disease_gen_overall.xlsx",
+        "overall_gen/Achalasia (type 1)_gen_overall.xlsx",
+        "overall_gen/Eosinophilic esophagitis_gen_overall.xlsx",
+        "overall_gen/Acute Coronary Syndrome_gen_overall.xlsx",
+        "overall_gen/Stable Angina_gen_overall.xlsx",
+        "overall_gen/Esophageal spasm a.k.a Jackhammer Esophagus_gen_overall.xlsx",
+        "overall_gen/Esophageal adenocarcinoma_gen_overall.xlsx",
+        "overall_gen/Esophageal squamous cell carcinoma_gen_overall.xlsx",
+        "overall_gen/Musculoskeletal chest pain_gen_overall.xlsx",
+        "overall_gen/GERD_gen_overall.xlsx",
+        "overall_gen/Zenker's diverticulum_gen_overall.xlsx",
+        "overall_gen/Polymyositis_gen_overall.xlsx",
+        "overall_gen/Dermatomyositis_gen_overall.xlsx",
+        "overall_gen/Chagas Disease_gen_overall.xlsx",
+        "overall_gen/Anxiety_gen_overall.xlsx",
+        "overall_gen/Arrhythmia_gen_overall.xlsx",
+        "overall_gen/Aortic dissection_gen_overall.xlsx",
+        "overall_gen/Pericarditis_gen_overall.xlsx",
+        "overall_gen/Extrinsic compressing mass on esophagus_gen_overall.xlsx",
+        "overall_gen/Rheumatoid Athritis_gen_overall.xlsx",
+        "overall_gen/Sarcoidosis_gen_overall.xlsx",
+        "overall_gen/Pill esophagitis_gen_overall.xlsx",
+        "overall_gen/Myasthenia gravis_gen_overall.xlsx",
+        "overall_gen/Gastroparesis_gen_overall.xlsx"
+      ],
+      "overall/specific": [
+        "overall_spec/CREST syndrome with Type 2 Achalasia_spec_overall.xlsx",
+        "overall_spec/Scleroderma_spec_overall.xlsx",
+        "overall_spec/Esophageal stricture_spec_overall.xlsx",
+        "overall_spec/Food impaction_spec_overall.xlsx",
+        "overall_spec/Mixed Connective Tissue Disease_spec_overall.xlsx",
+        "overall_spec/Achalasia (type 1)_spec_overall.xlsx",
+        "overall_spec/Eosinophilic esophagitis_spec_overall.xlsx",
+        "overall_spec/Acute Coronary Syndrome_spec_overall.xlsx",
+        "overall_spec/Stable Angina_spec_overall.xlsx",
+        "overall_spec/Esophageal spasm a.k.a Jackhammer Esophagus_spec_overall.xlsx",
+        "overall_spec/Esophageal adenocarcinoma_spec_overall.xlsx",
+        "overall_spec/Esophageal squamous cell carcinoma_spec_overall.xlsx",
+        "overall_spec/Musculoskeletal chest pain_spec_overall.xlsx",
+        "overall_spec/GERD_spec_overall.xlsx",
+        "overall_spec/Zenker's diverticulum_spec_overall.xlsx",
+        "overall_spec/Polymyositis_spec_overall.xlsx",
+        "overall_spec/Dermatomyositis_spec_overall.xlsx",
+        "overall_spec/Chagas Disease_spec_overall.xlsx",
+        "overall_spec/Anxiety_spec_overall.xlsx",
+        "overall_spec/Arrhythmia_spec_overall.xlsx",
+        "overall_spec/Aortic dissection_spec_overall.xlsx",
+        "overall_spec/Pericarditis_spec_overall.xlsx",
+        "overall_spec/Extrinsic compressing mass on esophagus_spec_overall.xlsx",
+        "overall_spec/Rheumatoid Athritis_spec_overall.xlsx",
+        "overall_spec/Sarcoidosis_spec_overall.xlsx",
+        "overall_spec/Pill esophagitis_spec_overall.xlsx",
+        "overall_spec/Myasthenia gravis_spec_overall.xlsx",
+        "overall_spec/Gastroparesis_spec_overall.xlsx"
+      ],
+      "differential/general": [
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Scleroderma.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Esophageal stricture.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Food impaction.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Mixed Connective Tissue Disease.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Achalasia (type 1).xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Eosinophilic esophagitis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Acute Coronary Syndrome.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Stable Angina.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Esophageal spasm a.k.a Jackhammer Esophagus.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Esophageal adenocarcinoma.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Esophageal squamous cell carcinoma.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Musculoskeletal chest pain.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_GERD.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Zenker's diverticulum.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Polymyositis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Dermatomyositis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Chagas Disease.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Anxiety.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Arrhythmia.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Aortic dissection.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Pericarditis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Extrinsic compressing mass on esophagus.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Rheumatoid Athritis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Sarcoidosis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Pill esophagitis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Myasthenia gravis.xlsx",
+        "diff_gen/CREST syndrome with Type 2 Achalasia_vs_Gastroparesis.xlsx"
+      ],
+      "differential/specific": [
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Scleroderma.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Esophageal stricture.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Food impaction.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Mixed Connective Tissue Disease.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Achalasia (type 1).xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Eosinophilic esophagitis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Acute Coronary Syndrome.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Stable Angina.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Esophageal spasm a.k.a Jackhammer Esophagus.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Esophageal adenocarcinoma.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Esophageal squamous cell carcinoma.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Musculoskeletal chest pain.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_GERD.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Zenker's diverticulum.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Polymyositis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Dermatomyositis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Chagas Disease.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Anxiety.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Arrhythmia.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Aortic dissection.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Pericarditis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Extrinsic compressing mass on esophagus.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Rheumatoid Athritis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Sarcoidosis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Pill esophagitis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Myasthenia gravis.xlsx",
+        "diff_spec/CREST syndrome with Type 2 Achalasia_vs_Gastroparesis.xlsx"
+      ]
+    }
+  },
+  "response_shapes": {
+    "overall": {
+      "list_fields": [
+        "for_diagnosis_strongest_evidence",
+        "against_diagnosis_strongest_evidence"
+      ],
+      "items_per_list": 5,
+      "item_fields": [
+        "finding",
+        "explanation",
+        "abbreviation_expansion"
+      ],
+      "summary_field": "summary"
+    },
+    "differential": {
+      "list_fields": [
+        "diagnosisA_strongest_evidence",
+        "diagnosisB_strongest_evidence"
+      ],
+      "items_per_list": 5,
+      "item_fields": [
+        "finding",
+        "explanation",
+        "abbreviation_expansion"
+      ],
+      "summary_field": "summary"
+    }
+  }
+}

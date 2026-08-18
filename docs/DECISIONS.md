@@ -224,3 +224,29 @@ documentation drifting out of sync.
 - Future pipeline changes should update `README.md` and
   `docs/SPECIFICATION.md`, with `docs/PIPELINES.md` updated only when the
   pipeline inventory changes.
+
+## 2026-08-12: Make feedback generation manifest-first and restartable
+
+**Context:**
+The feedback notebook mixed roughly 110–660 paid provider calls, parsing, dataframe
+construction, and open Excel writers. It had no deterministic request inventory, durable
+per-request checkpoint, hash-aware resume behavior, or bounded concurrency.
+
+**Decision:**
+- Freeze the existing diagnoses, categories, prompts, model profiles, response shapes, and
+  legacy workbook contract in versioned configuration and tests.
+- Make `scripts/run_feedback_pipeline.py` the canonical manifest, execution,
+  materialization, audit, and fake-smoke entry point.
+- Use content-addressed request/run identity, one persistent provider adapter, bounded
+  concurrency, typed transient retries, atomic per-request records, and a separate ledger.
+- Materialize deterministic workbooks only from revalidated stored responses. Keep real run
+  artifacts local and ignored; retain the notebook only as an inspection wrapper.
+
+**Consequences:**
+- Interrupted runs can resume without repeating validated requests, while tampered or
+  mismatched artifacts fail closed.
+- CI and local acceptance checks use a deterministic fake provider and make no paid call.
+- Existing scientific prompt wording remains unchanged, including known historical wording
+  defects; future scientific corrections require a new prompt/schema version.
+- Generated feedback remains model output and must not be represented as empirical clinical
+  evidence.

@@ -29,8 +29,24 @@ Related QA notebook:
 Related notebook wrapper:
 - `notebooks/32_one_vs_rest_project_coherent_lrs.ipynb`
 
+### 4. Restartable Feedback Generation
+1. `scripts/run_feedback_pipeline.py manifest`
+2. `scripts/run_feedback_pipeline.py run`
+3. `scripts/run_feedback_pipeline.py materialize`
+4. `scripts/run_feedback_pipeline.py audit`
+
+No-network validation:
+- `scripts/run_feedback_pipeline.py smoke`
+
+Only a real `run` needs `OPENAI_API_KEY`, exported in the process environment; the CLI does
+not load `.env` automatically. Generated rankings and explanations are model outputs for
+research review, not empirical clinical evidence or patient-care recommendations.
+
+Related inspection notebook:
+- `notebooks/feedback_generator.ipynb`
+
 ## Archived Comparison Workflow
 
-### 4. One-vs-Rest Agreement Visualization
+### 5. One-vs-Rest Agreement Visualization
 1. `notebooks/30_one_vs_rest_estimate_lrs.ipynb`
 2. `notebooks/31_one_vs_rest_compare_lr_estimates.ipynb`
